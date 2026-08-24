@@ -1,0 +1,169 @@
+.productPage {
+  padding: var(--spacing-xl) 0;
+  min-height: 100vh;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.backLink:hover {
+  color: var(--accent-color);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mainImage {
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  background: rgba(120, 53, 15, 0.05);
+}
+
+.header {
+  margin-bottom: var(--spacing-md);
+}
+
+.categoryBadge {
+  display: inline-block;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-sm);
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-primary);
+}
+
+.origin {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
+}
+
+.tastingNotes h4, .optionsSection h4 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.noteTag {
+  background: rgba(120, 53, 15, 0.1);
+  color: var(--accent-color);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.optionsSection {
+  margin-bottom: var(--spacing-md);
+}
+
+.optionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-xs);
+}
+
+.optionBtn {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.optionBtn:hover {
+  border-color: var(--accent-color);
+}
+
+.optionBtnActive {
+  background: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.checkoutActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-lg);
+}
+
+@media (min-width: 500px) {
+  .checkoutActions {
+    flex-direction: row;
+  }
+}
+
+.waBtn {
+  flex: 1;
+  text-align: center;
+  background-color: #25D366; /* WhatsApp Green */
+  color: white;
+}
+
+.waBtn:hover {
+  background-color: #128C7E;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.directBtn {
+  flex: 1;
+  text-align: center;
+}

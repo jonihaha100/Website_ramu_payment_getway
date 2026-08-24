@@ -1,0 +1,240 @@
+.main {
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(245, 242, 235, 0.8), rgba(245, 242, 235, 1));
+}
+
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.logoBadge {
+  margin-bottom: var(--spacing-lg);
+}
+
+.est {
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+}
+
+.brandName {
+  font-size: 5rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: -2px;
+}
+
+.brandSub {
+  font-size: 1rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.heroHeadline {
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+}
+
+.heroSubheadline {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-lg);
+  color: var(--text-secondary);
+}
+
+.heroActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin-top: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* Quick Highlights */
+.highlightsSection {
+  background: white;
+}
+
+.highlightGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.highlightCard {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.highlightCard:hover {
+  transform: translateY(-5px);
+}
+
+.highlightImage {
+  height: 200px;
+  background: rgba(120, 53, 15, 0.05);
+  position: relative;
+}
+
+.highlightCategory {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--text-primary);
+  color: var(--bg-color);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.highlightContent {
+  padding: var(--spacing-md);
+}
+
+.highlightContent h3 {
+  font-size: 1.3rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-primary);
+}
+
+.tastingNotesSmall {
+  display: flex;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--accent-color);
+  font-weight: 500;
+}
+
+/* Common Grids */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .grid2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Sections */
+.sectionTitle {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.sectionTitleCenter {
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+  text-align: center;
+}
+
+.sectionSubtitleCenter {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+}
+
+/* Journey Section */
+.imageBox {
+  width: 100%;
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: rgba(120, 53, 15, 0.05);
+}
+
+.imageText {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Terroir */
+.terroirSection {
+  background-color: #EDE8DB;
+}
+
+.terroirGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.terroirCard {
+  padding: var(--spacing-md);
+  text-align: center;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.terroirCard h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--accent-color);
+}
+
+/* CTA */
+.ctaBox {
+  background-color: var(--text-primary);
+  color: var(--bg-color);
+  padding: var(--spacing-xl) var(--spacing-md);
+  text-align: center;
+  border-radius: var(--radius-lg);
+}
+
+.ctaBox h2 {
+  color: var(--bg-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.ctaBox p {
+  color: rgba(245, 242, 235, 0.8);
+  max-width: 600px;
+  margin: 0 auto var(--spacing-md);
+}
+
+.ctaBox .btn-outline {
+  border-color: var(--bg-color);
+  color: var(--bg-color);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: var(--spacing-md);
+  border-top: 1px solid rgba(0,0,0,0.1);
+  color: var(--text-secondary);
+}
