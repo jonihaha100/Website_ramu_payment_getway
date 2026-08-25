@@ -8,7 +8,7 @@ import styles from "./Checkout.module.css";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, cartTotal, clearCart } = useCart();
+  const { items, totalPrice, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +23,7 @@ export default function CheckoutPage() {
   });
 
   const shippingCost = 20000; // Flat rate for now
-  const grandTotal = cartTotal + shippingCost;
+  const grandTotal = totalPrice + shippingCost;
 
   useEffect(() => {
     // If cart is empty, redirect back to catalog
@@ -144,7 +144,7 @@ export default function CheckoutPage() {
             <div className={styles.summaryTotals}>
               <div className={styles.totalRow}>
                 <span>Subtotal</span>
-                <span>Rp {cartTotal.toLocaleString("id-ID")}</span>
+                <span>Rp {totalPrice.toLocaleString("id-ID")}</span>
               </div>
               <div className={styles.totalRow}>
                 <span>Shipping</span>
