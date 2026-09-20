@@ -17,9 +17,12 @@ yarn-debug.log*
 # Environment files
 .env
 .env.local
+.env*.local
 ramu-roastery/.env
 ramu-roastery/.env.local
 ramu-roastery/.env*.local
+!.env.example
+!ramu-roastery/.env.example
 
 # Backups
 *.backup
