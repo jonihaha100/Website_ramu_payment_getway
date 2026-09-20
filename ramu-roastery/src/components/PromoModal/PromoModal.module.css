@@ -1,0 +1,202 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 7, 5, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalCard {
+  background: linear-gradient(165deg, #1c140e 0%, #2b1c12 50%, #150f0a 100%);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  padding: 32px 28px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(217, 119, 6, 0.15);
+  animation: scaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #f7f3ee;
+  text-align: center;
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.9) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #d1c7bc;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(217, 119, 6, 0.2);
+  border: 1px solid rgba(217, 119, 6, 0.5);
+  color: #fbbf24;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  line-height: 1.25;
+}
+
+.highlight {
+  color: #fbbf24;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #b8aba0;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.couponBox {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px dashed rgba(217, 119, 6, 0.55);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.couponLabel {
+  font-size: 0.75rem;
+  color: #9c8e82;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.couponRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.couponCode {
+  font-family: monospace;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fbbf24;
+  background: rgba(217, 119, 6, 0.15);
+  padding: 4px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.copyButton {
+  background: rgba(217, 119, 6, 0.2);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+  color: #f5efe6;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copyButton:hover {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.mainAction {
+  width: 100%;
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.mainAction:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.6);
+}
+
+.dismissControl {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #8c7e72;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dismissControl input {
+  cursor: pointer;
+  accent-color: #d97706;
+}
+
+@media (max-width: 480px) {
+  .modalCard {
+    padding: 24px 18px;
+  }
+  .title {
+    font-size: 1.4rem;
+  }
+  .couponCode {
+    font-size: 1.2rem;
+  }
+}

@@ -1,0 +1,137 @@
+/* Mobile Bottom Navigation Bar */
+.bottomNav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottomNav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(60px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(180, 83, 9, 0.12);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.07);
+    z-index: 90;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    color: #6b7280;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 6px 0;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .navItem:active {
+    transform: scale(0.92);
+  }
+
+  .iconWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    transition: transform 0.2s ease;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    transition: all 0.2s ease;
+  }
+
+  .label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    margin-top: 3px;
+    line-height: 1.1;
+    white-space: nowrap;
+    transition: color 0.2s ease, font-weight 0.2s ease;
+    letter-spacing: 0.01em;
+  }
+
+  /* Active state */
+  .activeItem {
+    color: #b45309; /* Warm luxury amber/coffee */
+  }
+
+  .activeItem .iconWrapper {
+    transform: translateY(-2px);
+  }
+
+  .activeItem .icon {
+    stroke: #b45309;
+    stroke-width: 2.2;
+  }
+
+  .activeItem .label {
+    color: #b45309;
+    font-weight: 700;
+  }
+
+  /* Active dot indicator */
+  .activeIndicator {
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #b45309;
+  }
+
+  /* Badges for Cart & Wishlist */
+  .badge {
+    position: absolute;
+    top: -3px;
+    right: -7px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #ffffff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.35);
+    border: 1.5px solid #ffffff;
+    animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .badgeAmber {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 2px 4px rgba(217, 119, 6, 0.35);
+  }
+
+  @keyframes badgePop {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+}

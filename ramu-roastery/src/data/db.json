@@ -1,0 +1,1071 @@
+{
+  "products": [
+    {
+      "id": "fullwash-gn-halu",
+      "name": "Fullwash Gn. Halu",
+      "category": "Filter",
+      "process": "Wash",
+      "origin": "Gunung Halu, Jawa Barat",
+      "tastingNotes": [
+        "Sugar Cane",
+        "Green Apple",
+        "Herbs"
+      ],
+      "description": "Biji kopi single origin dengan karakter rasa yang clean dan cerah. Sentuhan manis tebu alami berpadu harmonis dengan kesegaran apel hijau dan aroma herbal yang menyegarkan.",
+      "pricePerKg": 528000,
+      "stock": 49250,
+      "imageUrl": "/images/java_preanger.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 94000,
+        "250": 132000
+      }
+    },
+    {
+      "id": "honey-gn-halu",
+      "name": "Honey Gn. Halu",
+      "category": "Filter",
+      "process": "Honey",
+      "origin": "Gunung Halu, Jawa Barat",
+      "tastingNotes": [
+        "Brown Sugar",
+        "Guava",
+        "Hint Of Lime"
+      ],
+      "description": "Proses olah honey menghasilkan rasa manis brown sugar yang legit dan kental, berpadu dengan keunikan buah jambu biji manis serta aksen jeruk nipis segar di akhir sesapan.",
+      "pricePerKg": 616000,
+      "stock": 45000,
+      "imageUrl": "/images/gayo_natural.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 110000,
+        "250": 154000
+      }
+    },
+    {
+      "id": "natural-gn-halu",
+      "name": "Natural Gn. Halu",
+      "category": "Filter",
+      "process": "Natural",
+      "origin": "Gunung Halu, Jawa Barat",
+      "tastingNotes": [
+        "Pear",
+        "Sugar Cane",
+        "Cinnamon"
+      ],
+      "description": "Karakter buah pir matang yang manis dan berair (juicy), diperkaya dengan kehangatan aroma kayu manis dan kemanisan tebu yang melekat panjang.",
+      "pricePerKg": 660000,
+      "stock": 35000,
+      "imageUrl": "/images/bali_kintamani.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 132000,
+        "250": 165000
+      }
+    },
+    {
+      "id": "natural-palasari",
+      "name": "Natural Palasari",
+      "category": "Filter",
+      "process": "Natural",
+      "origin": "Palasari, Jawa Barat",
+      "tastingNotes": [
+        "Brown Sugar",
+        "Lime",
+        "Spice"
+      ],
+      "description": "Biji kopi eksotis dari Palasari dengan pemrosesan natural yang rapi. Manis gula merah kental dipadukan dengan keasaman segar jeruk nipis dan sentuhan rempah aromatik.",
+      "pricePerKg": 616000,
+      "stock": 40000,
+      "imageUrl": "/images/toraja_sapan.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 116000,
+        "250": 154000
+      }
+    },
+    {
+      "id": "natural-kareumbi",
+      "name": "Natural Kareumbi",
+      "category": "Filter",
+      "process": "Natural",
+      "origin": "Gunung Kareumbi, Jawa Barat",
+      "tastingNotes": [
+        "Brown Sugar",
+        "Longan"
+      ],
+      "description": "Ciri khas buah kelengkeng (longan) yang manis lembut dan floral, dibalut aroma karamel brown sugar yang bulat dan menenangkan di lidah.",
+      "pricePerKg": 616000,
+      "stock": 40000,
+      "imageUrl": "/images/gayo_natural.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 116000,
+        "250": 154000
+      }
+    },
+    {
+      "id": "fullwash-kareumbi",
+      "name": "Fullwash Kareumbi",
+      "category": "Filter",
+      "process": "Wash",
+      "origin": "Gunung Kareumbi, Jawa Barat",
+      "tastingNotes": [
+        "Sugar Cane",
+        "Sweet Lime",
+        "Tea Like"
+      ],
+      "description": "Sensasi seduhan jernih dan ringan menyerupai teh herbal premium. Menghadirkan rasa manis tebu murni dan kesegaran jeruk nipis manis yang sangat menawan.",
+      "pricePerKg": 528000,
+      "stock": 50000,
+      "imageUrl": "/images/java_preanger.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 94000,
+        "250": 132000
+      }
+    },
+    {
+      "id": "fullwash-palasari",
+      "name": "Fullwash Palasari",
+      "category": "Filter",
+      "process": "Wash",
+      "origin": "Palasari, Jawa Barat",
+      "tastingNotes": [
+        "Brown Sugar",
+        "Floral",
+        "Choco"
+      ],
+      "description": "Kombinasi klasik aroma floral melati yang wangi semerbak, diiringi manis brown sugar dan kelembutan rasa cokelat susu pada ujung sesapan.",
+      "pricePerKg": 528000,
+      "stock": 50000,
+      "imageUrl": "/images/hero_bg.jpg",
+      "sizes": [
+        150,
+        250
+      ],
+      "prices": {
+        "150": 94000,
+        "250": 132000
+      }
+    },
+    {
+      "id": "arabica-fullwash-halu",
+      "name": "Arabica Fullwash Halu",
+      "category": "Espresso",
+      "process": "Wash",
+      "origin": "Gunung Halu, Jawa Barat",
+      "tastingNotes": [
+        "Chocolate",
+        "Brown Sugar",
+        "Clean"
+      ],
+      "description": "Single origin espresso roast yang sangat bersih dengan tingkat kemanisan karamel tinggi. Sangat nikmat untuk espresso murni, americano, maupun filter roast pencinta body tebal.",
+      "pricePerKg": 352000,
+      "stock": 75000,
+      "imageUrl": "/images/signature_blend.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 132000,
+        "500": 198000,
+        "1000": 352000
+      }
+    },
+    {
+      "id": "selaras-blend",
+      "name": "Selaras Blend (70 A : 30 R)",
+      "category": "Espresso",
+      "process": "Wash",
+      "origin": "Jawa Barat & Sumatera",
+      "tastingNotes": [
+        "Nutty",
+        "Dark Choco",
+        "Caramel"
+      ],
+      "description": "Racikan andalan 70% Arabika dan 30% Robusta pilihan. Karakter cokelat pekat, gurih kacang sangrai, dan manis karamel yang membelah susu dengan sempurna.",
+      "pricePerKg": 286000,
+      "stock": 100000,
+      "imageUrl": "/images/signature_blend.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 110000,
+        "500": 165000,
+        "1000": 286000
+      }
+    },
+    {
+      "id": "harmony-blend",
+      "name": "Harmony Blend (50 A : 50 R)",
+      "category": "Espresso",
+      "process": "Natural",
+      "origin": "Jawa Barat & Jawa Tengah",
+      "tastingNotes": [
+        "Bold",
+        "Dark Chocolate",
+        "Toasted Nut"
+      ],
+      "description": "Keseimbangan sejati antara keharuman 50% Arabika dan ketebalan 50% Robusta. Crema tebal, aroma sangrai kuat, pilihan paling ekonomis dan mantap untuk kedai kopi susu kekinian.",
+      "pricePerKg": 264000,
+      "stock": 90000,
+      "imageUrl": "/images/lampung_robusta.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 105000,
+        "500": 154000,
+        "1000": 264000
+      }
+    },
+    {
+      "id": "bumi-blend",
+      "name": "Bumi Blend (30 A : 70 R)",
+      "category": "Espresso",
+      "process": "Natural",
+      "origin": "Jawa Barat & Sumatera",
+      "tastingNotes": [
+        "Earthy",
+        "Strong Body",
+        "Cocoa"
+      ],
+      "description": "Racikan 30% Arabika dan 70% Robusta untuk karakter ekstra bold dan kafein mantap. Rasa kakao pekat dan aroma rempah earthy yang tetap dominan meski dicampur susu dan krimer kental.",
+      "pricePerKg": 220000,
+      "stock": 80000,
+      "imageUrl": "/images/lampung_robusta.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 94000,
+        "500": 132000,
+        "1000": 220000
+      }
+    },
+    {
+      "id": "full-robusta",
+      "name": "Full Robusta",
+      "category": "Espresso",
+      "process": "Natural",
+      "origin": "Jawa Barat",
+      "tastingNotes": [
+        "Bold",
+        "Cacao Nibs",
+        "Smoky"
+      ],
+      "description": "100% Biji kopi Robusta petik merah kualitas pilihan. Menghasilkan body yang sangat tebal, crema melimpah, dan rasa pahit cokelat bersih tanpa aftertaste sepat.",
+      "pricePerKg": 198000,
+      "stock": 120000,
+      "imageUrl": "/images/lampung_robusta.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 83000,
+        "500": 121000,
+        "1000": 198000
+      }
+    },
+    {
+      "id": "arabica-natural-halu",
+      "name": "Arabica Natural Halu",
+      "category": "Espresso",
+      "process": "Natural",
+      "origin": "Gunung Halu, Jawa Barat",
+      "tastingNotes": [
+        "Sweet Berries",
+        "Brown Sugar",
+        "Winey"
+      ],
+      "description": "Espresso roast khusus untuk biji kopi Natural Gunung Halu. Menyajikan sensasi kopi susu dengan sentuhan buah berry manis mirip strawberry cheesecake.",
+      "pricePerKg": 473000,
+      "stock": 45000,
+      "imageUrl": "/images/bali_kintamani.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 165000,
+        "500": 259000,
+        "1000": 473000
+      }
+    },
+    {
+      "id": "arabica-honey-halu",
+      "name": "Arabica Honey Halu",
+      "category": "Espresso",
+      "process": "Honey",
+      "origin": "Gunung Halu, Jawa Barat",
+      "tastingNotes": [
+        "Honey",
+        "Citrus",
+        "Vanilla"
+      ],
+      "description": "Biji kopi Honey Gunung Halu yang disangrai untuk profil espresso. Rasa manis madu alami yang kental, aroma vanila harum, serta keasaman citrus lembut seimbang.",
+      "pricePerKg": 462000,
+      "stock": 45000,
+      "imageUrl": "/images/gayo_natural.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 154000,
+        "500": 253000,
+        "1000": 462000
+      }
+    },
+    {
+      "id": "arabica-palasari",
+      "name": "Arabica Palasari",
+      "category": "Espresso",
+      "process": "Wash",
+      "origin": "Palasari, Jawa Barat",
+      "tastingNotes": [
+        "Caramel",
+        "Milk Chocolate",
+        "Floral"
+      ],
+      "description": "Arabika Palasari yang diracik untuk kebutuhan espresso bar. Keseimbangan rasa klasik karamel manis, cokelat susu lembut, dan aroma bunga yang harum di setiap cangkir.",
+      "pricePerKg": 352000,
+      "stock": 50000,
+      "imageUrl": "/images/toraja_sapan.jpg",
+      "sizes": [
+        250,
+        500,
+        1000
+      ],
+      "prices": {
+        "250": 132000,
+        "500": 198000,
+        "1000": 352000
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "id": "REV-1788358034014",
+      "orderId": "RAMU-38726",
+      "productId": "house-blend-espresso-Whole Beans-200",
+      "productName": "House Blend Espresso",
+      "customerName": "siti.rahma",
+      "rating": 4,
+      "comment": "bagus dan saya suka coffe nya ",
+      "date": "2026-09-02T14:07:14.014Z",
+      "status": "Published",
+      "variant": "",
+      "photos": [
+        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400"
+      ],
+      "reply": "teriamakasih atas dukungannya sudah mebeli produk ramu ini :)"
+    },
+    {
+      "id": "REV-001",
+      "orderId": "ORD-2026-004",
+      "productId": "gayo-natural",
+      "productName": "Gayo Natural",
+      "customerName": "Diana Putri",
+      "rating": 5,
+      "comment": "Kopinya enak banget, aromanya fruity pas diseduh pakai V60. Pengiriman juga super cepat!",
+      "date": "2026-06-12T14:30:00Z",
+      "status": "Published",
+      "variant": "Membeli: 200g - Biji Utuh",
+      "photos": [
+        "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=200"
+      ]
+    },
+    {
+      "id": "REV-002",
+      "orderId": "ORD-2026-003",
+      "productId": "robusta-dampit",
+      "productName": "Robusta Dampit",
+      "customerName": "Ahmad Faisal",
+      "rating": 4,
+      "comment": "Rasa kopinya mantap dan bold, cocok untuk bikin es kopi susu kekinian. Sayang packaging agak penyok sedikit saat tiba.",
+      "date": "2026-07-16T09:15:00Z",
+      "status": "Published",
+      "reply": "Halo Kak Ahmad, mohon maaf atas kendala packaging penyok. Kami akan tingkatkan keamanan packing dengan bubble wrap lebih tebal ke depannya. Terima kasih atas ulasannya!",
+      "variant": "Membeli: 500g - Giling Kasar"
+    },
+    {
+      "id": "REV-003",
+      "orderId": "ORD-2025-006",
+      "productId": "toraja-anaerobic",
+      "productName": "Toraja Anaerobic",
+      "customerName": "Rina Wijaya",
+      "rating": 2,
+      "comment": "Kopinya terlalu asam untuk lambung saya, padahal sudah saya seduh sesuai panduan.",
+      "date": "2025-11-06T11:00:00Z",
+      "status": "Published",
+      "variant": "Membeli: 200g - Giling Sedang",
+      "photos": [
+        "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=200"
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "id": "RAMU-44205",
+      "customerName": "erik gagong",
+      "customerEmail": "erik@gmail.com",
+      "customerPhone": "081222334",
+      "status": "Completed",
+      "date": "2026-09-03T11:03:40.859Z",
+      "total": 84000,
+      "items": [
+        {
+          "id": "gayo-natural-Whole Beans-200",
+          "name": "Gayo Natural",
+          "quantity": 1,
+          "price": 44000
+        },
+        {
+          "id": "java-preanger-honey-Whole Beans-200",
+          "name": "Java Preanger Honey",
+          "quantity": 1,
+          "price": 40000
+        }
+      ],
+      "shippingAddress": "jl.murarajeun 1234, bandung, 1112",
+      "courier": "JNE",
+      "trackingNumber": "Jne1234",
+      "trackingHistory": []
+    },
+    {
+      "id": "RAMU-38574",
+      "customerName": "siti.rahma saya pesan order tersebut",
+      "customerEmail": "siti.rahma@example.com",
+      "customerPhone": "08122147737383",
+      "status": "Delivered",
+      "date": "2026-09-02T14:53:33.862Z",
+      "total": 90000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Coarse (Kasar)-500",
+          "name": "House Blend Espresso",
+          "quantity": 1,
+          "price": 90000
+        }
+      ],
+      "shippingAddress": "Kmp. bandung, bandung, 1112",
+      "courier": "JNE",
+      "trackingNumber": "JNE555",
+      "trackingHistory": []
+    },
+    {
+      "id": "RAMU-38726",
+      "customerName": "siti.rahma isin",
+      "customerEmail": "siti.rahma@example.com",
+      "customerPhone": "081222133",
+      "status": "Completed",
+      "date": "2026-09-02T13:31:58.409Z",
+      "total": 36000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Whole Beans-200",
+          "name": "House Blend Espresso",
+          "quantity": 1,
+          "price": 36000
+        }
+      ],
+      "shippingAddress": "jl.lalalala no 123, bandung, 1112",
+      "courier": "JNE",
+      "trackingNumber": "JNE1234567",
+      "trackingHistory": []
+    },
+    {
+      "id": "RAMU-69868",
+      "customerName": "eceng among",
+      "customerEmail": "ece@gmail.com",
+      "customerPhone": "08122134",
+      "status": "Processing",
+      "date": "2026-09-02T13:28:49.919Z",
+      "total": 80000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Whole Beans-200",
+          "name": "House Blend Espresso",
+          "quantity": 1,
+          "price": 36000
+        },
+        {
+          "id": "gayo-natural-Whole Beans-200",
+          "name": "Gayo Natural",
+          "quantity": 1,
+          "price": 44000
+        }
+      ],
+      "shippingAddress": "kmsdkamdkmaskdmsakmdsak, bandung, 1113"
+    },
+    {
+      "id": "RAMU-72700",
+      "customerName": "fajar ganteng",
+      "customerEmail": "fajar@gmail.com",
+      "customerPhone": "08888812312",
+      "status": "Pending",
+      "date": "2026-09-02T13:05:42.474Z",
+      "total": 72000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Whole Beans-200",
+          "name": "House Blend Espresso",
+          "quantity": 2,
+          "price": 36000
+        }
+      ],
+      "shippingAddress": "jl.murarajeun, bandung, 1113"
+    },
+    {
+      "id": "RAMU-26542",
+      "customerName": "sdadas dsadsadsa",
+      "customerEmail": "sdadsa@gmail.com",
+      "customerPhone": "0812221343",
+      "status": "Delivered",
+      "date": "2026-09-02T13:00:24.613Z",
+      "total": 156000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Whole Beans-200",
+          "name": "House Blend Espresso",
+          "quantity": 2,
+          "price": 36000
+        },
+        {
+          "id": "gayo-natural-Whole Beans-200",
+          "name": "Gayo Natural",
+          "quantity": 1,
+          "price": 44000
+        },
+        {
+          "id": "java-preanger-honey-Whole Beans-200",
+          "name": "Java Preanger Honey",
+          "quantity": 1,
+          "price": 40000
+        }
+      ],
+      "shippingAddress": "dksandknasdkasnkdl, bandung, 1113"
+    },
+    {
+      "id": "RAMU-57652",
+      "customerName": "rahmat ujang",
+      "customerEmail": "uajang@gmail.com",
+      "customerPhone": "8124232",
+      "status": "Delivered",
+      "date": "2026-09-02T12:49:22.969Z",
+      "total": 30000,
+      "items": [
+        {
+          "id": "commercial-blend-Whole Beans-200",
+          "name": "Commercial Blend",
+          "quantity": 1,
+          "price": 30000
+        }
+      ],
+      "shippingAddress": "kmosapdaskdjoasjdkasd, bandung, 114",
+      "courier": "JNE",
+      "trackingNumber": "Jne11111",
+      "trackingHistory": []
+    },
+    {
+      "id": "RAMU-41158",
+      "customerName": "djksjcks dasdas",
+      "customerEmail": "dsakjdhask@gmail.com",
+      "customerPhone": "872487284782",
+      "status": "Pending",
+      "date": "2026-09-02T08:00:53.183Z",
+      "total": 36000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Whole Beans-200",
+          "name": "House Blend Espresso",
+          "quantity": 1,
+          "price": 36000
+        }
+      ],
+      "shippingAddress": "sdjakdjaksjkassda, sadasd, 1104"
+    },
+    {
+      "id": "RAMU-79422",
+      "customerName": "dadang lanang",
+      "customerEmail": "dadang@gmail.com",
+      "customerPhone": "0812223456",
+      "status": "Completed",
+      "date": "2026-08-26T17:01:30.348Z",
+      "total": 148000,
+      "items": [
+        {
+          "id": "house-blend-espresso-Whole Beans-200",
+          "name": "House Blend Espresso",
+          "quantity": 3,
+          "price": 36000
+        },
+        {
+          "id": "java-preanger-honey-Whole Beans-200",
+          "name": "Java Preanger Honey",
+          "quantity": 1,
+          "price": 40000
+        }
+      ],
+      "shippingAddress": "kmp.pemata asih, bandung, 1004",
+      "courier": "JNE",
+      "trackingNumber": "Jne123456",
+      "trackingHistory": []
+    },
+    {
+      "id": "ORD-2026-001",
+      "customerName": "Budi Santoso",
+      "customerEmail": "budi.santoso@example.com",
+      "customerPhone": "081234567890",
+      "status": "Pending",
+      "date": "2026-08-25T10:30:00Z",
+      "total": 350000,
+      "items": [
+        {
+          "id": "1",
+          "name": "Arabica Gayo Blend",
+          "quantity": 2,
+          "price": 120000
+        },
+        {
+          "id": "2",
+          "name": "Robusta Dampit",
+          "quantity": 1,
+          "price": 110000
+        }
+      ],
+      "shippingAddress": "Jl. Merdeka No. 10, Jakarta Pusat",
+      "paymentProofUrl": "/images/payment_receipt.jpg"
+    },
+    {
+      "id": "ORD-2026-002",
+      "customerName": "Siti Aminah",
+      "customerEmail": "siti.aminah@example.com",
+      "customerPhone": "081987654321",
+      "status": "Processing",
+      "date": "2026-08-24T09:15:00Z",
+      "total": 240000,
+      "items": [
+        {
+          "id": "1",
+          "name": "Arabica Gayo Blend",
+          "quantity": 2,
+          "price": 120000
+        }
+      ],
+      "shippingAddress": "Jl. Sudirman No. 45, Bandung",
+      "courier": "JNE",
+      "trackingNumber": "1234567",
+      "trackingHistory": [
+        {
+          "date": "2026-08-26T12:23:35.382Z",
+          "status": "paket sudah dikirim pukul 12:00"
+        }
+      ]
+    },
+    {
+      "id": "ORD-2026-003",
+      "customerName": "Ahmad Faisal",
+      "customerEmail": "ahmad.faisal@example.com",
+      "customerPhone": "085712349876",
+      "status": "Shipped",
+      "date": "2026-07-15T14:20:00Z",
+      "total": 110000,
+      "items": [
+        {
+          "id": "2",
+          "name": "Robusta Dampit",
+          "quantity": 1,
+          "price": 110000
+        }
+      ],
+      "shippingAddress": "Perumahan Indah Blok C2, Surabaya",
+      "trackingNumber": "JNE1234567890",
+      "courier": "JNE",
+      "trackingHistory": [
+        {
+          "date": "2026-07-15T16:00:00Z",
+          "status": "Paket telah diserahkan ke JNE"
+        },
+        {
+          "date": "2026-07-16T08:00:00Z",
+          "status": "Paket sedang dalam perjalanan ke Surabaya"
+        }
+      ]
+    },
+    {
+      "id": "ORD-2026-004",
+      "customerName": "Diana Putri",
+      "customerEmail": "diana.putri@example.com",
+      "customerPhone": "082155567778",
+      "status": "Delivered",
+      "date": "2026-06-10T11:00:00Z",
+      "total": 480000,
+      "items": [
+        {
+          "id": "1",
+          "name": "Arabica Gayo Blend",
+          "quantity": 4,
+          "price": 120000
+        }
+      ],
+      "shippingAddress": "Jl. Pahlawan No. 88, Semarang",
+      "trackingNumber": "SICEPAT9876543",
+      "courier": "Sicepat",
+      "trackingHistory": [
+        {
+          "date": "2026-06-10T15:00:00Z",
+          "status": "Paket diterima oleh kurir"
+        },
+        {
+          "date": "2026-06-11T12:00:00Z",
+          "status": "Paket tiba di hub Semarang"
+        },
+        {
+          "date": "2026-06-12T10:00:00Z",
+          "status": "Paket telah diterima oleh Diana Putri"
+        }
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "id": "NOTIF-1789304778915",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-38574 Anda sekarang berstatus: Delivered.",
+      "href": "/dashboard/orders?orderId=RAMU-38574",
+      "time": "2026-09-13T13:06:18.915Z",
+      "read": false
+    },
+    {
+      "id": "NOTIF-1789224683419",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Completed.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-12T14:51:23.419Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1789224683367",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Completed.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-12T14:51:23.367Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788433587409",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Delivered.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-03T11:06:27.409Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788433519137",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Shipped.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-03T11:05:19.137Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788433507136",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Shipped.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-03T11:05:07.136Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788433500667",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Pending.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-03T11:05:00.667Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788433443405",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-44205 Anda sekarang berstatus: Processing.",
+      "href": "/dashboard/orders?orderId=RAMU-44205",
+      "time": "2026-09-03T11:04:03.405Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788433420880",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Pesanan Baru",
+      "desc": "Pesanan baru RAMU-44205 dari erik gagong.",
+      "href": "/admin/orders",
+      "time": "2026-09-03T11:03:40.880Z",
+      "read": true
+    },
+    {
+      "id": 1788433248561,
+      "title": "New User Registered",
+      "message": "erik  (erik@gmail.com) just created an account.",
+      "date": "2026-09-03T11:00:48.561Z",
+      "type": "user",
+      "isRead": false,
+      "href": "/admin/users"
+    },
+    {
+      "id": "NOTIF-1788431217339",
+      "userEmail": "dadang@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-79422 Anda sekarang berstatus: Completed.",
+      "href": "/dashboard/orders?orderId=RAMU-79422",
+      "time": "2026-09-03T10:26:57.339Z",
+      "read": false
+    },
+    {
+      "id": "NOTIF-1788431217293",
+      "userEmail": "dadang@gmail.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-79422 Anda sekarang berstatus: Completed.",
+      "href": "/dashboard/orders?orderId=RAMU-79422",
+      "time": "2026-09-03T10:26:57.293Z",
+      "read": false
+    },
+    {
+      "id": "NOTIF-1788361337949",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-38574 Anda sekarang berstatus: Delivered.",
+      "href": "/dashboard/orders?orderId=RAMU-38574",
+      "time": "2026-09-02T15:02:17.949Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788361323679",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-38574 Anda sekarang berstatus: Delivered.",
+      "href": "/dashboard/orders?orderId=RAMU-38574",
+      "time": "2026-09-02T15:02:03.679Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788361273871",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-38574 Anda sekarang berstatus: Shipped.",
+      "href": "/dashboard/orders?orderId=RAMU-38574",
+      "time": "2026-09-02T15:01:13.871Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788361213973",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Status Pesanan",
+      "desc": "Pesanan RAMU-38574 Anda sekarang berstatus: Processing.",
+      "href": "/dashboard/orders?orderId=RAMU-38574",
+      "time": "2026-09-02T15:00:13.973Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788360813879",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Pesanan Baru",
+      "desc": "Pesanan baru RAMU-38574 dari siti.rahma saya pesan order tersebut.",
+      "href": "/admin/orders",
+      "time": "2026-09-02T14:53:33.879Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788360623724",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Permintaan Custom Sourcing Baru",
+      "desc": "Permintaan dari herlambang (kopi susu untuk 1000L) - Volume: 10 - 50 kg.",
+      "href": "/admin/custom-sourcing",
+      "time": "2026-09-02T14:50:23.724Z",
+      "read": true
+    },
+    {
+      "id": "NOTIF-1788361856665",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Permintaan Retur Baru",
+      "desc": "Dari siti.rahma untuk pesanan RAMU-38574",
+      "time": "2026-09-02T15:10:56.665Z",
+      "read": true,
+      "href": "/admin/returns"
+    },
+    {
+      "id": "NOTIF-1788361895906",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Retur: Rejected",
+      "desc": "Pengajuan retur Anda (RET-2026-001) telah di-tolak oleh Admin.",
+      "time": "2026-09-02T15:11:35.906Z",
+      "read": true,
+      "href": "/dashboard/returns"
+    },
+    {
+      "id": "NOTIF-1788361948846",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Permintaan Retur Baru",
+      "desc": "Dari siti.rahma untuk pesanan RAMU-38574",
+      "time": "2026-09-02T15:12:28.846Z",
+      "read": true,
+      "href": "/admin/returns"
+    },
+    {
+      "id": "NOTIF-1788433647655",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Permintaan Retur Baru",
+      "desc": "Dari erik  untuk pesanan RAMU-44205",
+      "time": "2026-09-03T11:07:27.655Z",
+      "read": true,
+      "href": "/admin/returns"
+    },
+    {
+      "id": "NOTIF-1788433697399",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Retur: Approved",
+      "desc": "Pengajuan retur Anda (RET-2026-003) telah di-setujui oleh Admin.",
+      "time": "2026-09-03T11:08:17.399Z",
+      "read": true,
+      "href": "/dashboard/returns"
+    },
+    {
+      "id": "NOTIF-1788434283037",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Resi Retur Diperbarui",
+      "desc": "Pelanggan telah memasukkan resi untuk retur RET-2026-003",
+      "time": "2026-09-03T11:18:03.037Z",
+      "read": true,
+      "href": "/admin/returns"
+    },
+    {
+      "id": "NOTIF-1788434331909",
+      "userEmail": "erik@gmail.com",
+      "title": "Update Retur: Resolved",
+      "desc": "Pengajuan retur Anda (RET-2026-003) telah selesai diproses.",
+      "time": "2026-09-03T11:18:51.909Z",
+      "read": true,
+      "href": "/dashboard/returns"
+    },
+    {
+      "id": "NOTIF-1789304792431",
+      "userEmail": "siti.rahma@example.com",
+      "title": "Update Retur: Rejected",
+      "desc": "Pengajuan retur Anda (RET-2026-002) telah ditolak.",
+      "time": "2026-09-13T13:06:32.431Z",
+      "read": false,
+      "href": "/dashboard/returns"
+    }
+  ],
+  "customSourcing": [],
+  "returns": [
+    {
+      "id": "RET-2026-001",
+      "orderId": "RAMU-38574",
+      "customerEmail": "siti.rahma@example.com",
+      "customerName": "siti.rahma",
+      "itemName": "House Blend Espresso undefinedg | undefined",
+      "reason": "Salah Produk",
+      "description": "saya order filter bukan espresso yang begini",
+      "proofImageUrl": "",
+      "dateRequested": "2026-09-02T15:10:56.665Z",
+      "status": "Rejected",
+      "adminNotes": ""
+    },
+    {
+      "id": "RET-2026-002",
+      "orderId": "RAMU-38574",
+      "customerEmail": "siti.rahma@example.com",
+      "customerName": "siti.rahma",
+      "itemName": "House Blend Espresso undefinedg | undefined",
+      "reason": "Salah Produk",
+      "description": "ini apa bukan kopi",
+      "proofImageUrl": "",
+      "dateRequested": "2026-09-02T15:12:28.846Z",
+      "status": "Rejected",
+      "adminNotes": ""
+    },
+    {
+      "id": "RET-2026-003",
+      "orderId": "RAMU-44205",
+      "customerEmail": "erik@gmail.com",
+      "customerName": "erik ",
+      "itemName": "Gayo Natural undefinedg | undefined",
+      "reason": "Salah Produk",
+      "description": "salah kirim harusnya arabika malah robusta",
+      "proofImageUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400",
+      "dateRequested": "2026-09-03T11:07:27.655Z",
+      "status": "Resolved",
+      "adminNotes": "siap saya akan bantu untuk dkembalikan.",
+      "returnTrackingNumber": "JNE12345"
+    }
+  ],
+  "users": [
+    {
+      "id": "USR-2026-001",
+      "name": "erik ",
+      "phone": "0888883234",
+      "email": "erik@gmail.com",
+      "dob": "1980-09-11",
+      "gender": "Laki-laki",
+      "password": "12345",
+      "confirmPassword": "12345",
+      "joinedDate": "2026-09-03T11:00:48.560Z",
+      "status": "Active",
+      "loginMethod": "Email",
+      "role": "Customer",
+      "totalOrders": 0,
+      "coffeePreferences": {
+        "favoriteDrink": "Espresso / Ristretto",
+        "tastePreference": "Fruity / Asam Segar",
+        "frequency": "Jarang",
+        "budget": "< Rp 100.000",
+        "tools": [
+          "Moka Pot"
+        ],
+        "grinder": "Electric (Entry Level)",
+        "machine": "Belum punya mesin"
+      }
+    }
+  ]
+}

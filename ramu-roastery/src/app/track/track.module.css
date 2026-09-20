@@ -1,0 +1,204 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  min-height: calc(100vh - 100px);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.searchBox {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.inputGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.input {
+  flex: 1;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.1rem;
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 16px;
+  transition: all 0.2s;
+  background: #fafafa;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(120, 53, 15, 0.1);
+}
+
+.btnSubmit {
+  padding: 1.25rem 2.5rem;
+  background: var(--accent-color);
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btnSubmit:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(120, 53, 15, 0.3);
+}
+
+.resultContainer {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  background: #fef2f2;
+  color: #dc2626;
+  border-radius: 16px;
+  font-weight: 500;
+}
+
+/* Timeline Reused/Adapted */
+.trackingCard {
+  background: white;
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 15px 50px -10px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.orderInfo {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.infoValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+  margin-top: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 9px;
+  width: 2px;
+  background-color: rgba(0,0,0,0.1);
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timelineItem:last-child {
+  margin-bottom: 0;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -2.5rem;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  border: 3px solid var(--accent-color);
+  z-index: 1;
+}
+
+.timelineDotActive {
+  background-color: var(--accent-color);
+}
+
+.timelineDate {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.timelineStatus {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.timelineLocation {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 600px) {
+  .inputGroup {
+    flex-direction: column;
+  }
+  .orderInfo {
+    grid-template-columns: 1fr;
+  }
+  .searchBox, .trackingCard {
+    padding: 1.5rem;
+  }
+}

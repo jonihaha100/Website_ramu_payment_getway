@@ -4,7 +4,16 @@ import { LanguageProvider } from "../context/LanguageContext";
 import Navbar from "../components/Navbar/Navbar";
 
 import { CartProvider } from "../context/CartContext";
+import { AuthProvider } from "../context/AuthContext";
+import { WishlistProvider } from "../context/WishlistContext";
+import { ToastProvider } from "../context/ToastContext";
 import CartSidebar from "../components/CartSidebar/CartSidebar";
+import WhatsAppChat from "../components/LiveChat/WhatsAppChat";
+import TopTicker from "../components/TopTicker/TopTicker";
+import PromoModal from "../components/PromoModal/PromoModal";
+import OnboardingGuide from "../components/OnboardingGuide/OnboardingGuide";
+import TourGuide from "../components/Onboarding/TourGuide";
+import BottomNav from "../components/BottomNav/BottomNav";
 
 export const metadata: Metadata = {
   title: "Ramu Roastery Company",
@@ -17,16 +26,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" data-scroll-behavior="smooth">
       <body>
-        <CartProvider>
+        <AuthProvider>
           <LanguageProvider>
-            <Navbar />
-            <CartSidebar />
-            {children}
+            <ToastProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <TopTicker />
+                  <Navbar />
+                  <CartSidebar />
+                  {children}
+                  <BottomNav />
+                  <WhatsAppChat />
+                  <PromoModal />
+                  <OnboardingGuide />
+                  <TourGuide />
+                </WishlistProvider>
+              </CartProvider>
+            </ToastProvider>
           </LanguageProvider>
-        </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
 }
+

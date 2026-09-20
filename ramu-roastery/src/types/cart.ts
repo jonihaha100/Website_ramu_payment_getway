@@ -7,6 +7,9 @@ export interface CartItem {
   weight: number;
   grind: string;
   image?: string;
+  isSubscription?: boolean;
+  frequency?: string;
+  deliveriesTotal?: number;
 }
 
 export interface CustomerDetails {
@@ -15,7 +18,10 @@ export interface CustomerDetails {
   email: string;
   phone: string;
   address: string;
+  province?: string;
   city: string;
+  subdistrict?: string;
+  village?: string;
   postalCode: string;
 }
 
@@ -23,4 +29,9 @@ export interface CheckoutPayload {
   items: CartItem[];
   customer: CustomerDetails;
   shippingCost: number;
+  adminFee: number;
+  tax: number;
+  discount?: number;
+  promoCode?: string;
+  redeemPoints?: number;
 }

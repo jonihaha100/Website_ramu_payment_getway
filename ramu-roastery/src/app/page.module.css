@@ -9,7 +9,17 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(to bottom, rgba(245, 242, 235, 0.8), rgba(245, 242, 235, 1));
+  background-image: linear-gradient(to bottom, rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.9)), url('/images/hero_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+  animation: fadeIn 1.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .heroContent {
@@ -24,7 +34,8 @@
 .est {
   font-size: 0.875rem;
   letter-spacing: 2px;
-  color: var(--text-secondary);
+  color: #d1d5db; /* Light color for dark background */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .brandName {
@@ -32,15 +43,17 @@
   font-weight: 700;
   margin: 0;
   line-height: 1;
-  color: var(--text-primary);
+  color: #f3f4f6; /* Off-white for dark background */
   letter-spacing: -2px;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 .brandSub {
   font-size: 1rem;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: #d1d5db; /* Light color for dark background */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .heroHeadline {
@@ -48,14 +61,14 @@
   font-weight: 600;
   letter-spacing: 1px;
   margin-bottom: var(--spacing-sm);
-  color: var(--text-primary);
+  color: #f9fafb;
 }
 
 .heroSubheadline {
   font-size: 1.2rem;
   max-width: 600px;
   margin: 0 auto var(--spacing-lg);
-  color: var(--text-secondary);
+  color: #d1d5db;
 }
 
 .heroActions {
@@ -66,35 +79,86 @@
   flex-wrap: wrap;
 }
 
+.heroCtaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+  color: #ffffff !important;
+  padding: 14px 36px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(120, 53, 15, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  text-decoration: none;
+}
+
+.heroCtaBtn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+  box-shadow: 0 8px 28px rgba(120, 53, 15, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
 /* Quick Highlights */
 .highlightsSection {
   background: white;
 }
 
-.highlightGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+.sliderWrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   gap: var(--spacing-md);
+  padding-bottom: 2rem;
+  scrollbar-width: thin;
 }
 
-.highlightCard {
+.sliderItem {
+  flex: 0 0 85%;
+  scroll-snap-align: center;
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background: var(--card-bg);
   border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.highlightCard:hover {
-  transform: translateY(-5px);
+@media (min-width: 768px) {
+  .sliderItem {
+    flex: 0 0 calc(33.333% - (var(--spacing-md) * 2 / 3));
+    scroll-snap-align: start;
+  }
+}
+
+.sliderItem:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .highlightImage {
-  height: 200px;
+  height: 250px; /* Taller for the 3:4 aspect ratio bags */
   background: rgba(120, 53, 15, 0.05);
   position: relative;
+  overflow: hidden;
+}
+
+.highlightImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.sliderItem:hover .highlightImage img {
+  transform: scale(1.05);
 }
 
 .highlightCategory {
@@ -237,4 +301,24 @@
   padding: var(--spacing-md);
   border-top: 1px solid rgba(0,0,0,0.1);
   color: var(--text-secondary);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 767px) {
+  .brandName {
+    font-size: 3rem;
+  }
+  .heroHeadline {
+    font-size: 1.75rem;
+  }
+  .heroSubheadline {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+  .sectionTitle, .sectionTitleCenter {
+    font-size: 2rem;
+  }
+  .sliderItem {
+    flex: 0 0 90%;
+  }
 }

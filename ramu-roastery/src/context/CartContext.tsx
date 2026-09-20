@@ -10,6 +10,10 @@ export interface CartItem {
   quantity: number;
   weight: number;
   grind: string;
+  image?: string;
+  isSubscription?: boolean;
+  frequency?: string;
+  deliveriesTotal?: number;
 }
 
 interface CartContextType {
@@ -53,7 +57,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
       return [...prev, newItem];
     });
-    setIsCartOpen(true);
+    // setIsCartOpen(true); // Disable auto-open so Toast is the primary feedback
   };
 
   const removeFromCart = (id: string) => {

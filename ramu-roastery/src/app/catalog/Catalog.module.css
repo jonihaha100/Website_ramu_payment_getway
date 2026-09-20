@@ -76,7 +76,7 @@
 
 .productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: var(--spacing-md);
 }
 
@@ -114,6 +114,68 @@
   font-weight: 600;
   text-transform: uppercase;
 }
+
+.wishlistBtn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.wishlistBtn:hover {
+  background: rgba(0, 0, 0, 0.45);
+  transform: scale(1.15);
+}
+
+.wishlistBtn:active {
+  transform: scale(0.88);
+}
+
+.cardQuickActions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1.25rem 1.25rem;
+  margin-top: auto;
+}
+
+.btnQuickAdd {
+  flex: 1;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.82rem;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--color-border, #e5e7eb);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btnQuickAdd:hover {
+  background: #fdfaf6;
+  border-color: #b45309;
+  color: #b45309;
+}
+
+.btnQuickAdd:active {
+  transform: scale(0.97);
+}
+
 
 .cardContent {
   padding: var(--spacing-md);

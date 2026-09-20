@@ -1,0 +1,376 @@
+.dashboardPage {
+  padding: 4rem 0;
+  min-height: calc(100vh - 80px);
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--accent-color);
+}
+
+/* Ramu Points Panel */
+.pointsPanel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #78350f 0%, #a44d22 50%, #d97706 100%);
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  color: white;
+  box-shadow: 0 4px 15px rgba(120, 53, 15, 0.3);
+  animation: pointsSlideIn 0.5s ease-out;
+}
+
+@keyframes pointsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pointsIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.pointsInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.pointsLabel {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.pointsValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.pointsHint {
+  margin-left: auto;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  max-width: 200px;
+  text-align: right;
+  line-height: 1.3;
+}
+
+@media (max-width: 600px) {
+  .pointsPanel {
+    flex-wrap: wrap;
+  }
+  .pointsHint {
+    margin-left: 0;
+    max-width: 100%;
+    text-align: left;
+  }
+}
+
+
+.dashboardLayout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboardLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profileSection {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+@media (max-width: 600px) {
+  .profileSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.avatarLarge {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profileDetails {
+  flex: 1;
+  width: 100%;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.formGroup label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.inputField {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #f9fafb;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.profileInfo h2 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.profileInfo p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.radioGroup {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.radioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+
+.radioLabel:hover {
+  background: rgba(0,0,0,0.03);
+}
+
+.radioLabel input[type="radio"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.radioLabel input[type="radio"]::before {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--accent-color);
+  background-color: var(--accent-color);
+}
+
+.radioLabel input[type="radio"]:checked {
+  border-color: var(--accent-color);
+}
+
+.radioLabel input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.actionButtons {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.actionButtons button {
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.saveBtn {
+  background: linear-gradient(135deg, var(--accent-color) 0%, #a44d22 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.25);
+}
+
+.saveBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.35);
+}
+
+.saveBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.saveBtn:disabled {
+  background: #ccc;
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.logoutBtn {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444 !important;
+}
+
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.mainContent {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+}
+
+.sectionTitle {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+/* Wishlist Grid reused from highlighted layout styles */
+.wishlistGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.wishlistCard {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.wishlistCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.wishlistImage {
+  height: 180px;
+  background: rgba(120, 53, 15, 0.05);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishlistImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wishlistContent {
+  padding: 1rem;
+  flex: 1;
+}
+
+.wishlistContent h3 {
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.wishlistContent p {
+  font-size: 0.9rem;
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+}
+
+.wishlistActions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+.btnRemove {
+  flex: 1;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.btnRemove:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.emptyState h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}

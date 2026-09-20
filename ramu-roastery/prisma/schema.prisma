@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  phone        String?
+  gender       String?
+  dob          String?
+  passwordHash String?
+  role         String   @default("USER") // USER, ADMIN, B2B
+  avatarUrl    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+  addresses    Address[]
+}
+
+model Address {
+  id            String   @id @default(uuid())
+  userEmail     String
+  label         String   // "Rumah", "Kantor", "Kedai"
+  firstName     String   @default("")
+  lastName      String   @default("")
+  phone         String
+  address       String
+  province      String
+  city          String
+  subdistrict   String?
+  village       String?
+  postalCode    String
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User?    @relation(fields: [userEmail], references: [email])
+}
+
+model RamuPoints {
+  id        String   @id @default(uuid())
+  userEmail String
+  amount    Int      // Positive = earned, Negative = redeemed
+  type      String   // "EARNED", "REDEEMED"
+  orderId   String?
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  shippingAddress String
+  total           Float
+  adminFee        Float       @default(0)
+  tax             Float       @default(0)
+  shippingCost    Float       @default(0)
+  status          String      @default("Pending") // Pending, Processing, Shipped, Delivered, Completed, Cancelled
+  courier         String?
+  trackingNumber  String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  user            User?       @relation(fields: [userId], references: [id])
+  userId          String?
+  items           OrderItem[]
+  reviews         Review[]
+  
+  // Link to a closed period
+  closedPeriodId  String?
+  closing         Closing?    @relation(fields: [closedPeriodId], references: [id])
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  productId String
+  name      String
+  quantity  Int
+  price     Float
+  order     Order    @relation(fields: [orderId], references: [id])
+}
+
+model Review {
+  id           String   @id @default(uuid())
+  orderId      String
+  productId    String
+  productName  String?
+  customerName String?
+  rating       Int
+  comment      String?
+  reply        String?
+  photos       String[] @default([])
+  videos       String[] @default([])
+  createdAt    DateTime @default(now())
+  order        Order    @relation(fields: [orderId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userEmail String
+  title     String
+  desc      String
+  href      String   @default("#")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+
+model ReturnTicket {
+  id                   String   @id @default(uuid())
+  orderId              String
+  customerEmail        String?
+  customerName         String?
+  itemName             String?
+  reason               String
+  description          String?
+  proofImageUrl        String?
+  adminNotes           String?
+  returnTrackingNumber String?
+  status               String   @default("Pending") // Pending, Approved, Rejected, Completed
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Closing {
+  id               String   @id @default(uuid())
+  period           String   @unique // e.g., "September 2026"
+  
+  // Financial Breakdowns
+  grossSales       Float    @default(0) // Total harga produk
+  discounts        Float    @default(0) // Total diskon
+  netSales         Float    @default(0) // Gross - diskon
+  taxCollected     Float    @default(0) // PPN
+  shippingRevenue  Float    @default(0) // Ongkir
+  adminFeeRevenue  Float    @default(0) // Jasa aplikasi
+  totalCashInflow  Float    @default(0) // Net + Tax + Shipping + Admin
+  
+  // Metrics
+  totalOrders      Int      @default(0)
+  itemsSold        Int      @default(0)
+  
+  closedAt         DateTime @default(now())
+  closedBy         String   @default("Admin")
+  
+  // Relasi ke order yang dikunci pada periode ini
+  lockedOrders     Order[]
+}
+
+model PromoCode {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  discountType  String    // "percentage" or "fixed"
+  discountValue Float
+  validUntil    DateTime?
+  maxUses       Int?
+  usedCount     Int       @default(0)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model StoreSetting {
+  id                    String   @id @default("global") // Always "global" since it's a singleton
+  flatShippingRate      Float    @default(0)
+  isFreeShippingEnabled Boolean  @default(false)
+  freeShippingThreshold Float    @default(0)
+  taxRate               Float    @default(10)
+  adminFee              Float    @default(2500)
+  originCityId          String?
+  activeCouriers        String   @default("JNE,Sicepat,J&T")
+  updatedAt             DateTime @updatedAt
+}
+
+model InventoryLog {
+  id           String   @id @default(uuid())
+  productId    String
+  productName  String
+  changeAmount Int      // Positive for stock in, negative for stock out/adjustment
+  newStock     Int      // Stock after the change
+  type         String   // "STOCK_IN", "ADJUSTMENT", "SALE"
+  notes        String?
+  createdAt    DateTime @default(now())
+}
+
+model Subscription {
+  id            String   @id @default(uuid())
+  userEmail     String
+  productId     String
+  productName   String
+  variant       String?
+  quantity      Int      @default(1)
+  price         Float
+  frequency           String   // "1_WEEK", "2_WEEKS", "1_MONTH"
+  deliveriesTotal     Int      @default(1)
+  deliveriesCompleted Int      @default(0)
+  status              String   @default("Active") // "Active", "Paused", "Completed", "Cancelled"
+  nextDelivery        DateTime
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
