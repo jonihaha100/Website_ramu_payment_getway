@@ -28,8 +28,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
     
-    // Generate order ID
-    const orderId = `RAMU-${Math.floor(Math.random() * 100000)}`;
+    // Generate cryptographically secure, non-enumerable order ID (Anti-Scraping / Anti-Enumeration)
+    // Format: RAMU-YYYYMM-XXXXXXXX (4.2+ billion combinations per month)
+    const datePrefix = new Date().toISOString().slice(0, 7).replace('-', '');
+    const randomSuffix = crypto.randomBytes(4).toString('hex').toUpperCase();
+    const orderId = `RAMU-${datePrefix}-${randomSuffix}`;
 
     // Check if user is VIP Subscriber (has active subscription or currently purchasing a subscription)
     const hasSubscriptionInCart = body.items.some(item => item.isSubscription);
@@ -38,24 +41,32 @@ export async function POST(req: NextRequest) {
     if (!isVipUser && body.customer?.email) {
       try {
         const activeSub = await prisma.subscription.findFirst({
-          where: { userEmail: body.customer.email, status: "Active" }
+          where: { userEmail: body.customer.email.toLowerCase().trim(), status: "Active" }
         });
         if (activeSub) isVipUser = true;
       } catch (_e) {}
     }
 
-    // SERVER-SIDE PRICE VALIDATION (Anti-Tampering)
+    // 1. SERVER-SIDE STRICT ITEM & PRICE VALIDATION (Anti-Tampering)
     let validatedItemsTotal = 0;
-    const validatedItems = body.items.map(item => {
+    const validatedItems = [];
+
+    for (const item of body.items) {
+      if (!item.quantity || item.quantity < 1 || !Number.isInteger(item.quantity)) {
+        return NextResponse.json({ error: `Kuantitas produk tidak valid untuk item ${item.name}` }, { status: 400 });
+      }
+
       const foundCoffee = coffees.find(c => c.id === item.productId || c.id === item.id);
-      let unitPrice = item.price;
-      
-      if (foundCoffee) {
-        if (foundCoffee.prices && foundCoffee.prices[item.weight]) {
-          unitPrice = foundCoffee.prices[item.weight];
-        } else {
-          unitPrice = Math.round((foundCoffee.pricePerKg * item.weight) / 1000);
-        }
+      if (!foundCoffee) {
+        return NextResponse.json({ error: `Produk tidak terdaftar di katalog resmi: ${item.name}` }, { status: 400 });
+      }
+
+      const weight = item.weight || 250;
+      let unitPrice = 0;
+      if (foundCoffee.prices && foundCoffee.prices[weight]) {
+        unitPrice = foundCoffee.prices[weight];
+      } else {
+        unitPrice = Math.round((foundCoffee.pricePerKg * weight) / 1000);
       }
 
       // If item is subscription, apply official package discount (10% on 4x, 15% on 12x)
@@ -68,39 +79,108 @@ export async function POST(req: NextRequest) {
       validatedItemsTotal += itemFinalPrice * item.quantity;
 
       const grindLabel = item.grind || "Biji Utuh";
-      const weightLabel = item.weight >= 1000 ? `${item.weight / 1000}kg` : `${item.weight}g`;
+      const weightLabel = weight >= 1000 ? `${weight / 1000}kg` : `${weight}g`;
       const fullVariantName = `${item.name} (${weightLabel} • ${grindLabel})`;
 
-      return {
+      validatedItems.push({
         id: item.id,
-        productId: item.productId || item.id,
+        productId: foundCoffee.id,
         name: fullVariantName,
         baseName: item.name,
         quantity: item.quantity,
         price: itemFinalPrice,
-        weight: item.weight,
+        weight: weight,
         grind: grindLabel,
         isSubscription: item.isSubscription,
         frequency: item.frequency,
         deliveriesTotal: item.deliveriesTotal,
-      };
-    });
+      });
+    }
 
-    const b2bDiscountAmount = (body as any).b2bDiscount || 0;
-    const promoDiscountAmount = body.discount || 0;
-    const redeemPoints = body.redeemPoints || 0;
-    const pointsDiscount = redeemPoints * 100; // 1 point = Rp 100
+    // 2. SERVER-SIDE PROMO CODE VALIDATION (Anti-Discount Tampering)
+    // Never trust body.discount from client!
+    let promoDiscountAmount = 0;
+    let verifiedPromoCode: string | null = null;
+    if (body.promoCode) {
+      const cleanCode = body.promoCode.toUpperCase().trim();
+      try {
+        const promo = await prisma.promoCode.findUnique({
+          where: { code: cleanCode }
+        });
+
+        if (promo && promo.isActive) {
+          const notExpired = !promo.validUntil || new Date(promo.validUntil).getTime() >= Date.now();
+          const quotaAvailable = !promo.maxUses || promo.usedCount < promo.maxUses;
+
+          if (notExpired && quotaAvailable) {
+            verifiedPromoCode = promo.code;
+            if (promo.discountType === 'percentage') {
+              const pct = Math.min(100, Math.max(0, promo.discountValue));
+              promoDiscountAmount = Math.round(validatedItemsTotal * (pct / 100));
+            } else {
+              promoDiscountAmount = Math.min(validatedItemsTotal, Math.max(0, promo.discountValue));
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Promo verification error:", err);
+      }
+    }
+
+    // 3. SERVER-SIDE POINTS VALIDATION (Anti-Points Tampering)
+    let pointsDiscount = 0;
+    let validatedRedeemPoints = 0;
+    const requestedPoints = Number(body.redeemPoints) || 0;
+    if (requestedPoints > 0 && body.customer?.email) {
+      try {
+        const userPoints = await prisma.ramuPoints.findMany({
+          where: { userEmail: body.customer.email.toLowerCase().trim() }
+        });
+        const balance = userPoints.reduce((sum, r) => sum + r.amount, 0);
+        if (balance >= requestedPoints) {
+          const maxPointsRedeemable = Math.floor(Math.max(0, validatedItemsTotal - promoDiscountAmount) / 100);
+          validatedRedeemPoints = Math.min(requestedPoints, maxPointsRedeemable);
+          pointsDiscount = validatedRedeemPoints * 100; // 1 point = Rp 100
+        }
+      } catch (err) {
+        console.error("Points verification error:", err);
+      }
+    }
+
+    // 4. SERVER-SIDE B2B DISCOUNT VALIDATION
+    let b2bDiscountAmount = 0;
+    if (body.customer?.email) {
+      try {
+        const userRec = await prisma.user.findUnique({
+          where: { email: body.customer.email.toLowerCase().trim() }
+        });
+        if (userRec && userRec.role?.toUpperCase() === 'B2B') {
+          const totalGrams = body.items.reduce((sum, it) => sum + ((it.weight || 250) * it.quantity), 0);
+          if (totalGrams >= 5000) {
+            b2bDiscountAmount = Math.round(validatedItemsTotal * 0.15); // 15% wholesale discount
+          }
+        }
+      } catch (err) {
+        console.error("B2B verification error:", err);
+      }
+    }
     
     // VIP Benefit: Admin fee is completely FREE (Rp 0) for active VIP / subscribers!
-    const finalAdminFee = isVipUser ? 0 : (body.adminFee || 2500);
-    const finalShippingCost = (body as any).isTebengKirim ? 0 : (body.shippingCost || 0);
+    const finalAdminFee = isVipUser ? 0 : Math.max(0, body.adminFee || 2500);
+    const finalShippingCost = (body as any).isTebengKirim ? 0 : Math.max(0, body.shippingCost || 0);
 
-    const calculatedTotal = Math.max(0, (validatedItemsTotal - b2bDiscountAmount - promoDiscountAmount - pointsDiscount) + (body.tax || 0) + finalAdminFee + finalShippingCost);
+    const subtotalAfterDiscounts = Math.max(0, validatedItemsTotal - b2bDiscountAmount - promoDiscountAmount - pointsDiscount);
+    const calculatedTotal = subtotalAfterDiscounts + Math.max(0, body.tax || 0) + finalAdminFee + finalShippingCost;
+
+    // ANTI-FREE EXPLOIT GUARD: Total must not be Rp 0 unless genuine 100% voucher covers the items
+    if (calculatedTotal <= 0 && validatedItemsTotal > 0 && promoDiscountAmount < validatedItemsTotal) {
+      return NextResponse.json({ error: "Perhitungan total tagihan tidak valid." }, { status: 400 });
+    }
 
     const newOrder = {
       id: orderId,
       customerName: `${body.customer.firstName} ${body.customer.lastName}`.trim(),
-      customerEmail: body.customer.email,
+      customerEmail: body.customer.email.toLowerCase().trim(),
       customerPhone: body.customer.phone,
       status: 'Pending',
       date: new Date().toISOString(),
@@ -144,23 +224,16 @@ export async function POST(req: NextRequest) {
       console.log(`Order ${orderId} saved to database with full item details`);
       
       // Handle Secure Point Redemption (Backend Verification)
-      if (redeemPoints > 0) {
-        const userPoints = await prisma.ramuPoints.findMany({
-          where: { userEmail: body.customer.email }
+      if (validatedRedeemPoints > 0) {
+        await prisma.ramuPoints.create({
+          data: {
+            userEmail: newOrder.customerEmail,
+            amount: -validatedRedeemPoints,
+            type: "REDEEMED",
+            orderId: orderId,
+            note: `Penukaran ${validatedRedeemPoints} poin untuk pesanan ${orderId}`
+          }
         });
-        const balance = userPoints.reduce((sum, r) => sum + r.amount, 0);
-
-        if (balance >= redeemPoints) {
-          await prisma.ramuPoints.create({
-            data: {
-              userEmail: body.customer.email,
-              amount: -redeemPoints,
-              type: "REDEEMED",
-              orderId: orderId,
-              note: `Penukaran poin untuk pesanan ${orderId}`
-            }
-          });
-        }
       }
 
       // Handle Subscriptions (Locked strictly to Monday/Thursday batch schedule)
@@ -188,11 +261,11 @@ export async function POST(req: NextRequest) {
         }
       }
       
-      // Update Promo Code used count
-      if (body.promoCode) {
+      // Update Promo Code used count (strictly for verified codes)
+      if (verifiedPromoCode) {
         try {
           await prisma.promoCode.update({
-            where: { code: body.promoCode.toUpperCase() },
+            where: { code: verifiedPromoCode },
             data: { usedCount: { increment: 1 } }
           });
         } catch (e) {

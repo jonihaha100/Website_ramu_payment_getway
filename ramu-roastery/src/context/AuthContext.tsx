@@ -122,6 +122,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null);
+    try {
+      fetch('/api/auth/logout', { method: 'POST' });
+    } catch (_e) {}
   };
 
   const updateProfile = async (data: Partial<User>) => {

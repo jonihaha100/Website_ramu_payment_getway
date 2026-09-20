@@ -81,6 +81,24 @@ Berikut adalah ringkasan keputusan inti yang telah disepakati dan diimplementasi
 * **Kenapa keputusan ini diambil:**
   * Mengamankan ekosistem agen AI dari potensi *prompt injection* atau skrip berbahaya yang dapat menyusup ke lingkungan kerja pengembang. Seluruh skill diverifikasi aman (**0 Temuan Bahaya - Low Risk**).
 
+### 8. Penutupan 5 Celah Keamanan Kritis Tambahan (Audit Penetrasi Mandiri)
+Berdasarkan pengujian penetrasi mandiri yang cermat, sistem ditutup dari 5 potensi eksploitasi berbahaya:
+1. **Manipulasi Harga Belanja (Beli Kopi Rp 0) pada [src/app/api/checkout/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/checkout/route.ts):**
+   * *Apa yang terjadi:* Server kini menghitung ulang seluruh harga item dari katalog resmi, memvalidasi kupon promo ke database (`prisma.promoCode`), memverifikasi saldo poin pembeli (`prisma.ramuPoints`), serta menolak total belanja bernilai Rp 0 yang tidak wajar. Parameter `discount` mentah dari klien tidak lagi dipercaya.
+   * *Kenapa:* Mencegah peretas mengintersep request dan menyuntikkan diskon fiktif bernilai ratusan ribu rupiah untuk mendapatkan stok kopi fisik secara cuma-cuma tanpa membayar.
+2. **Konfirmasi Pembayaran Palsu pada [src/app/api/payment/webhook/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/payment/webhook/route.ts):**
+   * *Apa yang terjadi:* Webhook pembayaran iPay88 kini mewajibkan tanda tangan digital berbasis SHA-256 yang divalidasi dengan `crypto.timingSafeEqual`, memverifikasi kecocokan nominal uang yang dibayar dengan tagihan di database, serta menolak keras semua request liar jika kredensial payment gateway belum terkonfigurasi sah.
+   * *Kenapa:* Menutup celah di mana penyerang dapat menembak endpoint webhook dengan `Status=1` untuk mengubah status pesanan `Pending` menjadi `Processing` (Lunas) tanpa pernah mentransfer dana.
+3. **Pencurian Data Pribadi Pelanggan (Anti-IDOR Scraping) pada [src/app/api/orders/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/orders/route.ts) & [checkout/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/checkout/route.ts):**
+   * *Apa yang terjadi:* Nomor pesanan diubah dari angka acak 5 digit yang mudah ditebak menjadi ID kriptografi berentropi tinggi (`RAMU-YYYYMM-XXXXXXXX`, menghasilkan lebih dari 4,2 miliar kombinasi unik per bulan). Selain itu, fitur lacak pesanan publik menerapkan *PII masking* (nama disamarkan, email dan nomor telepon disensor bintang, dan alamat jalan dihilangkan). Data lengkap hanya dapat dilihat oleh Admin atau pemilik pesanan yang sah.
+   * *Kenapa:* Mencegah bot penyerang melakukan *brute-force enumeration* nomor pesanan dari `RAMU-00000` hingga `RAMU-99999` untuk mengunduh seluruh basis data pelanggan (nama, nomor WA, alamat rumah) yang melanggar hukum perlindungan data pribadi (UU PDP).
+4. **Pengambilalihan Akses Administrator (Anti-Admin Takeover) pada [src/lib/auth.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/lib/auth.ts):**
+   * *Apa yang terjadi:* Menghapus teks rahasia statis cadangan (`ramu_roastery_secret_jwt_key_2026_secure`) dari kode. Jika variabel lingkungan `ADMIN_JWT_SECRET` belum diisi di server, sistem otomatis menghasilkan kunci acak 256-bit *in-memory* yang hanya hidup selama siklus proses server.
+   * *Kenapa:* Menjamin penyerang yang membaca kode sumber di repositori publik tidak dapat memalsukan token Admin untuk membajak dasbor `/admin`.
+5. **Manipulasi Status Pesanan Pelanggan Lain (Anti-Status Tampering) pada [src/app/api/orders/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/orders/route.ts):**
+   * *Apa yang terjadi:* Endpoint `PUT /api/orders` kini memvalidasi sesi cookie pengguna bertanda tangan kriptografi (`user_session`). Pelanggan hanya diizinkan membatalkan pesanannya sendiri saat status masih `Pending`, atau mengonfirmasi penerimaan/selesai saat barang sudah `Shipped`/`Delivered`. Pelanggan dilarang keras mengubah status menjadi `Processing` (Lunas) atau memodifikasi nomor resi.
+   * *Kenapa:* Mencegah penyerang memanipulasi status pesanan pelanggan lain atau menandai pesanannya sendiri sebagai lunas tanpa melewati gerbang pembayaran.
+
 ---
 
 ## 📜 Pesan untuk AI di Masa Depan

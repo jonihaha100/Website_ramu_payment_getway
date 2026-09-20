@@ -48,8 +48,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Login successful — return user data (never return passwordHash!)
-    return NextResponse.json({
+    // Login successful — return user data and issue signed httpOnly user_session cookie
+    const userRole = user.role?.toLowerCase() === 'admin' ? 'admin' 
+        : user.role?.toLowerCase() === 'b2b' ? 'b2b' 
+        : 'customer';
+
+    const { createUserToken } = await import('../../../../lib/auth');
+    const token = await createUserToken(user.email, userRole);
+
+    const response = NextResponse.json({
       success: true,
       data: {
         name: user.name || 'User',
@@ -57,13 +64,21 @@ export async function POST(request: Request) {
         phone: user.phone || '',
         gender: user.gender || '',
         dob: user.dob || '',
-        role: user.role?.toLowerCase() === 'admin' ? 'admin' 
-            : user.role?.toLowerCase() === 'b2b' ? 'b2b' 
-            : 'customer',
+        role: userRole,
         provider: 'local',
         avatarUrl: user.avatarUrl || '',
       }
     });
+
+    response.cookies.set('user_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/'
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

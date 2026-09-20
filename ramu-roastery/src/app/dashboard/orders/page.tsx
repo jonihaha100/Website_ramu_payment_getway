@@ -229,50 +229,46 @@ export default function UserOrdersPage() {
     return baseHistory.filter(h => h.time.getTime() <= new Date().getTime() || h.active === true);
   };
 
-  const handlePayment = async (order: Order) => {
+  const handlePayment = (order: Order) => {
+    addToast(
+      lang === 'ja'
+        ? '決済状況・追跡ページへ移動します...'
+        : (lang === 'en'
+          ? 'Redirecting to payment tracking...'
+          : 'Membuka status pelacakan pembayaran...'),
+      'info'
+    );
+    router.push(`/track?orderId=${encodeURIComponent(order.id)}`);
+  };
+
+  const handleCancelOrder = async (order: Order) => {
     const confirmPrompt = lang === 'ja'
-      ? `注文 ${order.id} のお支払い（Rp ${order.total.toLocaleString('id-ID')}）に進みますか？`
+      ? `注文 ${order.id} をキャンセルしますか？`
       : lang === 'en'
-      ? `Proceed to payment for order ${order.id} amounting to Rp ${order.total.toLocaleString('en-US')}?`
-      : `Lanjutkan ke pembayaran untuk pesanan ${order.id} sebesar Rp ${order.total.toLocaleString('id-ID')}?`;
+      ? `Are you sure you want to cancel order ${order.id}?`
+      : `Apakah Anda yakin ingin membatalkan pesanan ${order.id}?`;
 
     if (confirm(confirmPrompt)) {
       try {
         const res = await fetch('/api/orders', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...order, status: 'Processing' })
+          body: JSON.stringify({ ...order, status: 'Cancelled' })
         });
         if (res.ok) {
           addToast(
             lang === 'ja'
-              ? '支払いが確認されました！注文の焙煎・発送準備を開始します。'
-              : (lang === 'en'
-                ? 'Payment confirmed! Your order is being processed.'
-                : 'Pembayaran berhasil dikonfirmasi! Pesanan Anda sedang diproses.'),
-            'success'
+              ? '注文をキャンセルしました。'
+              : (lang === 'en' ? 'Order cancelled successfully.' : 'Pesanan berhasil dibatalkan.'),
+            'info'
           );
-          // Update status locally
-          setUserOrders(prev => prev.map(o => o.id === order.id ? { ...o, status: 'Processing' } : o));
+          setUserOrders(prev => prev.map(o => o.id === order.id ? { ...o, status: 'Cancelled' } : o));
         } else {
-          addToast(
-            lang === 'ja'
-              ? '支払いの処理に失敗しました。もう一度お試しください。'
-              : (lang === 'en'
-                ? 'Failed to process payment. Please try again.'
-                : 'Gagal memproses pembayaran. Silakan coba lagi.'),
-            'error'
-          );
+          const errData = await res.json();
+          addToast(errData.error || 'Gagal membatalkan pesanan.', 'error');
         }
-      } catch (err) {
-        addToast(
-          lang === 'ja'
-            ? '支払い処理中にシステムエラーが発生しました。'
-            : (lang === 'en'
-              ? 'A system error occurred during payment.'
-              : 'Terjadi kesalahan sistem saat pembayaran.'),
-          'error'
-        );
+      } catch (_e) {
+        addToast('Terjadi kesalahan saat membatalkan pesanan.', 'error');
       }
     }
   };
@@ -617,9 +613,14 @@ export default function UserOrdersPage() {
                 <div className={styles.btnGroup}>
                   {/* Action Buttons */}
                   {order.status === 'Pending' && (
-                    <button className="btn-primary" style={{ padding: '8px 16px', fontSize: '14px' }} onClick={() => handlePayment(order)}>
-                      {tr.dash_orders_pay_now}
-                    </button>
+                    <>
+                      <button className="btn-outline" style={{ padding: '8px 16px', fontSize: '14px', color: '#ef4444', borderColor: '#ef4444' }} onClick={() => handleCancelOrder(order)}>
+                        {lang === 'ja' ? 'キャンセル' : (lang === 'en' ? 'Cancel Order' : 'Batalkan')}
+                      </button>
+                      <button className="btn-primary" style={{ padding: '8px 16px', fontSize: '14px' }} onClick={() => handlePayment(order)}>
+                        {tr.dash_orders_pay_now}
+                      </button>
+                    </>
                   )}
                   {order.status === 'Delivered' && (
                     <>

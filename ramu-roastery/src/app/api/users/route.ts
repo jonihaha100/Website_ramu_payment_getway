@@ -125,7 +125,10 @@ export async function POST(request: Request) {
       }
     });
 
-    return NextResponse.json({ 
+    const { createUserToken } = await import('../../../lib/auth');
+    const token = await createUserToken(newUser.email, 'customer');
+
+    const response = NextResponse.json({ 
       success: true, 
       data: {
         name: newUser.name,
@@ -137,6 +140,16 @@ export async function POST(request: Request) {
         provider: 'local',
       }
     }, { status: 201 });
+
+    response.cookies.set('user_session', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      path: '/'
+    });
+
+    return response;
   } catch (error) {
     console.error("Failed to save user:", error);
     return NextResponse.json({ error: 'Gagal menyimpan data pengguna' }, { status: 500 });
