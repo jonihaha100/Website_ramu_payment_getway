@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
 import fs from 'fs';
 import path from 'path';
+import { requireAdmin } from '../../../lib/auth';
 
 // Define the path to our local JSON database (for updating stock)
 const dbPath = path.join(process.cwd(), 'src', 'data', 'db.json');
@@ -17,6 +18,9 @@ const writeDB = (data: unknown) => {
 
 export async function GET(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get('productId');
 
@@ -35,6 +39,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const body = await request.json();
     const { productId, changeAmount, type, notes } = body;
 

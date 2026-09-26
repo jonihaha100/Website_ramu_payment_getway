@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { requireAdmin } from '../../../lib/auth';
 
 const dbPath = path.join(process.cwd(), 'src', 'data', 'db.json');
 
@@ -17,8 +18,11 @@ const writeDB = (data: unknown) => {
   fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const db = readDB();
     const customSourcing = db.customSourcing || [];
     
@@ -79,6 +83,9 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const body = await request.json();
     const db = readDB();
     
@@ -101,6 +108,9 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     const db = readDB();

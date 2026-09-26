@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../lib/prisma";
+import { requireAdmin, getUserSession } from "../../../lib/auth";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -9,9 +10,22 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "userEmail is required" }, { status: 400 });
   }
 
+  const cleanEmail = userEmail.toLowerCase().trim();
+  const adminCheck = await requireAdmin(req);
+  const isAdmin = !adminCheck;
+  const session = await getUserSession(req);
+  const isOwner = session && session.email.toLowerCase() === cleanEmail;
+
+  if (!isAdmin && !isOwner) {
+    return NextResponse.json(
+      { error: "Unauthorized: Silakan login untuk melihat paket langganan Anda." },
+      { status: 401 }
+    );
+  }
+
   try {
     const subscriptions = await prisma.subscription.findMany({
-      where: { userEmail },
+      where: { userEmail: cleanEmail },
       orderBy: { createdAt: "desc" },
     });
     return NextResponse.json(subscriptions);
@@ -33,6 +47,18 @@ export async function PUT(req: NextRequest) {
     const subscription = await prisma.subscription.findUnique({ where: { id } });
     if (!subscription) {
       return NextResponse.json({ error: "Subscription not found" }, { status: 404 });
+    }
+
+    const adminCheck = await requireAdmin(req);
+    const isAdmin = !adminCheck;
+    const session = await getUserSession(req);
+    const isOwner = session && session.email.toLowerCase() === subscription.userEmail.toLowerCase();
+
+    if (!isAdmin && !isOwner) {
+      return NextResponse.json(
+        { error: "Forbidden: Anda tidak memiliki akses untuk mengubah paket langganan ini." },
+        { status: 403 }
+      );
     }
 
     let updateData: any = {};

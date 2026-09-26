@@ -8,8 +8,35 @@ function hashPassword(password: string): string {
   return crypto.scryptSync(password, salt, 64).toString("hex");
 }
 
+// Anti-Brute-Force Rate Limiter (Max 5 failed attempts per 15 minutes)
+const globalLoginAttempts = globalThis as unknown as {
+  __adminLoginAttempts?: Map<string, { count: number; lockedUntil: number }>;
+};
+if (!globalLoginAttempts.__adminLoginAttempts) {
+  globalLoginAttempts.__adminLoginAttempts = new Map();
+}
+const attemptsTracker = globalLoginAttempts.__adminLoginAttempts;
+
 export async function POST(req: NextRequest) {
   try {
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+                     req.headers.get("x-real-ip") || 
+                     "127.0.0.1";
+
+    // 1. Check if IP is currently locked out
+    const attemptRecord = attemptsTracker.get(clientIp);
+    const now = Date.now();
+    if (attemptRecord && attemptRecord.lockedUntil > now) {
+      const remainingSeconds = Math.ceil((attemptRecord.lockedUntil - now) / 1000);
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: `Terlalu banyak percobaan gagal. Akses login terkunci selama ${Math.ceil(remainingSeconds / 60)} menit lagi demi keamanan.` 
+        }, 
+        { status: 429 }
+      );
+    }
+
     const { username, password } = await req.json();
 
     if (!username || !password) {
@@ -55,8 +82,33 @@ export async function POST(req: NextRequest) {
     }
 
     if (!isValid) {
-      return NextResponse.json({ success: false, error: "Username atau Password salah." }, { status: 401 });
+      // Record failed attempt
+      const current = attemptsTracker.get(clientIp) || { count: 0, lockedUntil: 0 };
+      current.count += 1;
+      if (current.count >= 5) {
+        current.lockedUntil = now + 15 * 60 * 1000; // Lock for 15 minutes
+        attemptsTracker.set(clientIp, current);
+        return NextResponse.json(
+          { 
+            success: false, 
+            error: "Username atau Password salah. Batas percobaan terlampaui, akses dikunci selama 15 menit." 
+          }, 
+          { status: 429 }
+        );
+      }
+      attemptsTracker.set(clientIp, current);
+
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: `Username atau Password salah. (Sisa percobaan: ${5 - current.count})` 
+        }, 
+        { status: 401 }
+      );
     }
+
+    // Login successful — Reset failed attempts
+    attemptsTracker.delete(clientIp);
 
     // Generate cryptographic HMAC-SHA256 session token
     const token = await createAdminToken(username);

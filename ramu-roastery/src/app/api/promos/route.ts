@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
+import { requireAdmin } from '../../../lib/auth';
 
 const globalPromosCache = globalThis as unknown as {
   __cachedPromos?: any[];
@@ -42,6 +43,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const body = await request.json();
     
     // Validate
@@ -80,6 +84,9 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const body = await request.json();
     
     if (!body.id) {
@@ -110,6 +117,9 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     

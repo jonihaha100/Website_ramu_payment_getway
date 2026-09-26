@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { requireAdmin } from '../../../lib/auth';
 
 export const dynamic = 'force-dynamic';
 
@@ -53,6 +54,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const newProduct = await request.json();
     const db = await readDBAsync();
     db.products.push(newProduct);
@@ -65,6 +69,9 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const updatedProduct = await request.json();
     const db = await readDBAsync();
     const index = db.products.findIndex((p: { id: string }) => p.id === updatedProduct.id);
@@ -82,6 +89,9 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     

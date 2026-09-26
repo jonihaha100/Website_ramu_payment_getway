@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../../lib/prisma';
+import { requireAdmin, getUserSession } from '../../../../lib/auth';
 
 export async function PATCH(
   request: Request,
@@ -8,7 +9,20 @@ export async function PATCH(
   try {
     const { email } = await params;
     const body = await request.json();
-    const decodedEmail = decodeURIComponent(email);
+    const decodedEmail = decodeURIComponent(email).toLowerCase().trim();
+
+    // Session authorization check (Anti-IDOR / Anti-Account Takeover)
+    const adminCheck = await requireAdmin(request);
+    const isAdmin = !adminCheck;
+    const session = await getUserSession(request);
+    const isOwner = session && session.email.toLowerCase() === decodedEmail;
+
+    if (!isAdmin && !isOwner) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Sesi tidak sah atau Anda tidak berhak mengubah profil ini.' },
+        { status: 401 }
+      );
+    }
     
     // Find user in PostgreSQL
     const existingUser = await prisma.user.findUnique({

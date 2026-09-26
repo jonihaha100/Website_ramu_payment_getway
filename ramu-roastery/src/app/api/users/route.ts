@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
 import crypto from 'crypto';
-import { requireAdmin } from '../../../lib/auth';
+import { requireAdmin, getUserSession } from '../../../lib/auth';
 
 function hashPassword(password: string): string {
   const salt = 'ramu_roastery_salt_2026';
@@ -23,8 +23,21 @@ export async function GET(request: Request) {
     
     // 1. Single user lookup (for user profile / cart / checkout)
     if (email) {
+      const cleanEmail = email.toLowerCase().trim();
+      const adminCheck = await requireAdmin(request);
+      const isAdmin = !adminCheck;
+      const session = await getUserSession(request);
+      const isOwner = session && session.email.toLowerCase() === cleanEmail;
+
+      if (!isAdmin && !isOwner) {
+        return NextResponse.json(
+          { error: 'Unauthorized: Akses data pribadi dibatasi. Silakan login terlebih dahulu.' },
+          { status: 401 }
+        );
+      }
+
       const user = await prisma.user.findUnique({
-        where: { email: email.toLowerCase().trim() },
+        where: { email: cleanEmail },
         include: {
           _count: { select: { orders: true } },
           addresses: {

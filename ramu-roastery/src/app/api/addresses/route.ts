@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
+import { requireAdmin, getUserSession } from '../../../lib/auth';
 
 // GET /api/addresses?email=xxx
 export async function GET(req: NextRequest) {
@@ -9,8 +10,21 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Email parameter required' }, { status: 400 });
     }
 
+    const cleanEmail = email.toLowerCase().trim();
+    const adminCheck = await requireAdmin(req);
+    const isAdmin = !adminCheck;
+    const session = await getUserSession(req);
+    const isOwner = session && session.email.toLowerCase() === cleanEmail;
+
+    if (!isAdmin && !isOwner) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Silakan login untuk melihat daftar alamat Anda.' },
+        { status: 401 }
+      );
+    }
+
     const addresses = await prisma.address.findMany({
-      where: { userEmail: email },
+      where: { userEmail: cleanEmail },
       orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }]
     });
 
@@ -25,33 +39,50 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("ADDRESS POST BODY:", body);
     const { id, userEmail, label, firstName, lastName, phone, address, province, city, subdistrict, village, postalCode, isDefault } = body;
 
     if (!userEmail || !label || !firstName || !lastName || !phone || !address || !province || !city || !postalCode) {
       return NextResponse.json({ error: 'Semua field wajib diisi' }, { status: 400 });
     }
 
+    const cleanEmail = userEmail.toLowerCase().trim();
+    const adminCheck = await requireAdmin(req);
+    const isAdmin = !adminCheck;
+    const session = await getUserSession(req);
+    const isOwner = session && session.email.toLowerCase() === cleanEmail;
+
+    if (!isAdmin && !isOwner) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Akses ditolak. Sesi tidak sah.' },
+        { status: 401 }
+      );
+    }
+
     // If setting as default, unset all others first
     if (isDefault) {
       await prisma.address.updateMany({
-        where: { userEmail },
+        where: { userEmail: cleanEmail },
         data: { isDefault: false }
       });
     }
 
     if (id) {
-      // Update existing or create if missing (to prevent P2025 Record Not Found)
+      // Anti-IDOR: Check if existing address belongs to user if not admin
+      const existingAddr = await prisma.address.findUnique({ where: { id } });
+      if (existingAddr && !isAdmin && existingAddr.userEmail.toLowerCase() !== cleanEmail) {
+        return NextResponse.json({ error: 'Forbidden: Anda tidak berhak mengubah alamat ini.' }, { status: 403 });
+      }
+
       const updated = await prisma.address.upsert({
         where: { id },
         update: { label, firstName, lastName, phone, address, province, city, subdistrict, village, postalCode, isDefault: isDefault || false },
-        create: { id, userEmail, label, firstName, lastName, phone, address, province, city, subdistrict: subdistrict || null, village: village || null, postalCode, isDefault: isDefault || false }
+        create: { id, userEmail: cleanEmail, label, firstName, lastName, phone, address, province, city, subdistrict: subdistrict || null, village: village || null, postalCode, isDefault: isDefault || false }
       });
       return NextResponse.json({ success: true, data: updated });
     } else {
       // Create new
       const created = await prisma.address.create({
-        data: { userEmail, label, firstName, lastName, phone, address, province, city, subdistrict: subdistrict || null, village: village || null, postalCode, isDefault: isDefault || false }
+        data: { userEmail: cleanEmail, label, firstName, lastName, phone, address, province, city, subdistrict: subdistrict || null, village: village || null, postalCode, isDefault: isDefault || false }
       });
       return NextResponse.json({ success: true, data: created }, { status: 201 });
     }
@@ -67,6 +98,20 @@ export async function DELETE(req: NextRequest) {
     const id = req.nextUrl.searchParams.get('id');
     if (!id) {
       return NextResponse.json({ error: 'ID parameter required' }, { status: 400 });
+    }
+
+    const existingAddr = await prisma.address.findUnique({ where: { id } });
+    if (!existingAddr) {
+      return NextResponse.json({ error: 'Alamat tidak ditemukan' }, { status: 404 });
+    }
+
+    const adminCheck = await requireAdmin(req);
+    const isAdmin = !adminCheck;
+    const session = await getUserSession(req);
+    const isOwner = session && session.email.toLowerCase() === existingAddr.userEmail.toLowerCase();
+
+    if (!isAdmin && !isOwner) {
+      return NextResponse.json({ error: 'Forbidden: Anda tidak memiliki akses untuk menghapus alamat ini.' }, { status: 403 });
     }
 
     await prisma.address.delete({ where: { id } });

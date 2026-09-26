@@ -98,6 +98,9 @@ Berdasarkan pengujian penetrasi mandiri yang cermat, sistem ditutup dari 5 poten
 5. **Manipulasi Status Pesanan Pelanggan Lain (Anti-Status Tampering) pada [src/app/api/orders/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/orders/route.ts):**
    * *Apa yang terjadi:* Endpoint `PUT /api/orders` kini memvalidasi sesi cookie pengguna bertanda tangan kriptografi (`user_session`). Pelanggan hanya diizinkan membatalkan pesanannya sendiri saat status masih `Pending`, atau mengonfirmasi penerimaan/selesai saat barang sudah `Shipped`/`Delivered`. Pelanggan dilarang keras mengubah status menjadi `Processing` (Lunas) atau memodifikasi nomor resi.
    * *Kenapa:* Mencegah penyerang memanipulasi status pesanan pelanggan lain atau menandai pesanannya sendiri sebagai lunas tanpa melewati gerbang pembayaran.
+6. **Resolusi Build Vercel & Prisma Client Generation pada [ramu-roastery/package.json](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/package.json):**
+   * *Apa yang terjadi:* Menetapkan skrip `"build": "prisma generate && next build"` dan `"postinstall": "prisma generate"`.
+   * *Kenapa:* Menghilangkan kegagalan build pada container bersih Vercel (clean environment), menjamin modul `@prisma/client` selalu dibuat sebelum tahap kompilasi Next.js 58 rute dimulai.
 
 ---
 

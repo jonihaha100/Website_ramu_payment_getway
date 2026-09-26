@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
+import { requireAdmin } from "../../../../lib/auth";
 
 export async function POST(req: NextRequest) {
   return handleCleanup(req);
@@ -11,6 +12,15 @@ export async function GET(req: NextRequest) {
 
 async function handleCleanup(req: NextRequest) {
   try {
+    const authError = await requireAdmin(req);
+    const cronSecret = process.env.CRON_SECRET;
+    const reqCronSecret = req.headers.get("x-cron-secret") || req.nextUrl.searchParams.get("secret");
+    const isAuthorizedCron = Boolean(cronSecret && reqCronSecret === cronSecret);
+
+    if (authError && !isAuthorizedCron) {
+      return NextResponse.json({ error: "Unauthorized: Diperlukan sesi Admin atau Cron Secret yang sah." }, { status: 401 });
+    }
+
     // 24 hours threshold
     const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 

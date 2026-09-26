@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
 import { mockReviews } from '../../../data/mockReviews';
+import { requireAdmin, getUserSession } from '../../../lib/auth';
 
 const globalCache = globalThis as unknown as {
   __cachedReviews?: any[];
@@ -55,6 +56,17 @@ export async function GET() {
 // POST /api/reviews (Create a new review)
 export async function POST(request: Request) {
   try {
+    const adminCheck = await requireAdmin(request);
+    const isAdmin = !adminCheck;
+    const session = await getUserSession(request);
+
+    if (!isAdmin && !session) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Silakan login terlebih dahulu untuk menulis ulasan produk.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     
     const newReview = await prisma.review.create({
@@ -62,8 +74,8 @@ export async function POST(request: Request) {
         orderId: body.orderId,
         productId: body.productId,
         productName: body.productName,
-        customerName: body.customerName,
-        rating: body.rating,
+        customerName: body.customerName || session?.email?.split('@')[0] || 'Customer',
+        rating: Math.max(1, Math.min(5, Number(body.rating) || 5)),
         comment: body.comment,
         photos: body.photos || []
       }
@@ -80,9 +92,12 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT /api/reviews (Update an existing review)
+// PUT /api/reviews (Update an existing review — Admin reply)
 export async function PUT(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const updatedReview = await request.json();
     
     const review = await prisma.review.update({
@@ -105,9 +120,12 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE /api/reviews (Delete a review)
+// DELETE /api/reviews (Delete a review — Admin only)
 export async function DELETE(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const { id } = await request.json();
     
     await prisma.review.delete({

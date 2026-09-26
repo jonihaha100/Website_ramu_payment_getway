@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
+import { requireAdmin } from '../../../lib/auth';
 
 export async function GET(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const closings = await prisma.closing.findMany({
       orderBy: { closedAt: 'desc' }
     });
@@ -15,6 +19,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const authError = await requireAdmin(request);
+    if (authError) return authError;
+
     const body = await request.json();
     
     // Check if already closed for this period to prevent duplicates
