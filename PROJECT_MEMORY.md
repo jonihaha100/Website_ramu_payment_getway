@@ -102,6 +102,36 @@ Berdasarkan pengujian penetrasi mandiri yang cermat, sistem ditutup dari 5 poten
    * *Apa yang terjadi:* Menetapkan skrip `"build": "prisma generate && next build"` dan `"postinstall": "prisma generate"`.
    * *Kenapa:* Menghilangkan kegagalan build pada container bersih Vercel (clean environment), menjamin modul `@prisma/client` selalu dibuat sebelum tahap kompilasi Next.js 58 rute dimulai.
 
+### 9. Penguatan Keamanan Sistem Menyeluruh (Comprehensive Security Hardening - Tahap 2)
+Berdasarkan audit menyeluruh terhadap 28 rute API internal per 26 September 2026, sistem diperkuat dari seluruh celah manajerial dan IDOR:
+1. **Perlindungan Akses Manajemen Produk & Katalog ([src/app/api/products/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/products/route.ts)):**
+   * *Apa yang terjadi:* Memasang `await requireAdmin(request)` pada metode `POST`, `PUT`, dan `DELETE`.
+   * *Kenapa:* Menutup celah di mana siapa pun dapat mengubah harga kopi atau menghapus stok katalog roastery dari luar.
+2. **Perlindungan Kode Promo & Kupon Diskon ([src/app/api/promos/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/promos/route.ts)):**
+   * *Apa yang terjadi:* Memasang `await requireAdmin(request)` pada pembuatan (`POST`), modifikasi (`PUT`), dan penghapusan (`DELETE`) kupon.
+   * *Kenapa:* Mencegah penyerang menciptakan voucher fiktif bernilai diskon 99% atau 100% untuk dieksploitasi saat checkout.
+3. **Kerahasiaan Pembukuan & Laporan Finansial ([src/app/api/closing/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/closing/route.ts) & [closing/[id]/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/closing/%5Bid%5D/route.ts)):**
+   * *Apa yang terjadi:* Menutup akses publik `GET` dan `POST` dengan kewajiban sesi Admin sah.
+   * *Kenapa:* Mencegah kebocoran data laba kotor, laba bersih, setoran pajak, perputaran kas harian, dan orderan terkunci kepada kompetitor atau publik.
+4. **Proteksi Penyesuaian Stok Inventaris ([src/app/api/inventory-logs/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/inventory-logs/route.ts)):**
+   * *Apa yang terjadi:* Mengunci endpoint `GET` dan `POST` log inventaris khusus untuk sesi Administrator.
+   * *Kenapa:* Menghindari sabotase stok barang fisik (seperti pengubahan stok menjadi minus atau pemalsuan log penambahan barang).
+5. **Proteksi Konfigurasi Toko ([src/app/api/settings/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/settings/route.ts)):**
+   * *Apa yang terjadi:* Memasang verifikasi admin pada `PUT /api/settings`.
+   * *Kenapa:* Menjamin tarif pajak toko, flat shipping, dan biaya admin tidak dapat diubah oleh pihak ketiga.
+6. **Anti-IDOR & Perlindungan Data Pribadi Alamat ([src/app/api/addresses/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/addresses/route.ts)):**
+   * *Apa yang terjadi:* Endpoint `GET`, `POST`, dan `DELETE` kini mencocokkan `userEmail` dengan `getUserSession(req)` atau `requireAdmin(req)`.
+   * *Kenapa:* Mencegah scraping alamat rumah, nomor HP, dan nama penerima paket oleh pihak yang tidak berhak (kepatuhan UU PDP).
+7. **Anti-BOLA pada Pembaruan Profil & Data Akun ([src/app/api/users/[email]/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/users/%5Bemail%5D/route.ts) & [users/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/users/route.ts)):**
+   * *Apa yang terjadi:* Melarang request `PATCH` atau `GET ?email=...` yang tidak memiliki sesi pemilik akun atau sesi admin yang valid.
+   * *Kenapa:* Mencegah pengambilalihan profil pengguna atau pemanenan identitas pribadi.
+8. **Anti-Brute Force Rate Limiter pada Login Admin ([src/app/api/admin/login/route.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/admin/login/route.ts)):**
+   * *Apa yang terjadi:* Membatasi kesalahan login maksimal 5 kali berturut-turut per alamat IP dalam 15 menit. Jika terlampaui, IP dikunci sementara (*HTTP 429 Too Many Requests*).
+   * *Kenapa:* Menghentikan serangan tebak kata sandi otomatis (*brute-force dictionary attack*).
+9. **Pengetatan Notifikasi, Langganan, Ulasan, dan Cron ([/api/notifications](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/notifications/route.ts), [/api/subscriptions](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/subscriptions/route.ts), [/api/reviews](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/reviews/route.ts), [/api/returns](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/returns/route.ts), [/api/orders/cleanup](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/orders/cleanup/route.ts)):**
+   * *Apa yang terjadi:* Setiap aksi pengubahan dan penghapusan data diwajibkan melewati verifikasi kepemilikan sesi (*ownership check*) atau hak akses Administrator.
+   * *Kenapa:* Mencegah phishing via link notifikasi palsu, perubahan jadwal langganan orang lain, pemalsuan tanggapan resmi ulasan toko, atau pemborosan resource cron pembersihan order.
+
 ---
 
 ## 📜 Pesan untuk AI di Masa Depan
