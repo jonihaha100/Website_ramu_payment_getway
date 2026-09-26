@@ -18,6 +18,9 @@ import BottomNav from "../components/BottomNav/BottomNav";
 export const metadata: Metadata = {
   title: "Ramu Roastery Company",
   description: "Crafted with Quality, Grounded in Commitment. Exceptional Indonesian Coffee for the World.",
+  other: {
+    "strix-verification": "strix-verify-d1f781c10ef98d2d65dd51ff6e14a4a6",
+  },
 };
 
 export default function RootLayout({
