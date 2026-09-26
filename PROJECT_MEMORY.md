@@ -131,6 +131,9 @@ Berdasarkan audit menyeluruh terhadap 28 rute API internal per 26 September 2026
 9. **Pengetatan Notifikasi, Langganan, Ulasan, dan Cron ([/api/notifications](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/notifications/route.ts), [/api/subscriptions](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/subscriptions/route.ts), [/api/reviews](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/reviews/route.ts), [/api/returns](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/returns/route.ts), [/api/orders/cleanup](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/api/orders/cleanup/route.ts)):**
    * *Apa yang terjadi:* Setiap aksi pengubahan dan penghapusan data diwajibkan melewati verifikasi kepemilikan sesi (*ownership check*) atau hak akses Administrator.
    * *Kenapa:* Mencegah phishing via link notifikasi palsu, perubahan jadwal langganan orang lain, pemalsuan tanggapan resmi ulasan toko, atau pemborosan resource cron pembersihan order.
+10. **Integrasi Strix Security Scanning & Domain Verification:**
+    * *Apa yang terjadi:* Domain live `https://website-ramu-payment-getway.vercel.app` didaftarkan ke platform Strix Cloud dan telah terverifikasi kepemilikannya (*verified: yes*) melalui `/.well-known/strix-verify.txt` dan HTML meta tag `strix-verification`. Pipeline CI/CD otomatis juga telah dipasang di [strix-security.yml](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/.github/workflows/strix-security.yml).
+    * *Kenapa:* Memfasilitasi audit keamanan berbasis AI berstandar industri secara berkala tanpa mengorbankan integritas sistem produksi.
 
 ---
 
