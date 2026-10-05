@@ -1,0 +1,50 @@
+name: Next.js CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-and-build:
+    name: Test & Build (Next.js & Prisma)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ramu-roastery
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'ramu-roastery/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/postgres?schema=public' }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL || 'postgresql://postgres:postgres@localhost:5432/postgres' }}
+        run: npx prisma generate
+
+      - name: Run Unit & Integration Tests (Jest)
+        run: npm test
+
+      - name: Build Next.js Application
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/postgres?schema=public' }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL || 'postgresql://postgres:postgres@localhost:5432/postgres' }}
+          ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET || 'ci_build_dummy_admin_jwt_secret_key_2026_test' }}
+          IPAY88_MERCHANT_CODE: ${{ secrets.IPAY88_MERCHANT_CODE || 'ID00000' }}
+          IPAY88_MERCHANT_KEY: ${{ secrets.IPAY88_MERCHANT_KEY || 'dummy_key' }}
+          RAJAONGKIR_API_KEY: ${{ secrets.RAJAONGKIR_API_KEY || 'dummy_key' }}
+        run: npm run build

@@ -14,6 +14,28 @@ jest.mock('next/navigation', () => ({
   }),
 }))
 
+// Mock ToastContext
+jest.mock('../src/context/ToastContext', () => ({
+  useToast: () => ({
+    addToast: jest.fn(),
+  }),
+  ToastProvider: ({ children }: { children: React.ReactNode }) => children,
+}))
+
+// Mock CartContext
+jest.mock('../src/context/CartContext', () => ({
+  useCart: () => ({
+    cart: [],
+    addToCart: jest.fn(),
+    removeFromCart: jest.fn(),
+    updateQuantity: jest.fn(),
+    clearCart: jest.fn(),
+    totalItems: 0,
+    totalPrice: 0,
+  }),
+  CartProvider: ({ children }: { children: React.ReactNode }) => children,
+}))
+
 // Mock global fetch
 global.fetch = jest.fn(() => 
   Promise.resolve({ 
