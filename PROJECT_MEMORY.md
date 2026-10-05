@@ -134,6 +134,9 @@ Berdasarkan audit menyeluruh terhadap 28 rute API internal per 26 September 2026
 10. **Integrasi Strix Security Scanning & Domain Verification:**
     * *Apa yang terjadi:* Domain live `https://website-ramu-payment-getway.vercel.app` didaftarkan ke platform Strix Cloud dan telah terverifikasi kepemilikannya (*verified: yes*) melalui `/.well-known/strix-verify.txt` dan HTML meta tag `strix-verification`. Pipeline CI/CD otomatis juga telah dipasang di [strix-security.yml](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/.github/workflows/strix-security.yml).
     * *Kenapa:* Memfasilitasi audit keamanan berbasis AI berstandar industri secara berkala tanpa mengorbankan integritas sistem produksi.
+11. **Integrasi Error Tracking & Observability (Sentry for Next.js):**
+    * *Apa yang terjadi:* Memasang `@sentry/nextjs` dengan konfigurasi multi-runtime ([sentry.client.config.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/sentry.client.config.ts), [sentry.server.config.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/sentry.server.config.ts), [sentry.edge.config.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/sentry.edge.config.ts)), integrasi `withSentryConfig` di [next.config.ts](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/next.config.ts), serta fallback boundary bertema kopi di [src/app/global-error.tsx](file:///Users/syamhariabidin/Documents/Website_ramu_payment_getway/ramu-roastery/src/app/global-error.tsx).
+    * *Kenapa:* Memantau dan menangkap crash atau exception runtime dari sisi pengguna secara real-time di lingkungan produksi lengkap dengan stack trace, performa, dan identitas rute tanpa mengganggu kenyamanan belanja pelanggan.
 
 ---
 
