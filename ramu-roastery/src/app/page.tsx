@@ -407,67 +407,6 @@ export default function Home() {
           ==================================================================== */}
       <footer className={styles.footer}>
         <div className="container">
-          <div className={styles.footerEditorial}>
-            {/* Left Zone: Brand, Philosophy & Atelier */}
-            <div className={styles.footerBrandCol}>
-              <span className={styles.footerBrandTitle}>Ramu Roastery Co.</span>
-              <p className={styles.footerBrandDesc}>
-                {lang === 'ja'
-                  ? '厳選されたインドネシア産マイクロロットのスペシャルティコーヒーロースタリー。職人技の焙煎で、豆本来の風味をお届けします。'
-                  : lang === 'en'
-                  ? 'Artisan micro-lot specialty coffee roastery rooted in Bandung, Indonesia. Roasted with precision, delivered fresh worldwide.'
-                  : 'Spesialis sangrai kopi artisan dan arsip micro-lot Nusantara. Menghadirkan biji kopi berkualitas tinggi untuk penikmat seduh mandiri di seluruh dunia.'}
-              </p>
-              <div className={styles.footerAtelier}>
-                <span className={styles.atelierBadge}>Roasting Atelier</span>
-                <span className={styles.atelierLoc}>Bandung, Jawa Barat, Indonesia</span>
-              </div>
-            </div>
-
-            {/* Right Zone: Clean Curated Navigation & Atelier Details */}
-            <div className={styles.footerNavCol}>
-              <div className={styles.footerNavGroup}>
-                <span className={styles.footerNavHeading}>
-                  {lang === 'ja' ? 'ナビゲーション' : lang === 'en' ? 'Navigation' : 'Navigasi'}
-                </span>
-                <ul className={styles.footerNavList}>
-                  <li>
-                    <Link href="/catalog">{tr.nav_catalog}</Link>
-                  </li>
-                  <li>
-                    <Link href="/about">{tr.nav_about}</Link>
-                  </li>
-                  <li>
-                    <Link href="/track">
-                      {lang === 'ja' ? '注文追跡' : lang === 'en' ? 'Track Order' : 'Lacak Status Pesanan'}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/faq">
-                      {lang === 'ja' ? 'よくある質問' : lang === 'en' ? 'Help & FAQ' : 'Pusat Bantuan & FAQ'}
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className={styles.footerNavGroup}>
-                <span className={styles.footerNavHeading}>
-                  {lang === 'ja' ? 'お問い合わせ' : lang === 'en' ? 'Atelier & Contact' : 'Kontak & Atelier'}
-                </span>
-                <div className={styles.footerContactList}>
-                  <a href="mailto:halo@ramuroastery.com" className={styles.footerMailLink}>
-                    halo@ramuroastery.com
-                  </a>
-                  <span className={styles.footerHours}>
-                    {lang === 'ja' ? '焙煎日: 月曜日 - 金曜日' : lang === 'en' ? 'Roasting Schedule: Mon - Fri' : 'Jadwal Sangrai: Senin - Jumat'}
-                  </span>
-                  <span className={styles.footerCupping}>
-                    SCA Standard Cupping 84+
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className={styles.footerBottom}>
             <div className={styles.footerCopyText}>
