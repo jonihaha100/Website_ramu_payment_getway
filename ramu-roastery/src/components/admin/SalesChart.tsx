@@ -20,20 +20,22 @@ export default function SalesChart() {
 
   useEffect(() => {
     fetch('/api/orders')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : [])
       .then(data => {
-        setOrders(data);
+        setOrders(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(err => {
         console.error("Failed to fetch orders for chart", err);
+        setOrders([]);
         setLoading(false);
       });
   }, []);
 
   const chartData = useMemo(() => {
     // Only include paid orders for revenue calculation
-    const validOrders = orders.filter(o => 
+    const safeOrders = Array.isArray(orders) ? orders : [];
+    const validOrders = safeOrders.filter(o => 
       o.status !== 'Cancelled' && o.status !== 'Pending'
     );
     const aggregated: Record<string, number> = {};

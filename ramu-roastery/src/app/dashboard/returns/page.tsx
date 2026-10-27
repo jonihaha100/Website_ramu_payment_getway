@@ -142,7 +142,7 @@ export default function ReturnsPage() {
       });
       if (res.ok) {
         const result = await res.json();
-        setReturns([result.data, ...returns]);
+        setReturns(prev => [result.data, ...(Array.isArray(prev) ? prev : [])]);
         setIsModalOpen(false);
         setSelectedItemStr('');
         setReasonCategory('');

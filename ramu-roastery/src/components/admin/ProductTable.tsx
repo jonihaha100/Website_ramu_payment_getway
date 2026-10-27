@@ -37,12 +37,13 @@ export default function ProductTable() {
   // Fetch products on load
   useEffect(() => {
     fetch('/api/products')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : [])
       .then(data => {
-        setProducts(data);
+        setProducts(Array.isArray(data) ? data : []);
       })
       .catch(_err => {
         console.error("Failed to fetch products:", _err);
+        setProducts([]);
       });
   }, []);
 
@@ -279,7 +280,7 @@ export default function ProductTable() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {(Array.isArray(products) ? products : []).map((product, index) => (
               <tr key={product.id}>
                 <td>{index + 1}</td>
                 <td>

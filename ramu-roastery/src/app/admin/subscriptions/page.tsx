@@ -33,12 +33,19 @@ export default function AdminSubscriptionsPage() {
     try {
       // Create a new API route for Admin to fetch ALL subscriptions
       const res = await fetch(`/api/admin/subscriptions`);
+      if (!res.ok) {
+        setSubscriptions([]);
+        return;
+      }
       const data = await res.json();
       if (Array.isArray(data)) {
         setSubscriptions(data);
+      } else {
+        setSubscriptions([]);
       }
     } catch (error) {
       console.error("Failed to fetch subscriptions", error);
+      setSubscriptions([]);
     } finally {
       setIsLoading(false);
     }
@@ -109,13 +116,13 @@ export default function AdminSubscriptionsPage() {
       
       {isLoading ? (
         <p>Memuat data langganan...</p>
-      ) : subscriptions.length === 0 ? (
+      ) : (!Array.isArray(subscriptions) || subscriptions.length === 0) ? (
         <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', border: '1px solid #e5e7eb', textAlign: 'center' }}>
           <p>Belum ada pelanggan yang berlangganan.</p>
         </div>
       ) : (
         <>
-          <SubscriptionCalendar subscriptions={subscriptions} />
+          <SubscriptionCalendar subscriptions={Array.isArray(subscriptions) ? subscriptions : []} />
 
           <div style={{ backgroundColor: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -133,7 +140,7 @@ export default function AdminSubscriptionsPage() {
               </tr>
             </thead>
             <tbody>
-              {subscriptions.map((sub, index) => (
+              {(Array.isArray(subscriptions) ? subscriptions : []).map((sub, index) => (
                 <tr key={sub.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
                   <td style={{ padding: '1rem', fontSize: '0.875rem' }}>{index + 1}</td>
                   <td style={{ padding: '1rem', fontSize: '0.875rem' }}>{new Date(sub.createdAt).toLocaleDateString('id-ID')}</td>

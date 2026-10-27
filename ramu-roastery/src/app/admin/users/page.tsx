@@ -12,7 +12,15 @@ export default function UsersPage() {
     const fetchUsers = async () => {
       try {
         const res = await fetch('/api/users');
+        if (!res.ok) {
+          setUsers([]);
+          return;
+        }
         const data = await res.json();
+        if (!Array.isArray(data)) {
+          setUsers([]);
+          return;
+        }
         const mappedUsers = data.map((u: any) => ({
           ...u,
           joinedDate: u.createdAt || new Date().toISOString(),
@@ -23,6 +31,7 @@ export default function UsersPage() {
         setUsers(mappedUsers);
       } catch (e) {
         console.error("Failed to fetch users", e);
+        setUsers([]);
       }
     };
     fetchUsers();
@@ -68,7 +77,7 @@ export default function UsersPage() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {(Array.isArray(users) ? users : []).map((user, index) => (
               <tr key={user.id}>
                 <td>{index + 1}</td>
                 <td><span style={{ fontSize: '0.75rem', color: '#6b7280' }}>{user.id}</span></td>

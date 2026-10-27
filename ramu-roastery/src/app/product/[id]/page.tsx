@@ -34,24 +34,26 @@ export default function ProductDetail() {
   useEffect(() => {
     // Fetch product details
     fetch('/api/products')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : [])
       .then(data => {
-        const found = data.find((c: Coffee) => c.id === id);
-        setCoffee(found || null);
-        if (found) {
-          const sizes = found.sizes || (found.category === 'Filter' ? [150, 250] : [250, 500, 1000]);
-          setWeight(sizes[0]);
+        if (Array.isArray(data)) {
+          const found = data.find((c: Coffee) => c.id === id);
+          setCoffee(found || null);
+          if (found) {
+            const sizes = found.sizes || (found.category === 'Filter' ? [150, 250] : [250, 500, 1000]);
+            setWeight(sizes[0]);
+          }
         }
         setIsLoading(false);
       })
       .catch(err => {
-        console.error(err);
+        console.error("Failed to fetch product:", err);
         setIsLoading(false);
       });
 
     // Fetch reviews
     fetch('/api/reviews')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : [])
       .then((data: Review[]) => {
         if (Array.isArray(data)) {
           setLocalReviews(data.filter(r => r.productId === id));
@@ -59,24 +61,35 @@ export default function ProductDetail() {
           setLocalReviews([]);
         }
       })
-      .catch(err => console.error("Failed to fetch reviews", err));
+      .catch(err => {
+        console.error("Failed to fetch reviews", err);
+        setLocalReviews([]);
+      });
 
-    // Check if user has purchased this item
+    // Check if user has purchased this item (query with customerEmail so normal customers are authorized)
     if (user?.email) {
-      fetch('/api/orders')
-        .then(res => res.json())
+      fetch(`/api/orders?customerEmail=${encodeURIComponent(user.email)}`)
+        .then(res => res.ok ? res.json() : [])
         .then(orders => {
-          const purchased = orders.some((order: any) => 
-            order.customerEmail === user.email && 
-            (order.status === 'Delivered' || order.status === 'Completed' || order.status === 'Selesai' || order.status === 'Terkirim') &&
-            order.items.some((item: any) => {
-              const itemId = item.productId || item.id || "";
-              return itemId.includes(id);
-            })
-          );
-          setHasPurchased(purchased);
+          if (Array.isArray(orders)) {
+            const purchased = orders.some((order: any) => 
+              order.customerEmail === user.email && 
+              (order.status === 'Delivered' || order.status === 'Completed' || order.status === 'Selesai' || order.status === 'Terkirim') &&
+              Array.isArray(order.items) &&
+              order.items.some((item: any) => {
+                const itemId = item.productId || item.id || "";
+                return itemId.includes(id);
+              })
+            );
+            setHasPurchased(purchased);
+          } else {
+            setHasPurchased(false);
+          }
         })
-        .catch(err => console.error("Failed to fetch orders", err));
+        .catch(err => {
+          console.error("Failed to fetch orders", err);
+          setHasPurchased(false);
+        });
     }
   }, [id, user]);
   const { addToCart, setIsCartOpen } = useCart();

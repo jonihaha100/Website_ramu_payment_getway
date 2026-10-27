@@ -18,10 +18,15 @@ export default function OrderTable() {
   const fetchOrders = async () => {
     try {
       const res = await fetch('/api/orders');
+      if (!res.ok) {
+        setOrders([]);
+        return;
+      }
       const data = await res.json();
-      setOrders(data);
+      setOrders(Array.isArray(data) ? data : []);
     } catch (_err) {
       console.error(_err);
+      setOrders([]);
     }
   };
 
@@ -30,14 +35,15 @@ export default function OrderTable() {
     fetchOrders();
   }, []);
 
-  const filteredOrders = filter === "All" ? orders : orders.filter(o => o.status === filter);
+  const safeOrders = Array.isArray(orders) ? orders : [];
+  const filteredOrders = filter === "All" ? safeOrders : safeOrders.filter(o => o.status === filter);
 
   const handleFilter = (status: string) => {
     setFilter(status);
   };
 
   const handleStatusChange = async (orderId: string, newStatus: Order['status']) => {
-    const orderToUpdate = orders.find(o => o.id === orderId);
+    const orderToUpdate = safeOrders.find(o => o.id === orderId);
     if (!orderToUpdate) return;
     
     try {

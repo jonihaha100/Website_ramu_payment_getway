@@ -31,13 +31,14 @@ export default function WishlistPage() {
   // Fetch all products to match with wishlist
   useEffect(() => {
     fetch('/api/products')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : [])
       .then(data => {
-        setAllProducts(data);
+        setAllProducts(Array.isArray(data) ? data : []);
         setIsProductsLoading(false);
       })
       .catch(err => {
         console.error(err);
+        setAllProducts([]);
         setIsProductsLoading(false);
       });
   }, []);
@@ -46,9 +47,11 @@ export default function WishlistPage() {
     return <div style={{ padding: "4rem", textAlign: "center" }}>{tr.dash_wishlist_loading}</div>;
   }
 
-  // Get full coffee objects from the wishlist IDs
-  const savedCoffees = wishlist
-    .map(id => allProducts.find(c => c.id === id))
+  // Get full coffee objects from the wishlist IDs safely
+  const safeProducts = Array.isArray(allProducts) ? allProducts : [];
+  const safeWishlist = Array.isArray(wishlist) ? wishlist : [];
+  const savedCoffees = safeWishlist
+    .map(id => safeProducts.find(c => c.id === id))
     .filter(Boolean);
 
   const getProductImage = (id: string) => {

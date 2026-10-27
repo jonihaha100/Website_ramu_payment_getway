@@ -39,12 +39,19 @@ export default function SubscriptionsPage() {
     setIsLoading(true);
     try {
       const res = await fetch(`/api/subscriptions?userEmail=${user?.email}`);
+      if (!res.ok) {
+        setSubscriptions([]);
+        return;
+      }
       const data = await res.json();
       if (Array.isArray(data)) {
         setSubscriptions(data);
+      } else {
+        setSubscriptions([]);
       }
     } catch (error) {
       console.error("Failed to fetch subscriptions", error);
+      setSubscriptions([]);
     } finally {
       setIsLoading(false);
     }
@@ -106,7 +113,7 @@ export default function SubscriptionsPage() {
       
       {isLoading ? (
         <p>{tr.dash_subs_loading}</p>
-      ) : subscriptions.length === 0 ? (
+      ) : (!Array.isArray(subscriptions) || subscriptions.length === 0) ? (
         <div className={styles.emptyState}>
           <p>{tr.dash_subs_empty}</p>
           <Link href="/catalog" className="btn-primary" style={{ marginTop: '1rem', display: 'inline-block' }}>
@@ -115,7 +122,7 @@ export default function SubscriptionsPage() {
         </div>
       ) : (
         <div style={{ display: 'grid', gap: '1rem' }}>
-          {subscriptions.map(sub => (
+          {(Array.isArray(subscriptions) ? subscriptions : []).map(sub => (
             <div key={sub.id} style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '1.5rem', background: 'var(--bg-primary)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
                 <div>

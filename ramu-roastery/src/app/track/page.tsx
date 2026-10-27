@@ -42,8 +42,10 @@ export default function TrackPage() {
           try {
             const trackRes = await fetch(`/api/track?resi=${foundOrder.trackingNumber}&courier=${foundOrder.courier}&date=${foundOrder.date}`);
             const trackResult = await trackRes.json();
-            if (trackResult.status === 'success') {
+            if (trackResult && trackResult.status === 'success' && Array.isArray(trackResult?.data?.history)) {
               setTrackingData(trackResult.data.history);
+            } else {
+              setTrackingData([]);
             }
           } catch (_err) {
             console.error("Failed to fetch tracking API", _err);

@@ -24,7 +24,6 @@ export default function AdminLogin() {
       const data = await res.json();
 
       if (data.success) {
-        document.cookie = `admin_token=${data.token}; path=/; max-age=86400;`;
         router.push("/admin");
       } else {
         setError(data.error || "Username atau Password salah.");

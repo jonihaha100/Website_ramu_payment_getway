@@ -19,7 +19,8 @@ export default function SubscriptionCalendar({ subscriptions }: { subscriptions:
 
   const getDeliveriesForDay = (day: number) => {
     const targetDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toDateString();
-    return subscriptions.filter(sub => 
+    const safeSubs = Array.isArray(subscriptions) ? subscriptions : [];
+    return safeSubs.filter(sub => 
       new Date(sub.nextDelivery).toDateString() === targetDate && sub.status === 'Active'
     );
   };

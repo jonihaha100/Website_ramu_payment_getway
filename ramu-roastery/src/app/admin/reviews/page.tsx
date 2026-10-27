@@ -14,10 +14,13 @@ export default function AdminReviewsPage() {
         const res = await fetch('/api/reviews');
         if (res.ok) {
           const data = await res.json();
-          setReviews(data);
+          setReviews(Array.isArray(data) ? data : []);
+        } else {
+          setReviews([]);
         }
       } catch (err) {
         console.error("Failed to fetch reviews", err);
+        setReviews([]);
       }
     };
     fetchReviews();
@@ -35,7 +38,7 @@ export default function AdminReviewsPage() {
       });
       
       if (res.ok) {
-        setReviews(reviews.map(r => r.id === replyingTo.id ? updatedReview : r));
+        setReviews(prev => (Array.isArray(prev) ? prev : []).map(r => r.id === replyingTo.id ? updatedReview : r));
         setReplyingTo(null);
         setReplyText("");
         alert("Reply sent successfully!");
@@ -87,7 +90,7 @@ export default function AdminReviewsPage() {
             </tr>
           </thead>
           <tbody>
-            {reviews.map((review, index) => (
+            {(Array.isArray(reviews) ? reviews : []).map((review, index) => (
               <tr key={review.id}>
                 <td>{index + 1}</td>
                 <td><span style={{ fontSize: '0.75rem', color: '#6b7280' }}>{review.id}</span></td>

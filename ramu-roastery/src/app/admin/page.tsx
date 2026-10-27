@@ -10,13 +10,21 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetch('/api/admin/dashboard')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch dashboard data');
+        return res.json();
+      })
       .then(resData => {
-        setData(resData);
+        if (resData && !resData.error && resData.kpi) {
+          setData(resData);
+        } else {
+          setData(null);
+        }
         setIsLoading(false);
       })
       .catch(err => {
-        console.error(err);
+        console.error("Dashboard error:", err);
+        setData(null);
         setIsLoading(false);
       });
   }, []);
@@ -29,7 +37,7 @@ export default function AdminDashboard() {
     );
   }
 
-  if (!data) return <p>Failed to load dashboard data.</p>;
+  if (!data || !data.kpi || !data.alerts) return <p style={{ padding: '2rem', textAlign: 'center' }}>Failed to load dashboard data. Please refresh or check admin login status.</p>;
 
   // Helpers for KPI
   const calculateTrend = (current: number, last: number) => {

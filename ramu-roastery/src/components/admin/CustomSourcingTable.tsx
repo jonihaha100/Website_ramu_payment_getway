@@ -28,11 +28,15 @@ export default function CustomSourcingTable() {
     try {
       setLoading(true);
       const res = await fetch('/api/custom-sourcing');
-      if (!res.ok) throw new Error('Failed to fetch data');
+      if (!res.ok) {
+        setRequests([]);
+        return;
+      }
       const data = await res.json();
-      setRequests(data);
+      setRequests(Array.isArray(data) ? data : []);
     } catch (err: any) {
       setError(err.message);
+      setRequests([]);
     } finally {
       setLoading(false);
     }
@@ -115,7 +119,7 @@ export default function CustomSourcingTable() {
               </tr>
             </thead>
             <tbody>
-              {requests.map((req, index) => (
+              {(Array.isArray(requests) ? requests : []).map((req, index) => (
                 <tr key={req.id}>
                   <td>{index + 1}</td>
                   <td>

@@ -195,7 +195,7 @@ export default function CheckoutPage() {
             body: JSON.stringify({ destination: customer.city, weight: totalWeightGrams })
           });
           const data = await res.json();
-          if (data.success && data.data.length > 0) {
+          if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
             setShippingOptions(data.data);
             setSelectedShippingCost(data.data[0].cost); // Default to first option
           } else {

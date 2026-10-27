@@ -28,10 +28,15 @@ export default function AdminReturnsPage() {
     const fetchReturns = async () => {
       try {
         const res = await fetch('/api/returns');
+        if (!res.ok) {
+          setReturns([]);
+          return;
+        }
         const data = await res.json();
-        setReturns(data);
+        setReturns(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to fetch returns", err);
+        setReturns([]);
       }
     };
     fetchReturns();
@@ -46,7 +51,7 @@ export default function AdminReturnsPage() {
       });
       
       if (res.ok) {
-        setReturns(returns.map(r => 
+        setReturns(prev => (Array.isArray(prev) ? prev : []).map(r => 
           r.id === id ? { ...r, status: newStatus, adminNotes: adminNotes || r.adminNotes } : r
         ));
         setSelectedReturn(null);
@@ -82,7 +87,7 @@ export default function AdminReturnsPage() {
             </tr>
           </thead>
           <tbody>
-            {returns.map((req, index) => (
+            {(Array.isArray(returns) ? returns : []).map((req, index) => (
               <tr key={req.id}>
                 <td>{index + 1}</td>
                 <td><span style={{ fontSize: '0.75rem', color: '#6b7280' }}>{req.id}</span></td>

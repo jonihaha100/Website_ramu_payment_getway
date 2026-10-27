@@ -43,7 +43,8 @@ export default function Navbar() {
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const prevNotifsRef = useRef<Notification[]>([]);
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const safeNotifs = Array.isArray(notifications) ? notifications : [];
+  const unreadCount = safeNotifs.filter(n => !n.read).length;
 
   useEffect(() => {
     if (user) {
@@ -52,6 +53,10 @@ export default function Navbar() {
           const res = await fetch(`/api/notifications?userEmail=${user.email}`);
           if (res.ok) {
             const data = await res.json();
+            if (!Array.isArray(data)) {
+              setNotifications([]);
+              return;
+            }
             
             // Tampilkan alert (Toast) jika ada notifikasi baru
             if (prevNotifsRef.current.length > 0) {
@@ -65,9 +70,12 @@ export default function Navbar() {
             
             setNotifications(data);
             prevNotifsRef.current = data;
+          } else {
+            setNotifications([]);
           }
         } catch (err) {
           console.error(err);
+          setNotifications([]);
         }
       };
       
@@ -101,7 +109,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ markAllAsRead: true, userEmail: user?.email })
       });
-      setNotifications(notifications.map(n => ({ ...n, read: true })));
+      setNotifications((Array.isArray(notifications) ? notifications : []).map(n => ({ ...n, read: true })));
     } catch (err) {
       console.error(err);
     }

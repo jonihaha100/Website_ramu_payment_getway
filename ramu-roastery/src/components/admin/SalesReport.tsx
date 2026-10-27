@@ -25,15 +25,21 @@ export default function SalesReport() {
         
         if (ordersRes.ok) {
           const data = await ordersRes.json();
-          setOrders(data);
+          setOrders(Array.isArray(data) ? data : []);
+        } else {
+          setOrders([]);
         }
         
         if (closingsRes.ok) {
           const data = await closingsRes.json();
-          setClosings(data);
+          setClosings(Array.isArray(data) ? data : []);
+        } else {
+          setClosings([]);
         }
       } catch (err) {
         console.error("Failed to fetch reports data", err);
+        setOrders([]);
+        setClosings([]);
       } finally {
         setLoading(false);
       }
@@ -44,7 +50,8 @@ export default function SalesReport() {
   // CURRENT PERIOD (Laporan Berjalan)
   // Only include valid orders (Processing, Shipped, Delivered, Completed) that haven't been closed
   const currentOrders = useMemo(() => {
-    return orders.filter(o => 
+    const safeOrders = Array.isArray(orders) ? orders : [];
+    return safeOrders.filter(o => 
       !o.closedPeriodId && 
       o.status !== 'Cancelled' && 
       o.status !== 'Pending'
@@ -61,24 +68,17 @@ export default function SalesReport() {
     let itemsSold = 0;
 
     currentOrders.forEach((order: any) => {
-      // Calculate from items
-      const orderGross = order.items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+      // Calculate from items safely
+      const orderItems = Array.isArray(order?.items) ? order.items : [];
+      const orderGross = orderItems.reduce((sum: number, item: any) => sum + ((item?.price || 0) * (item?.quantity || 0)), 0);
       grossSales += orderGross;
-      
-      // Since our mock order object just has "total", we'll infer some metrics for demonstration:
-      // In a real system, these would be saved on the order object.
-      // We assume:
-      // Tax is 11% of gross.
-      // Shipping is arbitrary (e.g. 15000) if gross > 0
-      // Admin fee is 2500.
-      // Let's rely on what we can. If the system doesn't have it, we estimate to fit the accounting model.
       
       taxCollected += Math.floor(orderGross * 0.11);
       if (orderGross > 0) shippingRevenue += 15000;
       adminFeeRevenue += 2500;
       
       // Calculate items sold
-      itemsSold += order.items.reduce((sum: number, item: any) => sum + item.quantity, 0);
+      itemsSold += orderItems.reduce((sum: number, item: any) => sum + (item?.quantity || 0), 0);
     });
 
     // We'll define net sales as Gross - Discounts

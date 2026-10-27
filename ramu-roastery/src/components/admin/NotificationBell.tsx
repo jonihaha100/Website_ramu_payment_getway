@@ -16,10 +16,13 @@ export default function NotificationBell() {
         const res = await fetch("/api/notifications?userEmail=admin@ramuroastery.com");
         if (res.ok) {
           const data = await res.json();
-          setNotifications(data);
+          setNotifications(Array.isArray(data) ? data : []);
+        } else {
+          setNotifications([]);
         }
       } catch (e) {
         console.error("Failed to fetch admin notifications", e);
+        setNotifications([]);
       }
     };
     
@@ -39,7 +42,8 @@ export default function NotificationBell() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const safeNotifications = Array.isArray(notifications) ? notifications : [];
+  const unreadCount = safeNotifications.filter(n => !n.read).length;
 
   const markAsReadAndNavigate = async (notification: any) => {
     try {
@@ -49,7 +53,7 @@ export default function NotificationBell() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id: notification.id })
         });
-        setNotifications(notifications.map(n => 
+        setNotifications(safeNotifications.map(n => 
           n.id === notification.id ? { ...n, read: true } : n
         ));
       }
@@ -68,7 +72,7 @@ export default function NotificationBell() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ markAllAsRead: true, userEmail: 'admin@ramuroastery.com' })
       });
-      setNotifications(notifications.map(n => ({ ...n, read: true })));
+      setNotifications(safeNotifications.map(n => ({ ...n, read: true })));
     } catch (e) {}
   };
 
@@ -147,8 +151,8 @@ export default function NotificationBell() {
           </div>
           
           <div>
-            {notifications.length > 0 ? (
-              notifications.map(notification => (
+            {safeNotifications.length > 0 ? (
+              safeNotifications.map(notification => (
                 <div 
                   key={notification.id}
                   onClick={() => markAsReadAndNavigate(notification)}

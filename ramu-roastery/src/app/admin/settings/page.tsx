@@ -24,10 +24,11 @@ export default function SettingsPage() {
 
   useEffect(() => {
     fetch('/api/settings')
-      .then(res => res.json())
+      .then(res => res.ok ? res.json() : null)
       .then(data => {
-        if (!data.error) setSettings(data);
-      });
+        if (data && !data.error) setSettings(data);
+      })
+      .catch(() => {});
   }, []);
 
   const handleSave = async () => {
