@@ -403,56 +403,80 @@ export default function Home() {
       </section>
 
       {/* ====================================================================
-          FOOTER (Wix 1968 Minimalist Studio Footer)
+          FOOTER (Wix 1968 Minimalist Studio Editorial Footer)
           ==================================================================== */}
       <footer className={styles.footer}>
         <div className="container">
-          <div className={styles.footerGrid}>
-            <div className={styles.footerBrand}>
-              <h4>Ramu Roastery</h4>
-              <p>
-                Spesialis sangrai kopi artisan dan arsip micro-lot Nusantara. Menyediakan pasokan biji kopi berkualitas tinggi untuk kedai kopi dan penikmat seduh mandiri di seluruh dunia.
+          <div className={styles.footerEditorial}>
+            {/* Left Zone: Brand, Philosophy & Atelier */}
+            <div className={styles.footerBrandCol}>
+              <span className={styles.footerBrandTitle}>Ramu Roastery Co.</span>
+              <p className={styles.footerBrandDesc}>
+                {lang === 'ja'
+                  ? '厳選されたインドネシア産マイクロロットのスペシャルティコーヒーロースタリー。職人技の焙煎で、豆本来の風味をお届けします。'
+                  : lang === 'en'
+                  ? 'Artisan micro-lot specialty coffee roastery rooted in Bandung, Indonesia. Roasted with precision, delivered fresh worldwide.'
+                  : 'Spesialis sangrai kopi artisan dan arsip micro-lot Nusantara. Menghadirkan biji kopi berkualitas tinggi untuk penikmat seduh mandiri di seluruh dunia.'}
               </p>
-              <div style={{ marginTop: '1rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                📍 Bandung, Jawa Barat, Indonesia
+              <div className={styles.footerAtelier}>
+                <span className={styles.atelierBadge}>Roasting Atelier</span>
+                <span className={styles.atelierLoc}>Bandung, Jawa Barat, Indonesia</span>
               </div>
             </div>
 
-            <div className={styles.footerCol}>
-              <h5>Navigasi</h5>
-              <ul>
-                <li><Link href="/catalog">Katalog Kopi</Link></li>
-                <li><Link href="/custom-sourcing">Mitra Kedai (B2B)</Link></li>
-                <li><Link href="/about">Tentang Kami</Link></li>
-                <li><Link href="/faq">Pusat Bantuan</Link></li>
-              </ul>
-            </div>
+            {/* Right Zone: Clean Curated Navigation & Atelier Details */}
+            <div className={styles.footerNavCol}>
+              <div className={styles.footerNavGroup}>
+                <span className={styles.footerNavHeading}>
+                  {lang === 'ja' ? 'ナビゲーション' : lang === 'en' ? 'Navigation' : 'Navigasi'}
+                </span>
+                <ul className={styles.footerNavList}>
+                  <li>
+                    <Link href="/catalog">{tr.nav_catalog}</Link>
+                  </li>
+                  <li>
+                    <Link href="/about">{tr.nav_about}</Link>
+                  </li>
+                  <li>
+                    <Link href="/track">
+                      {lang === 'ja' ? '注文追跡' : lang === 'en' ? 'Track Order' : 'Lacak Status Pesanan'}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/faq">
+                      {lang === 'ja' ? 'よくある質問' : lang === 'en' ? 'Help & FAQ' : 'Pusat Bantuan & FAQ'}
+                    </Link>
+                  </li>
+                </ul>
+              </div>
 
-            <div className={styles.footerCol}>
-              <h5>Layanan</h5>
-              <ul>
-                <li><Link href="/track">Lacak Status Pesanan</Link></li>
-                <li><Link href="/dashboard/orders">Riwayat Belanja</Link></li>
-                <li><Link href="/login">Akun Pengguna</Link></li>
-                <li><Link href="/admin">Portal Roaster</Link></li>
-              </ul>
-            </div>
-
-            <div className={styles.footerCol}>
-              <h5>Standar</h5>
-              <ul>
-                <li>SCA Cupping 84+</li>
-                <li>Fresh Roast ≤ 7 Hari</li>
-                <li>Single Origin Traceable</li>
-                <li>iPay88 SSL Secure</li>
-              </ul>
+              <div className={styles.footerNavGroup}>
+                <span className={styles.footerNavHeading}>
+                  {lang === 'ja' ? 'お問い合わせ' : lang === 'en' ? 'Atelier & Contact' : 'Kontak & Atelier'}
+                </span>
+                <div className={styles.footerContactList}>
+                  <a href="mailto:halo@ramuroastery.com" className={styles.footerMailLink}>
+                    halo@ramuroastery.com
+                  </a>
+                  <span className={styles.footerHours}>
+                    {lang === 'ja' ? '焙煎日: 月曜日 - 金曜日' : lang === 'en' ? 'Roasting Schedule: Mon - Fri' : 'Jadwal Sangrai: Senin - Jumat'}
+                  </span>
+                  <span className={styles.footerCupping}>
+                    SCA Standard Cupping 84+
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className={styles.footerBottom}>
-            <div>{tr.footer_copy}</div>
-            <div>
-              Transaksi Dijamin Aman & Terenkripsi SSL (iPay88 Gateway) 🔒
+            <div className={styles.footerCopyText}>
+              {tr.footer_copy}
+            </div>
+            <div className={styles.footerPaymentSec}>
+              <span>SSL 256-Bit Encrypted Checkout</span>
+              <span className={styles.footerSep}>·</span>
+              <span>iPay88 Official Gateway</span>
             </div>
           </div>
         </div>
