@@ -9,7 +9,6 @@ import { WishlistProvider } from "../context/WishlistContext";
 import { ToastProvider } from "../context/ToastContext";
 import CartSidebar from "../components/CartSidebar/CartSidebar";
 import WhatsAppChat from "../components/LiveChat/WhatsAppChat";
-import TopTicker from "../components/TopTicker/TopTicker";
 import PromoModal from "../components/PromoModal/PromoModal";
 import OnboardingGuide from "../components/OnboardingGuide/OnboardingGuide";
 import TourGuide from "../components/Onboarding/TourGuide";
@@ -36,7 +35,6 @@ export default function RootLayout({
             <ToastProvider>
               <CartProvider>
                 <WishlistProvider>
-                  <TopTicker />
                   <Navbar />
                   <CartSidebar />
                   {children}
