@@ -134,11 +134,6 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/custom-sourcing" onClick={() => setIsMobileMenuOpen(false)}>
-                {lang === 'ja' ? 'B2B調達' : lang === 'en' ? 'B2B Sourcing' : 'B2B Sourcing'}
-              </Link>
-            </li>
-            <li>
               <Link href="/track" onClick={() => setIsMobileMenuOpen(false)}>
                 {lang === 'ja' ? '注文追跡' : lang === 'en' ? 'Track Order' : 'Lacak Pesanan'}
               </Link>
