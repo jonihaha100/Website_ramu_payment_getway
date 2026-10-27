@@ -53,9 +53,14 @@ export default function ReturnsPage() {
     const fetchDeliveredOrders = async () => {
       try {
         const res = await fetch(`/api/orders?customerEmail=${encodeURIComponent(user?.email || '')}`);
+        if (!res.ok) {
+          setDeliveredItems([]);
+          return;
+        }
         const data = await res.json();
+        const ordersList = Array.isArray(data) ? data : [];
         
-        const userOrders = data.filter((order: Order) => order.customerEmail === user?.email && order.status === 'Delivered');
+        const userOrders = ordersList.filter((order: Order) => order.customerEmail === user?.email && order.status === 'Delivered');
         
         const items: ExtendedOrderItem[] = [];
         userOrders.forEach((order: Order) => {
@@ -69,16 +74,22 @@ export default function ReturnsPage() {
         setDeliveredItems(items);
       } catch (_err) {
         console.error("Failed to fetch orders:", _err);
+        setDeliveredItems([]);
       }
     };
 
     const fetchReturns = async () => {
       try {
-        const res = await fetch(`/api/returns?userEmail=${user?.email}`);
+        const res = await fetch(`/api/returns?userEmail=${encodeURIComponent(user?.email || '')}`);
+        if (!res.ok) {
+          setReturns([]);
+          return;
+        }
         const data = await res.json();
-        setReturns(data);
+        setReturns(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Failed to fetch returns:", err);
+        setReturns([]);
       }
     };
 

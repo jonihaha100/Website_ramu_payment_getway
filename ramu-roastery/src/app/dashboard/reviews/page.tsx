@@ -60,11 +60,14 @@ export default function ReviewsPage() {
           fetch('/api/reviews')
         ]);
         
-        const ordersData = await ordersRes.json();
-        const reviewsData = await reviewsRes.json();
+        const ordersData = ordersRes.ok ? await ordersRes.json() : [];
+        const reviewsData = reviewsRes.ok ? await reviewsRes.json() : [];
+        
+        const safeOrders = Array.isArray(ordersData) ? ordersData : [];
+        const safeReviews = Array.isArray(reviewsData) ? reviewsData : [];
         
         // Include both Delivered and Completed orders
-        const userOrders = ordersData.filter((order: Order) => 
+        const userOrders = safeOrders.filter((order: Order) => 
           order.customerEmail === user?.email && 
           (order.status === 'Delivered' || order.status === 'Completed')
         );
