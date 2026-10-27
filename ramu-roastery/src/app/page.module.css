@@ -77,7 +77,7 @@
   gap: 1.25rem;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
+  margin-bottom: 0;
 }
 
 /* Hero Exhibition Frame (Right Column) */
@@ -134,35 +134,6 @@
   letter-spacing: 0.05em;
 }
 
-/* Minimalist Curated Metrics Strip */
-.heroHallmarks {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  width: 100%;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border-color);
-}
-
-.hallmarkItem {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.hallmarkNum {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.hallmarkDesc {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
 
 /* ==========================================================================
    EDITORIAL SECTION HEADINGS (Serene, Generous Whitespace)
@@ -394,77 +365,6 @@
   margin: 0;
 }
 
-/* ==========================================================================
-   TERROIR ARCHIPELAGO: ARCHITECTURAL CATALOG
-   ========================================================================== */
-.terroirSection {
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.terroirColumns {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border: 1px solid var(--border-color);
-}
-
-.terroirColumnItem {
-  padding: 2.5rem 2rem;
-  border-right: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-surface);
-  transition: background-color 0.25s ease;
-}
-
-.terroirColumnItem:last-child {
-  border-right: none;
-}
-
-.terroirColumnItem:hover {
-  background-color: var(--bg-color);
-}
-
-.terroirIndex {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: var(--accent-color);
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.terroirRegion {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 0.35rem;
-}
-
-.terroirAltitudeTag {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
-.terroirDescription {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  flex: 1;
-}
-
-.terroirCuppingNotes {
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
-  font-size: 0.8rem;
-  color: var(--text-primary);
-  font-weight: 500;
-  line-height: 1.5;
-}
 
 /* ==========================================================================
    GALLERY STANDARDS (MINIMALIST 3-COLUMN EXHIBIT)
@@ -743,16 +643,6 @@
    RESPONSIVE DESIGN (R-03: Zero horizontal overflow)
    ========================================================================== */
 @media (max-width: 1024px) {
-  .terroirColumns {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .terroirColumnItem:nth-child(2) {
-    border-right: none;
-  }
-  .terroirColumnItem:nth-child(1),
-  .terroirColumnItem:nth-child(2) {
-    border-bottom: 1px solid var(--border-color);
-  }
   .heroGrid {
     grid-template-columns: 1fr;
     gap: 3rem;
@@ -777,23 +667,9 @@
   .sectionTitle {
     font-size: 2rem;
   }
-  .terroirColumns {
-    grid-template-columns: 1fr;
-  }
-  .terroirColumnItem {
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-  }
-  .terroirColumnItem:last-child {
-    border-bottom: none;
-  }
   .standardsGrid {
     grid-template-columns: 1fr;
     gap: 2rem;
-  }
-  .heroHallmarks {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
   }
   .footerGrid {
     grid-template-columns: 1fr;

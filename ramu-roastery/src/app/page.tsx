@@ -126,28 +126,6 @@ export default function Home() {
                   {tr.hero_cta_b2b}
                 </Link>
               </div>
-
-              {/* Minimalist Metrics */}
-              <div className={styles.heroHallmarks}>
-                <div className={styles.hallmarkItem}>
-                  <span className={styles.hallmarkNum}>≤ 7 Hari</span>
-                  <span className={styles.hallmarkDesc}>
-                    {lang === 'ja' ? '新鮮焙煎出荷' : lang === 'en' ? 'Fresh Roast Window' : 'Fresh Roast Window'}
-                  </span>
-                </div>
-                <div className={styles.hallmarkItem}>
-                  <span className={styles.hallmarkNum}>SCA 84+</span>
-                  <span className={styles.hallmarkDesc}>
-                    {lang === 'ja' ? 'スペシャルティ基準' : lang === 'en' ? 'Specialty Grade' : 'Specialty Grade'}
-                  </span>
-                </div>
-                <div className={styles.hallmarkItem}>
-                  <span className={styles.hallmarkNum}>100%</span>
-                  <span className={styles.hallmarkDesc}>
-                    {lang === 'ja' ? '農園追跡可能' : lang === 'en' ? 'Direct Farm Traceable' : 'Direct Farm Traceable'}
-                  </span>
-                </div>
-              </div>
             </div>
 
             {/* Hero Exhibition Visual Frame */}
@@ -287,93 +265,6 @@ export default function Home() {
                       : 'Kurva sangrai terukur untuk memastikan kalibrasi grinder kafe dan seduhan rumah yang konsisten.'}
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          NUSANTARA COFFEE TERROIR ATLAS (Architectural Columns)
-          ==================================================================== */}
-      <section className={`section ${styles.terroirSection}`}>
-        <div className="container">
-          <div className={styles.sectionHeaderCenter}>
-            <span className={styles.sectionEyebrow}>
-              {lang === 'ja' ? '産地アーカイブ' : lang === 'en' ? 'Origin Terroirs' : 'Peta Terroir Nusantara'}
-            </span>
-            <h2 className={styles.sectionTitle}>{tr.terroir_title}</h2>
-            <p className={styles.sectionSubtitle}>
-              {lang === 'ja' 
-                ? '火山灰土壌と高地気候が育む、インドネシアの卓越したフレーバー特性' 
-                : lang === 'en' 
-                ? 'Volcanic soils and mountain microclimates shaping distinct regional flavor profiles' 
-                : 'Karakteristik tanah vulkanik dan iklim mikro pegunungan yang melahirkan profil rasa kopi dunia.'}
-            </p>
-          </div>
-
-          <div className={styles.terroirColumns}>
-            <div className={styles.terroirColumnItem}>
-              <span className={styles.terroirIndex}>01 / SUMATERA</span>
-              <h3 className={styles.terroirRegion}>Gayo & Mandheling</h3>
-              <span className={styles.terroirAltitudeTag}>1,200 - 1,600 mdpl • Wet Hulled</span>
-              <p className={styles.terroirDescription}>
-                {lang === 'ja' 
-                  ? '重厚なボディと温かみのあるスパイス、ダークカカオの長い余韻が特徴。' 
-                  : lang === 'en' 
-                  ? 'Heavy creamy body with warm cedar aromatics, dark cacao, and lingering finish.' 
-                  : 'Sensasi bodi tebal berpadu aroma rempah cedar hangat serta manis cokelat hitam.'}
-              </p>
-              <div className={styles.terroirCuppingNotes}>
-                Catatan: Dark Chocolate, Cedar, Earthy Spice
-              </div>
-            </div>
-
-            <div className={styles.terroirColumnItem}>
-              <span className={styles.terroirIndex}>02 / JAWA BARAT</span>
-              <h3 className={styles.terroirRegion}>Java Preanger & Halu</h3>
-              <span className={styles.terroirAltitudeTag}>1,350 - 1,550 mdpl • Fully Washed</span>
-              <p className={styles.terroirDescription}>
-                {lang === 'ja' 
-                  ? '華やかなジャスミンの香りと柑橘の明るい酸味、紅茶のような上品な甘み。' 
-                  : lang === 'en' 
-                  ? 'Delicate floral jasmine notes, bright citrus acidity, and clean tea finish.' 
-                  : 'Aroma melati semerbak, keasaman sitrus cerah, serta rasa manis teh hitam yang bersih.'}
-              </p>
-              <div className={styles.terroirCuppingNotes}>
-                Catatan: Jasmine Floral, Bergamot, Black Tea
-              </div>
-            </div>
-
-            <div className={styles.terroirColumnItem}>
-              <span className={styles.terroirIndex}>03 / SULAWESI</span>
-              <h3 className={styles.terroirRegion}>Toraja Sapan</h3>
-              <span className={styles.terroirAltitudeTag}>1,400 - 1,800 mdpl • Semi-Washed</span>
-              <p className={styles.terroirDescription}>
-                {lang === 'ja' 
-                  ? '高地ならではの凝縮された甘み、熟したプラムと洗練されたハーブのニュアンス。' 
-                  : lang === 'en' 
-                  ? 'Intense mountain sweetness with ripe stone fruit and cinnamon warmth.' 
-                  : 'Ketinggian ekstrem menghasilkan rasa manis buah plum matang berpadu kayu manis.'}
-              </p>
-              <div className={styles.terroirCuppingNotes}>
-                Catatan: Ripe Plum, Cinnamon, Sweet Herbal
-              </div>
-            </div>
-
-            <div className={styles.terroirColumnItem}>
-              <span className={styles.terroirIndex}>04 / BALI</span>
-              <h3 className={styles.terroirRegion}>Kintamani Highlands</h3>
-              <span className={styles.terroirAltitudeTag}>1,200 - 1,450 mdpl • Anaerobic</span>
-              <p className={styles.terroirDescription}>
-                {lang === 'ja' 
-                  ? '柑橘の木陰で育まれたジューシーなオレンジの酸味と黒糖のコク。' 
-                  : lang === 'en' 
-                  ? 'Intercropped with citrus trees, offering vibrant tangerine sweetness and brown sugar.' 
-                  : 'Tumbuh di antara kebun jeruk, menghadirkan kesegaran sitrus dan manis gula kelapa.'}
-              </p>
-              <div className={styles.terroirCuppingNotes}>
-                Catatan: Orange Blossom, Cane Sugar, Juicy Citrus
               </div>
             </div>
           </div>
