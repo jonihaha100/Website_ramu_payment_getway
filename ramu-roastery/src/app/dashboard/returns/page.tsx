@@ -58,19 +58,20 @@ export default function ReturnsPage() {
           return;
         }
         const data = await res.json();
-        const ordersList = Array.isArray(data) ? data : [];
-        
-        const userOrders = ordersList.filter((order: Order) => order.customerEmail === user?.email && order.status === 'Delivered');
-        
         const items: ExtendedOrderItem[] = [];
-        userOrders.forEach((order: Order) => {
-          (order.items || []).forEach((item: OrderItem) => {
-            items.push({
-              ...item,
-              orderId: order.id,
+        
+        if (Array.isArray(data)) {
+          const userOrders = data.filter((order: Order) => Boolean(order) && order.customerEmail === user?.email && order.status === 'Delivered');
+          userOrders.forEach((order: Order) => {
+            (order.items || []).forEach((item: OrderItem) => {
+              items.push({
+                ...item,
+                orderId: order.id,
+              });
             });
           });
-        });
+        }
+        
         setDeliveredItems(items);
       } catch (_err) {
         console.error("Failed to fetch orders:", _err);

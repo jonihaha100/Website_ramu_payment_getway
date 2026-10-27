@@ -87,7 +87,7 @@ export default function ReviewsPage() {
         const reviewed: ReviewItem[] = [];
 
         allItems.forEach(item => {
-          const existingReview = reviewsData.find((r: any) => 
+          const existingReview = safeReviews.find((r: any) => 
             r.orderId === item.orderId && r.productName === item.name
           );
           
