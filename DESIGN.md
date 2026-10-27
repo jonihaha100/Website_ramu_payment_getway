@@ -1,47 +1,45 @@
 # DESIGN DIRECTION: RAMU ROASTERY COMPANY
 
-> **Brand Identity & Visual Direction (Anti-Slop Craftsmanship Standard)**
-> This document defines the design soul, artistic tone, typography, color palette, and dial settings for Ramu Roastery.
-> All UI generation and component styling must align with these authentic specialty coffee craftsmanship values.
+> **Design Reference & Philosophy: Gallery Minimalist & Modern Artisan**
+> **Reference**: [Wix Craft-House / Art Exhibition Template #1968](https://www.wix.com/website-template/view/html/1968)
+> **Core Concept**: Elegan & Simpel (Art Gallery & Craft Roastery Exhibition).
+> Meramu biji kopi Nusantara bukan sekadar komoditas, melainkan karya seni kurasi (*curated exhibition*) yang disajikan dengan ketenangan visual, ruang bernapas luas (*generous whitespace*), dan tipografi arsitektural.
 
 ---
 
-## 1. Identity & Narrative
-- **Brand**: Ramu Roastery Company
-- **Roots**: Bandung, West Java, Indonesia (Est. 2026).
-- **Core Mission**: Direct origin trade, precise artisan roasting, and micro-lot terroir transparency. Transforming raw green beans from Gunung Halu and estates across Nusantara into exceptional, calibrated roast beans for discerning cafes and home brewers worldwide.
-- **Visual Soul**: An authentic artisan coffee laboratory and cupping room. Warm, tactile, grounded, and human. Never cold corporate tech, never generic AI templates with neon gradients or frosted glass clichés.
+## 1. Identitas & Visi Visual
+- **Brand**: Ramu Roastery Company (Bandung, West Java • Est. 2026).
+- **Karakter**: Tenang (*serene*), percaya diri (*understated confidence*), kuratorial, dan humanis.
+- **Filosofi Tampilan**: Mengadopsi prinsip pameran seni (*art gallery exhibition*): setiap varietas kopi (single origin) diperlakukan seperti karya seni bernilai tinggi dengan informasi kurasi yang jernih, transparan, dan tidak bising.
 
 ---
 
-## 2. Personality & Tone
-- **Honest & Grounded**: Real coffee estate facts, real harvest altitudes (masl), genuine cupping notes (SCA 84+), and transparent farmer partnerships.
-- **Artisanal Precision**: Clean architectural lines, tactile textures (unbleached parchment, roasted bean charcoal, raw canvas), and deliberate typography.
-- **Warm & Welcoming**: Inviting coffee enthusiasts and commercial partners into the sensory world of Indonesian terroir.
+## 2. Palet Warna Terkurasi (Inspirasi Template #1968)
+Menghilangkan semua gradien neon, efek kaca buram murahan, dan glow tebal. Menggunakan palet studio galeri:
+
+| Token | Nilai Hex | Fungsi / Filosofi |
+|:---|:---|:---|
+| `--bg-gallery` | `#F9F8F6` | *Soft Gallery Linen* / Kanvas dasar yang hangat dan menenangkan mata. |
+| `--bg-white` | `#FFFFFF` | *Pure Studio White* untuk kontras kartu karya dan fokus produk. |
+| `--text-ink` | `#111111` | *Deep Gallery Ink* untuk teks primer, judul, dan tombol solid. |
+| `--text-muted` | `#666666` | *Studio Charcoal* untuk deskripsi kuratorial dan metadata. |
+| `--accent-earth` | `#9E8765` | *Warm Artisan Bronze / Sand* (dari `--wix-color-8`), aksen terroir mewah. |
+| `--border-hairline` | `#E8E4DC` | Garis arsitektural setipis helai rambut (1px solid). |
 
 ---
 
-## 3. Curated Color Palette (Restrained: 3 Core + 1 Accent)
-- **Base Canvas (Neutral Light)**: `#FBF8F3` (Artisan Unbleached Parchment / Raw Canvas)
-- **Surface & Cards**: `#F4EFE6` (Warm Stone / Oat Linen)
-- **Deep Roast (Typography & Primary Contrast)**: `#1C1512` (Espresso Roast Charcoal)
-- **Secondary Text**: `#5C4E46` (Warm Roasted Walnut)
-- **Primary Accent**: `#B86227` (Golden Crema / Roasted Amber)
-- **Subtle Terroir Note**: `#4A5D4E` (Highland Leaf / Muted Forest Green)
-- **Hairline Border**: `rgba(28, 21, 18, 0.08)` (Delicate, crisp architectural hairlines)
-
-*Rule*: Avoid harsh artificial gradients, neon blue/purple glows, and excessive glassmorphism across multiple components simultaneously.
+## 3. Tipografi & Tata Letak (Simpel & Elegan)
+- **Brand Logo & Super-Headers**: Huruf kapital dengan spasi lebar (*letter-spacing: 0.2em - 0.25em*), misal: `R A M U   R O A S T E R Y`.
+- **Display Headings**: Huruf elegan bersih (*Playfair Display* / *Outfit*) dengan skala hierarki yang tegas.
+- **Tombol & Aksi**:
+  - Bentuk kotak minimalis (*crisp subtle radius* 2px - 4px, TIDAK ADA tombol pil/kapsul).
+  - Varian Utama: Solid Black `#111111` dengan teks putih, hover inversi atau transisi halus.
+  - Varian Sekunder: Hairline border hitam tipis di atas putih, minimalis dan berkelas.
+- **Spasi & Whitespace**: Spasi vertikal yang lapang (*padding 5rem - 7rem*) sehingga antarmuka terasa mewah, tidak padat, dan memberi ruang apresiasi pada setiap produk.
 
 ---
 
-## 4. Typography
-- **Display & Section Headings**: Editorial serif with warmth and character (e.g. `Playfair Display` or `Cormorant Garamond`).
-- **Body & Functional UI**: Modern, highly readable humanist sans-serif (`Outfit` paired with `Noto Sans JP` for Japanese typography).
-- **Tactile Data & Metadata**: Crisp letter-spaced metadata for roast profiles, processing methods, and harvest altitudes.
-
----
-
-## 5. Dials & Craftsmanship Rhythm
-- **ENERGY: 2 / 3 (Calm Artisanal Focus)**: Confident, steady, and refined. No hyperactive neon pulses or chaotic animations; no sterile corporate emptiness.
-- **RHYTHM: 3 / 3 (Rich Editorial Pacing)**: Dynamic section composition. Asymmetrical split hero with tangible roastery credentials, horizontal terroir atlas, sensory tasting profile cards with roast meters, and authentic customer quote masonry.
-- **MOTION: 2 / 3 (Purposeful & Tactile)**: Micro-interactions that feel organic: smooth button hover elevation, tactile tab changes, and clean drawer transitions. Zero floating or bouncing AI template gimmicks.
+## 4. Dials Craftsmanship
+- **ENERGY: 2 / 3 (Tenang & Eksklusif)**: Atmosfer galeri seni rupa modern.
+- **RHYTHM: 3 / 3 (Kurasi Editorial)**: Pacing dinamis: Hero berbobot galeri pameran, katalog bergaya instalasi karya, narasi kurasi origin, dan kartu terroir minimalis.
+- **MOTION: 2 / 3 (Halus & Organik)**: Transisi opacity dan translasi 2px yang tenang tanpa efek bouncing berlebih.
