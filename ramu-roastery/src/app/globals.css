@@ -1,25 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  /* Color Palette based on Compro */
-  --bg-color: #F5F2EB; /* Off-white / Cream */
-  --text-primary: #1C1917; /* Dark Brown / Off-Black */
-  --text-secondary: #44403C; /* Medium Brown */
+  /* Ramu Roastery Artisan Design Tokens (Anti-Slop Craftsmanship Standard) */
+  --bg-color: #FBF8F3; /* Unbleached Artisan Parchment */
+  --bg-surface: #F4EFE6; /* Warm Stone Canvas */
+  --bg-surface-elevated: #FFFFFF; /* Crisp Clean Card White */
   
-  --accent-color: #78350F; /* Deep Coffee Brown */
-  --accent-hover: #451A03; 
+  --text-primary: #1C1512; /* Espresso Roast Charcoal */
+  --text-secondary: #5C4E46; /* Roasted Walnut */
+  --text-muted: #8A7B72; /* Muted Jute / Bean Skin */
   
-  --card-bg: rgba(255, 255, 255, 0.6); /* For Glassmorphism */
+  --accent-color: #B86227; /* Roasted Amber / Crema Accent */
+  --accent-hover: #964A17; 
+  --accent-light: #F7EBDC; /* Soft Crema Tint */
+  
+  --terroir-green: #4A5D4E; /* Highland Canopy / Muted Forest */
+  --terroir-green-light: #EBF0EC;
+  
+  --border-color: rgba(28, 21, 18, 0.08); /* Crisp Hairline Architecture */
+  --border-strong: rgba(28, 21, 18, 0.16);
+  
+  --card-bg: #FFFFFF;
+  --card-surface: #F4EFE6;
   
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
-  --spacing-lg: 4rem;
-  --spacing-xl: 8rem;
+  --spacing-lg: 3.5rem;
+  --spacing-xl: 5.5rem;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 16px;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --shadow-subtle: 0 2px 6px rgba(28, 21, 18, 0.04);
+  --shadow-card: 0 8px 24px -4px rgba(28, 21, 18, 0.06), 0 2px 6px -1px rgba(28, 21, 18, 0.03);
+  --shadow-elevated: 0 16px 32px -6px rgba(28, 21, 18, 0.1);
 }
 
 * {
@@ -32,7 +52,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: 'Outfit', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--bg-color);
   color: var(--text-primary);
   line-height: 1.6;
@@ -48,8 +68,10 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.25;
   margin-bottom: var(--spacing-sm);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -68,49 +90,93 @@ p {
   padding: var(--spacing-xl) 0;
 }
 
-/* Glassmorphism Utility */
+/* Controlled Glass Accent (Dose Cap: maximum 1-2 elements, R-10) */
 .glass {
-  background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-subtle);
 }
 
-/* Buttons */
+/* Artisan Card Utility */
+.artisan-card {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-subtle);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.artisan-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* Buttons: Human Craftsmanship & Purposeful Elevation (R-08, R-11, R-13) */
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background-color: var(--accent-color);
-  color: #fff;
+  color: #ffffff;
   padding: 12px 24px;
   border-radius: var(--radius-sm);
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(184, 98, 39, 0.2);
 }
 
 .btn-primary:hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
+  box-shadow: 0 6px 16px rgba(184, 98, 39, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-outline {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   background-color: transparent;
   color: var(--text-primary);
   padding: 12px 24px;
   border-radius: var(--radius-sm);
   font-weight: 500;
-  transition: all 0.3s ease;
-  border: 1px solid var(--text-primary);
+  font-size: 0.95rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--border-strong);
   cursor: pointer;
 }
 
 .btn-outline:hover {
   background-color: var(--text-primary);
   color: var(--bg-color);
+  border-color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+/* Keyboard accessibility focus (R-32) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }
 
 @media print {

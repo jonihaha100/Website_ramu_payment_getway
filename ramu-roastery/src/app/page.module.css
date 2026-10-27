@@ -1,324 +1,775 @@
 .main {
   min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
 }
 
-/* Hero Section */
+/* ==========================================================================
+   HERO SECTION: Artisan Roastery & Editorial Coffee Atmosphere
+   ========================================================================== */
 .hero {
-  min-height: 80vh;
+  position: relative;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-image: linear-gradient(to bottom, rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.9)), url('/images/hero_bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: #fff;
-  animation: fadeIn 1.2s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  padding: calc(var(--spacing-xl) + 2rem) 0 var(--spacing-xl);
+  background: 
+    linear-gradient(180deg, rgba(28, 21, 18, 0.72) 0%, rgba(28, 21, 18, 0.88) 100%),
+    url('/images/hero_bg.jpg') center/cover no-repeat;
+  color: #FBF8F3;
 }
 
 .heroContent {
-  max-width: 800px;
+  max-width: 860px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.logoBadge {
-  margin-bottom: var(--spacing-lg);
-}
-
-.est {
-  font-size: 0.875rem;
-  letter-spacing: 2px;
-  color: #d1d5db; /* Light color for dark background */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+.originBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 16px;
+  background: rgba(251, 248, 243, 0.1);
+  border: 1px solid rgba(251, 248, 243, 0.2);
+  border-radius: var(--radius-xs);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #F7EBDC;
+  margin-bottom: var(--spacing-md);
+  font-weight: 500;
 }
 
 .brandName {
-  font-size: 5rem;
+  font-family: var(--font-serif);
+  font-size: 4.5rem;
   font-weight: 700;
-  margin: 0;
-  line-height: 1;
-  color: #f3f4f6; /* Off-white for dark background */
-  letter-spacing: -2px;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  margin: 0 0 0.25rem;
+  line-height: 1.05;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
 }
 
 .brandSub {
-  font-size: 1rem;
-  letter-spacing: 4px;
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #d1d5db; /* Light color for dark background */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  color: #E2D7CC;
+  margin-bottom: var(--spacing-md);
+  font-weight: 500;
 }
 
 .heroHeadline {
-  font-size: 2.5rem;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-family: var(--font-serif);
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1.3;
   margin-bottom: var(--spacing-sm);
-  color: #f9fafb;
+  color: #FFFFFF;
+  max-width: 760px;
 }
 
 .heroSubheadline {
-  font-size: 1.2rem;
-  max-width: 600px;
+  font-size: 1.1rem;
+  max-width: 640px;
   margin: 0 auto var(--spacing-lg);
-  color: #d1d5db;
+  color: #D6CBC0;
+  line-height: 1.7;
 }
 
 .heroActions {
   display: flex;
   gap: var(--spacing-sm);
   justify-content: center;
-  margin-top: var(--spacing-md);
+  align-items: center;
   flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
 }
 
-.heroCtaBtn {
+.heroCtaPrimary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
-  color: #ffffff !important;
-  padding: 14px 36px;
-  border-radius: 9999px;
+  background-color: var(--accent-color);
+  color: #FFFFFF;
+  padding: 14px 30px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
-  font-size: 1.05rem;
-  letter-spacing: 0.04em;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(120, 53, 15, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(251, 191, 36, 0.25);
-  text-decoration: none;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(184, 98, 39, 0.35);
 }
 
-.heroCtaBtn:hover {
+.heroCtaPrimary:hover {
+  background-color: var(--accent-hover);
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
-  box-shadow: 0 8px 28px rgba(120, 53, 15, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 20px rgba(184, 98, 39, 0.45);
 }
 
-/* Quick Highlights */
+.heroCtaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(251, 248, 243, 0.08);
+  color: #FBF8F3;
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 1rem;
+  border: 1px solid rgba(251, 248, 243, 0.3);
+  transition: all 0.25s ease;
+}
+
+.heroCtaSecondary:hover {
+  background: rgba(251, 248, 243, 0.2);
+  border-color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* Hero Hallmarks Strip */
+.heroHallmarks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 820px;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(251, 248, 243, 0.15);
+}
+
+.hallmarkItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.hallmarkVal {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #F7EBDC;
+}
+
+.hallmarkLabel {
+  font-size: 0.8rem;
+  color: #C2B6AA;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   SECTION HEADERS (Editorial Typography)
+   ========================================================================== */
+.sectionHeaderCenter {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.sectionEyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.sectionSubtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   HIGHLIGHTS (MICRO-LOTS & ARTISAN COFFEES)
+   ========================================================================== */
 .highlightsSection {
-  background: white;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sliderContainer {
+  margin-top: var(--spacing-md);
 }
 
 .sliderWrapper {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  gap: var(--spacing-md);
-  padding-bottom: 2rem;
-  scrollbar-width: thin;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.75rem;
 }
 
-.sliderItem {
-  flex: 0 0 85%;
-  scroll-snap-align: center;
+.coffeeCard {
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--card-bg);
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-@media (min-width: 768px) {
-  .sliderItem {
-    flex: 0 0 calc(33.333% - (var(--spacing-md) * 2 / 3));
-    scroll-snap-align: start;
-  }
+.coffeeCard:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-card);
 }
 
-.sliderItem:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.highlightImage {
-  height: 250px; /* Taller for the 3:4 aspect ratio bags */
-  background: rgba(120, 53, 15, 0.05);
+.cardImageWrap {
+  height: 240px;
+  background-color: #EDE7DC;
   position: relative;
   overflow: hidden;
 }
 
-.highlightImage img {
+.cardImageWrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
-.sliderItem:hover .highlightImage img {
-  transform: scale(1.05);
+.coffeeCard:hover .cardImageWrap img {
+  transform: scale(1.04);
 }
 
-.highlightCategory {
+.roastCategoryBadge {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 12px;
+  left: 12px;
   background: var(--text-primary);
-  color: var(--bg-color);
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
+  color: #FBF8F3;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-.highlightContent {
-  padding: var(--spacing-md);
-}
-
-.highlightContent h3 {
-  font-size: 1.3rem;
-  margin-bottom: var(--spacing-xs);
-  color: var(--text-primary);
-}
-
-.tastingNotesSmall {
+.cardBody {
+  padding: 1.25rem 1.25rem 0.75rem;
   display: flex;
-  gap: 8px;
-  font-size: 0.85rem;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.tastingNotesWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.tastingNoteTag {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-color);
+  font-weight: 500;
+}
+
+.priceTag {
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--accent-color);
-  font-weight: 500;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--border-color);
 }
 
-/* Common Grids */
-.grid2 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-lg);
-  align-items: center;
+.priceUnit {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-muted);
 }
 
-@media (min-width: 768px) {
-  .grid2 {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Sections */
-.sectionTitle {
-  font-size: 2.5rem;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-md);
-}
-
-.sectionTitleCenter {
-  font-size: 2.5rem;
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-xs);
-  text-align: center;
-}
-
-.sectionSubtitleCenter {
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-}
-
-/* Journey Section */
-.imageBox {
-  width: 100%;
-  aspect-ratio: 4/3;
+.cardFooter {
+  padding: 0 1.25rem 1.25rem;
   display: flex;
+  gap: 0.5rem;
+}
+
+/* ==========================================================================
+   ROASTERY JOURNEY & SOURCING (2-COLUMN EDITORIAL)
+   ========================================================================== */
+.journeySection {
+  background-color: var(--bg-color);
+}
+
+.journeyGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3.5rem;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md);
-  background: rgba(120, 53, 15, 0.05);
 }
 
-.imageText {
+.journeyTextCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.journeyTextCol p {
+  font-size: 1.05rem;
+  line-height: 1.8;
   color: var(--text-secondary);
-  font-weight: 500;
+  margin-bottom: 1.25rem;
 }
 
-/* Terroir */
+.journeyPillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.pillarItem {
+  padding: 1rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.pillarTitle {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.pillarDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.journeyVisualCol {
+  position: relative;
+}
+
+.journeyImageFrame {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  aspect-ratio: 4/3;
+  background: #E8E1D5;
+}
+
+.journeyImageFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.journeyCaption {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 8px 14px;
+  background: rgba(28, 21, 18, 0.85);
+  color: #FBF8F3;
+  border-radius: var(--radius-xs);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   TERROIR ARCHIPELAGO SECTION
+   ========================================================================== */
 .terroirSection {
-  background-color: #EDE8DB;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .terroirGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 .terroirCard {
-  padding: var(--spacing-md);
-  text-align: center;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
-.terroirCard h3 {
-  font-size: 1.5rem;
-  margin-bottom: var(--spacing-xs);
+.terroirCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+}
+
+.terroirOrigin {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--accent-color);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
 }
 
-/* CTA */
-.ctaBox {
-  background-color: var(--text-primary);
-  color: var(--bg-color);
+.terroirTitle {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.terroirAltitude {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.terroirDesc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.terroirNotes {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border-color);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   STANDARDS & COMMITMENTS (NO EMOJIS, CRAFT ICONS)
+   ========================================================================== */
+.standardsSection {
+  background-color: var(--bg-color);
+}
+
+.standardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.standardCard {
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.standardIconBadge {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-light);
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.standardTitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.standardText {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ==========================================================================
+   REVIEWS (EDITORIAL TESTIMONIALS)
+   ========================================================================== */
+.reviewsSection {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 1.5rem;
+}
+
+.reviewCard {
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.reviewerMeta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.reviewerAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #2D231E;
+  color: #FBF8F3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  font-family: var(--font-serif);
+}
+
+.reviewerName {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.verifiedPill {
+  font-size: 0.7rem;
+  color: #047857;
+  font-weight: 500;
+}
+
+.reviewDate {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.reviewStars {
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+}
+
+.productBoughtTag {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xs);
+  align-self: flex-start;
+  font-weight: 500;
+}
+
+.reviewComment {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+  flex: 1;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ==========================================================================
+   B2B & SOURCING PARTNERSHIP CTA (DARK ESPRESSO ELEGANCE)
+   ========================================================================== */
+.ctaSection {
+  background-color: var(--bg-color);
+}
+
+.ctaCard {
+  background: 
+    linear-gradient(135deg, #1C1512 0%, #291D17 100%);
+  color: #FBF8F3;
+  border-radius: var(--radius-lg);
   padding: var(--spacing-xl) var(--spacing-md);
   text-align: center;
-  border-radius: var(--radius-lg);
+  border: 1px solid rgba(251, 248, 243, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
-.ctaBox h2 {
-  color: var(--bg-color);
-  margin-bottom: var(--spacing-sm);
+.ctaTitle {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: var(--spacing-xs);
 }
 
-.ctaBox p {
-  color: rgba(245, 242, 235, 0.8);
-  max-width: 600px;
-  margin: 0 auto var(--spacing-md);
+.ctaText {
+  color: #D6CBC0;
+  max-width: 620px;
+  margin: 0 auto var(--spacing-lg);
+  font-size: 1.1rem;
+  line-height: 1.7;
 }
 
-.ctaBox .btn-outline {
-  border-color: var(--bg-color);
-  color: var(--bg-color);
-}
-
-/* Footer */
+/* ==========================================================================
+   FOOTER (MINIMALIST ARTISAN DIRECTORY)
+   ========================================================================== */
 .footer {
-  text-align: center;
-  padding: var(--spacing-md);
-  border-top: 1px solid rgba(0,0,0,0.1);
-  color: var(--text-secondary);
+  background-color: #16100E;
+  color: #A89B91;
+  padding: 3rem 0 2rem;
+  border-top: 1px solid rgba(251, 248, 243, 0.08);
+  font-size: 0.875rem;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 767px) {
+.footerGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.footerBrandCol h4 {
+  font-family: var(--font-serif);
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.footerBrandCol p {
+  color: #8F8177;
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.footerLinksCol h5 {
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footerLinksCol ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footerLinksCol a {
+  color: #A89B91;
+  transition: color 0.2s ease;
+}
+
+.footerLinksCol a:hover {
+  color: #FFFFFF;
+}
+
+.footerBottom {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(251, 248, 243, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (R-03: Tap targets, no overflow)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .journeyGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .standardsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .heroHallmarks {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .footerGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
   .brandName {
     font-size: 3rem;
   }
   .heroHeadline {
-    font-size: 1.75rem;
+    font-size: 1.7rem;
   }
-  .heroSubheadline {
-    font-size: 1rem;
-    padding: 0 1rem;
+  .sectionTitle {
+    font-size: 1.9rem;
   }
-  .sectionTitle, .sectionTitleCenter {
-    font-size: 2rem;
+  .journeyPillars {
+    grid-template-columns: 1fr;
   }
-  .sliderItem {
-    flex: 0 0 90%;
+  .heroActions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .heroCtaPrimary, .heroCtaSecondary {
+    width: 100%;
   }
 }

@@ -92,7 +92,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT /api/reviews (Update an existing review — Admin reply)
+// PUT /api/reviews: Update an existing review (Admin reply)
 export async function PUT(request: Request) {
   try {
     const authError = await requireAdmin(request);
@@ -120,7 +120,7 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE /api/reviews (Delete a review — Admin only)
+// DELETE /api/reviews: Delete a review (Admin only)
 export async function DELETE(request: Request) {
   try {
     const authError = await requireAdmin(request);

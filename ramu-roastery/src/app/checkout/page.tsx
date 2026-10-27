@@ -465,7 +465,7 @@ export default function CheckoutPage() {
                   </option>
                   {savedAddresses.map(addr => (
                     <option key={addr.id} value={addr.id}>
-                      {addr.isDefault ? '★ ' : ''}{addr.label} — {addr.firstName} {addr.lastName}, {addr.city}
+                      {addr.isDefault ? '★ ' : ''}{addr.label}: {addr.firstName} {addr.lastName}, {addr.city}
                     </option>
                   ))}
                 </select>

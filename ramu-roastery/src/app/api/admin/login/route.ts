@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Login successful — Reset failed attempts
+    // Login successful: Reset failed attempts
     attemptsTracker.delete(clientIp);
 
     // Generate cryptographic HMAC-SHA256 session token

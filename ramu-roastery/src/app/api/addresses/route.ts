@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST /api/addresses — Create or Update
+// POST /api/addresses: Create or Update
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

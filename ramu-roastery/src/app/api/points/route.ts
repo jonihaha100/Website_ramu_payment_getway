@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
 
-// GET /api/points?email=xxx — Get balance and history
+// GET /api/points?email=xxx: Get balance and history
 export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get('email');

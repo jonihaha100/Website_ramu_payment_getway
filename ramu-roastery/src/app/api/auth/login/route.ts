@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Login successful — return user data and issue signed httpOnly user_session cookie
+    // Login successful: return user data and issue signed httpOnly user_session cookie
     const userRole = user.role?.toLowerCase() === 'admin' ? 'admin' 
         : user.role?.toLowerCase() === 'b2b' ? 'b2b' 
         : 'customer';

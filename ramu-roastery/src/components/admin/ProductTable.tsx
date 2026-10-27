@@ -472,7 +472,7 @@ export default function ProductTable() {
               </div>
               <div>
                 <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.875rem' }}>
-                  Stok Sangrai Fisik (gram) — <strong>{editingProduct.stock >= 1000 ? `${(editingProduct.stock / 1000).toFixed(2)} kg` : `${editingProduct.stock} g`}</strong>
+                  Stok Sangrai Fisik (gram) ({editingProduct.stock >= 1000 ? `${(editingProduct.stock / 1000).toFixed(2)} kg` : `${editingProduct.stock} g`})
                 </label>
                 <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <input 

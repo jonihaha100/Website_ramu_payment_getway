@@ -523,7 +523,7 @@ export const t = {
 
     // B2B Page
     b2b_title: "Cafe Partner Portal (B2B)",
-    b2b_sub: "Elevate your cafe's brew quality. Order a Sample Box (3 varieties) — we only charge for shipping.",
+    b2b_sub: "Elevate your cafe's brew quality. Order a Sample Box (3 varieties), we only charge for shipping.",
     b2b_shop_name: "Cafe / Shop Name *",
     b2b_owner: "Owner / PIC Name *",
     b2b_instagram: "Cafe Instagram Account",
@@ -547,7 +547,7 @@ export const t = {
     about_vision_title: "Our Vision",
     about_vision_text: "Exceptional Indonesian Coffee for the World. We are here to bridge the gap between the extraordinary biodiversity of Indonesia’s coffee terroirs and discerning buyers around the world by offering traceable and consistent products at every stage of the supply chain, from farm to export.",
     about_terroir_title: "Indonesia's Coffee Heritage",
-    about_terroir_text: "Indonesia is more than just a coffee-producing nation; the archipelago is a haven for diverse flavor profiles that captivate coffee lovers worldwide. Working directly with farmers in the highlands of Java, the hills of Sulawesi, to the fertile soils of Sumatra, we unearth hidden treasures in every bean. Every sip tells the story of its origin — from the captivating, thick, and earthy character of Sumatran Mandheling, to the bright and refreshing fruity notes of Flores Bajawa. We craft these natural masterpieces to ensure consistent calibration at your cafe bar or home brewing setup.",
+    about_terroir_text: "Indonesia is more than just a coffee-producing nation; the archipelago is a haven for diverse flavor profiles that captivate coffee lovers worldwide. Working directly with farmers in the highlands of Java, the hills of Sulawesi, to the fertile soils of Sumatra, we unearth hidden treasures in every bean. Every sip tells the story of its origin: from the captivating, thick, and earthy character of Sumatran Mandheling, to the bright and refreshing fruity notes of Flores Bajawa. We craft these natural masterpieces to ensure consistent calibration at your cafe bar or home brewing setup.",
     about_guarantee_title: "From Estate to Your Cup: Quality Guaranteed",
     about_guarantee_farm: "Farm: Controlled cultivation on 100 Ha estate in Halu Mountain, West Bandung.",
     about_guarantee_process: "Process: Wet & dry hulling, grading, sorting, and roasting.",
