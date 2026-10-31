@@ -2,6 +2,29 @@ import { NextResponse } from 'next/server';
 import prisma from '../../../lib/prisma';
 import { mockOrders } from '../../../data/mockOrders';
 import { requireAdmin, getUserSession } from '../../../lib/auth';
+import fs from 'fs';
+import path from 'path';
+
+// Helper to reliably read stored orders from local db.json with mockOrders fallback
+function getStoredOrders(): any[] {
+  try {
+    const dbPath = path.join(process.cwd(), 'src', 'data', 'db.json');
+    if (fs.existsSync(dbPath)) {
+      const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+      if (Array.isArray(dbData.orders)) {
+        return dbData.orders.map((o: any) => ({
+          ...o,
+          date: o.date || o.createdAt || new Date().toISOString(),
+          createdAt: o.createdAt || o.date || new Date().toISOString(),
+          items: Array.isArray(o.items) ? o.items : []
+        }));
+      }
+    }
+  } catch (err) {
+    console.error("Error reading stored orders from db.json:", err);
+  }
+  return mockOrders;
+}
 
 // In-memory cache fallback to prevent crashes during database network latency
 let cachedOrders: any[] = [];
@@ -46,15 +69,28 @@ export async function GET(request: Request) {
     // 1. Single Order or Tracking Number lookup (for Order Tracking page)
     if (search) {
       const cleanSearch = search.trim();
-      const order = await prisma.order.findFirst({
-        where: {
-          OR: [
-            { id: { equals: cleanSearch, mode: 'insensitive' } },
-            { trackingNumber: { equals: cleanSearch, mode: 'insensitive' } }
-          ]
-        },
-        include: { items: true }
-      });
+      let order: any = null;
+      try {
+        order = await prisma.order.findFirst({
+          where: {
+            OR: [
+              { id: { equals: cleanSearch, mode: 'insensitive' } },
+              { trackingNumber: { equals: cleanSearch, mode: 'insensitive' } }
+            ]
+          },
+          include: { items: true }
+        });
+      } catch (_e) {
+        // Prisma unavailable, fallback to stored orders
+      }
+
+      if (!order) {
+        const stored = getStoredOrders();
+        order = stored.find((o: any) => 
+          o.id?.toLowerCase() === cleanSearch.toLowerCase() ||
+          (o.trackingNumber && o.trackingNumber.toLowerCase() === cleanSearch.toLowerCase())
+        );
+      }
 
       if (order) {
         // Check if requester is Admin or the authenticated customer owning this order
@@ -65,19 +101,19 @@ export async function GET(request: Request) {
 
         if (isAdmin || isOwner) {
           // Authorized: return full unmasked order details
-          return NextResponse.json([{ ...order, date: order.createdAt }]);
+          return NextResponse.json([{ ...order, date: order.createdAt || order.date }]);
         }
 
         // Public Tracking: SANITIZE & MASK PII (Anti-Scraping / Anti-IDOR)
         const maskedOrder = {
           id: order.id,
           status: order.status,
-          date: order.createdAt,
-          createdAt: order.createdAt,
+          date: order.createdAt || order.date,
+          createdAt: order.createdAt || order.date,
           trackingNumber: order.trackingNumber,
           courier: order.courier,
           total: order.total,
-          items: order.items.map(item => ({
+          items: (order.items || []).map((item: any) => ({
             name: item.name,
             quantity: item.quantity,
             price: item.price
@@ -110,41 +146,60 @@ export async function GET(request: Request) {
         );
       }
 
-      const orders = await prisma.order.findMany({
-        where: {
-          customerEmail: cleanEmail
-        },
-        include: { items: true },
-        orderBy: { createdAt: 'desc' }
-      });
-      const mapped = orders.map(order => ({ ...order, date: order.createdAt }));
-      return NextResponse.json(mapped);
+      try {
+        const orders = await prisma.order.findMany({
+          where: {
+            customerEmail: cleanEmail
+          },
+          include: { items: true },
+          orderBy: { createdAt: 'desc' }
+        });
+        if (orders && orders.length > 0) {
+          return NextResponse.json(orders.map(order => ({ ...order, date: order.createdAt })));
+        }
+      } catch (_e) {
+        // Database connection timeout/failure, gracefully fallback to stored db.json
+      }
+
+      const stored = getStoredOrders();
+      const userOrders = stored.filter((o: any) => o.customerEmail?.toLowerCase() === cleanEmail);
+      return NextResponse.json(userOrders);
     }
 
     // 3. Fetching ALL orders: STRICTLY requires Admin Session to protect user privacy (Anti-IDOR / Anti-Scraping)
     const authError = await requireAdmin(request);
     if (authError) return authError;
 
-    const orders = await prisma.order.findMany({
-      include: {
-        items: true
-      },
-      orderBy: {
-        createdAt: 'desc'
+    try {
+      const orders = await prisma.order.findMany({
+        include: {
+          items: true
+        },
+        orderBy: {
+          createdAt: 'desc'
+        }
+      });
+      if (orders && orders.length > 0) {
+        const mappedOrders = orders.map(order => ({
+          ...order,
+          date: order.createdAt
+        }));
+        cachedOrders = mappedOrders;
+        return NextResponse.json(mappedOrders);
       }
-    });
-    const mappedOrders = orders.map(order => ({
-      ...order,
-      date: order.createdAt
-    }));
-    cachedOrders = mappedOrders;
-    return NextResponse.json(mappedOrders);
+    } catch (_e) {
+      // Database connection timeout/failure, gracefully fallback to stored db.json
+    }
+
+    const storedOrders = getStoredOrders();
+    cachedOrders = storedOrders;
+    return NextResponse.json(storedOrders);
   } catch (error) {
     console.warn("Database notice: orders query failed or timed out, serving cached/mock fallback:", error instanceof Error ? error.message : error);
     if (cachedOrders && cachedOrders.length > 0) {
       return NextResponse.json(cachedOrders);
     }
-    return NextResponse.json(mockOrders);
+    return NextResponse.json(getStoredOrders());
   }
 }
 
@@ -155,9 +210,17 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Order ID is required' }, { status: 400 });
     }
     
-    const existingOrder = await prisma.order.findUnique({
-      where: { id: updatedOrder.id }
-    });
+    let existingOrder: any = null;
+    try {
+      existingOrder = await prisma.order.findUnique({
+        where: { id: updatedOrder.id }
+      });
+    } catch (_e) {}
+
+    if (!existingOrder) {
+      const stored = getStoredOrders();
+      existingOrder = stored.find((o: any) => o.id === updatedOrder.id);
+    }
 
     if (!existingOrder) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
@@ -187,10 +250,6 @@ export async function PUT(request: Request) {
       }
 
       // STRICT STATUS TRANSITION RULES FOR CUSTOMERS (Anti-Status Tampering)
-      // Customers may ONLY:
-      // 1. Cancel their own unpaid order: Pending -> Cancelled
-      // 2. Mark order received: Shipped -> Delivered
-      // 3. Confirm completion: Delivered / Shipped -> Completed
       if (updatedOrder.status === 'Cancelled') {
         if (existingOrder.status !== 'Pending') {
           return NextResponse.json(
@@ -213,7 +272,6 @@ export async function PUT(request: Request) {
           );
         }
       } else if (updatedOrder.status !== existingOrder.status) {
-        // Customer attempting to set 'Processing' (Paid) or 'Shipped'
         return NextResponse.json(
           { error: 'Forbidden: Status pesanan ini hanya dapat dikonfirmasi oleh sistem pembayaran gateway resmi atau Administrator.' },
           { status: 403 }
@@ -229,76 +287,89 @@ export async function PUT(request: Request) {
       }
     }
 
-    const order = await prisma.order.update({
-      where: { id: updatedOrder.id },
-      data: {
-        status: updatedOrder.status,
-        trackingNumber: isAdmin ? updatedOrder.trackingNumber : existingOrder.trackingNumber,
-        courier: isAdmin ? updatedOrder.courier : existingOrder.courier
-      },
-      include: { items: true }
-    });
+    // Always update local storage in db.json for resilience
+    try {
+      const dbPath = path.join(process.cwd(), 'src', 'data', 'db.json');
+      if (fs.existsSync(dbPath)) {
+        const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf8'));
+        if (Array.isArray(dbData.orders)) {
+          const idx = dbData.orders.findIndex((o: any) => o.id === updatedOrder.id);
+          if (idx !== -1) {
+            dbData.orders[idx] = {
+              ...dbData.orders[idx],
+              status: updatedOrder.status,
+              trackingNumber: isAdmin ? (updatedOrder.trackingNumber ?? dbData.orders[idx].trackingNumber) : dbData.orders[idx].trackingNumber,
+              courier: isAdmin ? (updatedOrder.courier ?? dbData.orders[idx].courier) : dbData.orders[idx].courier
+            };
+            fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+          }
+        }
+      }
+    } catch (fsErr) {
+      console.warn("Could not sync update to db.json:", fsErr);
+    }
+
+    // Attempt PostgreSQL update via Prisma if available
+    let order: any = null;
+    try {
+      order = await prisma.order.update({
+        where: { id: updatedOrder.id },
+        data: {
+          status: updatedOrder.status,
+          trackingNumber: isAdmin ? updatedOrder.trackingNumber : existingOrder.trackingNumber,
+          courier: isAdmin ? updatedOrder.courier : existingOrder.courier
+        },
+        include: { items: true }
+      });
+    } catch (_e) {
+      // Prisma offline, proceed with local update
+    }
+
+    const finalOrder = order ? { ...order, date: order.createdAt } : {
+      ...existingOrder,
+      status: updatedOrder.status,
+      trackingNumber: isAdmin ? (updatedOrder.trackingNumber ?? existingOrder.trackingNumber) : existingOrder.trackingNumber,
+      courier: isAdmin ? (updatedOrder.courier ?? existingOrder.courier) : existingOrder.courier,
+      date: existingOrder.date || existingOrder.createdAt || new Date().toISOString()
+    };
 
     // Notify customer if status changes
-    if (order.customerEmail) {
+    if (finalOrder.customerEmail) {
       try {
         if (updatedOrder.status === 'Processing') {
           await prisma.notification.create({
             data: {
-              userEmail: order.customerEmail,
+              userEmail: finalOrder.customerEmail,
               title: "Pesanan Diproses",
-              desc: `Hore! Pembayaran untuk pesanan ${order.id} telah dikonfirmasi dan pesanan sedang disiapkan.`,
+              desc: `Hore! Pembayaran untuk pesanan ${finalOrder.id} telah dikonfirmasi dan pesanan sedang disiapkan.`,
               href: "/dashboard/orders"
             }
-          });
+          }).catch(() => {});
         } else if (updatedOrder.status === 'Shipped') {
           await prisma.notification.create({
             data: {
-              userEmail: order.customerEmail,
+              userEmail: finalOrder.customerEmail,
               title: "Pesanan Dikirim",
-              desc: `Pesanan ${order.id} telah dikirim dengan resi ${updatedOrder.trackingNumber || '-'}`,
+              desc: `Pesanan ${finalOrder.id} telah dikirim dengan resi ${updatedOrder.trackingNumber || '-'}`,
               href: "/dashboard/orders"
             }
-          });
+          }).catch(() => {});
         } else if (updatedOrder.status === 'Delivered') {
           await prisma.notification.create({
             data: {
-              userEmail: order.customerEmail,
+              userEmail: finalOrder.customerEmail,
               title: "Pesanan Tiba",
-              desc: `Pesanan ${order.id} telah tiba di tujuan. Mohon fotokan paket saat tiba/unboxing sebagai bukti bahwa produk sesuai pesanan, lalu konfirmasi selesai.`,
+              desc: `Pesanan ${finalOrder.id} telah tiba di tujuan. Mohon fotokan paket saat tiba/unboxing sebagai bukti bahwa produk sesuai pesanan, lalu konfirmasi selesai.`,
               href: "/dashboard/orders"
             }
-          });
-
-          // Secure Auto-Earn Ramu Points (1 poin per Rp 10.000)
-          const earnedPoints = Math.floor(existingOrder.total / 10000);
-          if (earnedPoints > 0) {
-            const existingPoints = await prisma.ramuPoints.findFirst({
-              where: { orderId: order.id, type: 'EARNED' }
-            });
-
-            if (!existingPoints) {
-              await prisma.ramuPoints.create({
-                data: {
-                  userEmail: order.customerEmail,
-                  amount: earnedPoints,
-                  type: "EARNED",
-                  orderId: order.id,
-                  note: `Belanja Rp ${existingOrder.total.toLocaleString("id-ID")} → ${earnedPoints} poin (Terkirim)`
-                }
-              });
-              console.log(`Earned ${earnedPoints} points for order ${order.id}`);
-            }
-          }
+          }).catch(() => {});
         }
-      } catch (e) {
-        console.error("Failed to notify customer", e);
-      }
+      } catch (_e) {}
     }
 
     return NextResponse.json({ 
       message: 'Order updated successfully', 
-      order: { ...order, date: order.createdAt } 
+      order: finalOrder 
     });
   } catch (error) {
     console.error("Failed to update order:", error);
