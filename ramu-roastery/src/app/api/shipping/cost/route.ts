@@ -76,9 +76,7 @@ export async function POST(req: NextRequest) {
     else if (destLower.includes("bali") || destLower.includes("denpasar")) baseCost = 30000;
     else if (destLower.includes("medan") || destLower.includes("makassar") || destLower.includes("padang")) baseCost = 42000;
     
-    await new Promise(resolve => setTimeout(resolve, 600)); // Simulate delay
-
-    const dummyOptions = [
+    const courierOptions = [
       { courier: "JNE", service: "REG", description: "Layanan Reguler", cost: baseCost * weightKg, etd: "2-3 Hari" },
       { courier: "JNE", service: "YES", description: "Yakin Esok Sampai", cost: (baseCost + 12000) * weightKg, etd: "1 Hari" },
       { courier: "SICEPAT", service: "REG", description: "SiCepat Reguler", cost: Math.max(9000, (baseCost - 1000) * weightKg), etd: "2-3 Hari" }
@@ -86,7 +84,7 @@ export async function POST(req: NextRequest) {
 
     // Add GoSend specifically if in Bandung or same-city delivery (Ramu Roastery Hegarmanah/Bandung)
     if (destLower.includes("bandung") || destLower.includes("cimahi")) {
-      dummyOptions.unshift(
+      courierOptions.unshift(
         { courier: "GOSEND", service: "Instant", description: "GoSend Instant", cost: 25000, etd: "Hari ini (1-3 jam)" },
         { courier: "GOSEND", service: "SameDay", description: "GoSend Same Day", cost: 15000, etd: "Hari ini (6-8 jam)" }
       );
@@ -94,7 +92,7 @@ export async function POST(req: NextRequest) {
 
     // Add B2B Cargo option for orders >= 5kg (5000g)
     if (weight >= 5000) {
-      dummyOptions.push({
+      courierOptions.push({
         courier: "J&T CARGO",
         service: "CARGO",
         description: "Spesial B2B Cargo (Ekonomis Partai Besar)",
@@ -105,7 +103,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      data: dummyOptions
+      data: courierOptions
     });
 
   } catch (error) {

@@ -34,4 +34,10 @@ export interface CheckoutPayload {
   discount?: number;
   promoCode?: string;
   redeemPoints?: number;
+  paymentMethod?: "qris_online" | "bank_transfer" | "whatsapp_roaster";
+  isVip?: boolean;
+  isTebeng?: boolean;
+  grindNotes?: string;
+  notes?: string;
+  b2bDiscount?: number;
 }

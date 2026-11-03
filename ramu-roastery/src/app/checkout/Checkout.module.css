@@ -1,63 +1,79 @@
+/* ==========================================================================
+   RAMU ROASTERY - CHECKOUT EXPERIENCE (ANTI-SLOP GALLERY MINIMALIST)
+   Inspiration: Modern Artisan & Art Gallery Curated Exhibition
+   ========================================================================== */
+
 .checkoutPage {
-  padding: 4rem 0;
+  background-color: var(--bg-gallery, #F9F8F6);
   min-height: calc(100vh - 80px);
+  padding: 3.5rem 0 6rem 0;
+  color: var(--text-ink, #111111);
+}
+
+.headerContainer {
+  margin-bottom: 2.5rem;
+}
+
+.brandLabel {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-earth, #9E8765);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
 .title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  color: var(--accent-color);
-}
-
-.addressSelector {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: linear-gradient(135deg, rgba(120, 53, 15, 0.04), rgba(217, 119, 6, 0.06));
-  border: 1px dashed #d97706;
-  border-radius: 8px;
-}
-
-.addressSelector select {
-  padding: 0.7rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  background: white;
+  font-size: 2.25rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-ink, #111111);
+  margin: 0;
+  line-height: 1.2;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 2.5rem;
+  align-items: flex-start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   .grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
-.formSection, .summarySection {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-  border-radius: var(--radius-md);
-  height: fit-content;
+/* ==========================================================================
+   SURFACES (Pure Studio White with Hairline Borders)
+   ========================================================================== */
+
+.formSection,
+.summarySection {
+  background: #FFFFFF;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-radius: 4px;
+  padding: 2.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
-.formSection h2, .summarySection h2 {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  color: var(--text-primary);
+.sectionTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-ink, #111111);
+  margin: 0 0 1.75rem 0;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-hairline, #E8E4DC);
 }
+
+/* ==========================================================================
+   FORM & INPUTS
+   ========================================================================== */
 
 .form {
   display: flex;
@@ -68,10 +84,10 @@
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .row {
     grid-template-columns: 1fr;
   }
@@ -80,71 +96,474 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.45rem;
 }
 
 .field label {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  font-weight: 500;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4A4A4A;
 }
 
-.field input, .field textarea, .field select {
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background: #ffffff;
-  color: var(--text-primary);
+.field input,
+.field textarea,
+.field select {
+  padding: 0.75rem 0.9rem;
+  border-radius: 3px;
+  border: 1px solid #DED9D0;
+  background: #FFFFFF;
+  color: var(--text-ink, #111111);
   font-family: inherit;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   width: 100%;
   box-sizing: border-box;
 }
 
-.field input:focus, .field textarea:focus, .field select:focus {
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
   outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(120, 53, 15, 0.1);
+  border-color: #111111;
+  box-shadow: 0 0 0 1px #111111;
+}
+
+.field input:disabled,
+.field select:disabled {
+  background-color: #F7F6F3;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   SAVED ADDRESS SELECTOR
+   ========================================================================== */
+
+.addressSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #FAF9F7;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-radius: 4px;
+}
+
+.addressSelector select {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #DED9D0;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  background: #FFFFFF;
+  color: var(--text-ink, #111111);
+}
+
+/* ==========================================================================
+   INTERNATIONAL SHIPPING BANNER (Curated Minimalist)
+   ========================================================================== */
+
+.intlBanner {
+  background: #FAF8F5;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-left: 3px solid var(--accent-earth, #9E8765);
+  padding: 1.1rem 1.25rem;
+  border-radius: 3px;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.intlBannerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.intlBannerHeader strong {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-ink, #111111);
+}
+
+.intlBanner p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #666666;
+  line-height: 1.45;
+}
+
+.intlBannerLink {
+  align-self: flex-start;
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-ink, #111111);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+.intlBannerLink:hover {
+  color: var(--accent-earth, #9E8765);
+}
+
+/* ==========================================================================
+   FEATURE CARDS (Tebeng Kirim & B2B Cargo)
+   ========================================================================== */
+
+.tebengCard {
+  margin-top: 0.85rem;
+  padding: 1rem 1.15rem;
+  border-radius: 3px;
+  background: #FAF9F7;
+  border: 1px solid #E2DED6;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tebengCardActive {
+  background: #FCFBF9;
+  border-color: var(--accent-earth, #9E8765);
+}
+
+.tebengLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.tebengLabel input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  accent-color: #111111;
+  cursor: pointer;
+}
+
+.tebengTitle {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-ink, #111111);
+  margin-bottom: 0.2rem;
+}
+
+.tebengDesc {
+  display: block;
+  font-size: 0.78rem;
+  color: #666666;
+  line-height: 1.4;
+}
+
+.b2bCargoBadge {
+  margin-top: 0.65rem;
+  padding: 0.75rem 1rem;
+  border-radius: 3px;
+  background: #FAF8F5;
+  border: 1px solid #E2DED6;
+  font-size: 0.78rem;
+  color: #444444;
+  line-height: 1.4;
+}
+
+.b2bCargoBadge strong {
+  color: var(--text-ink, #111111);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   OPERATING HOURS BADGE
+   ========================================================================== */
+
+.operatingBadge {
+  margin-top: 1.25rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 3px;
+  background: #FAF9F7;
+  border: 1px solid #E8E4DC;
+  font-size: 0.78rem;
+  color: #555555;
+  line-height: 1.45;
+}
+
+.operatingBadge strong {
+  color: var(--text-ink, #111111);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PAYMENT METHOD SELECTOR
+   ========================================================================== */
+
+.paymentSection {
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border-hairline, #E8E4DC);
+}
+
+.paymentGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.paymentCard {
+  border: 1px solid #E2DED6;
+  border-radius: 3px;
+  padding: 1rem 1.25rem;
+  background: #FAF9F7;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.paymentCard:hover {
+  border-color: #B5AFA6;
+}
+
+.paymentCardActive {
+  background: #FFFFFF;
+  border-color: #111111;
+  box-shadow: 0 0 0 1px #111111;
+}
+
+.radioCircle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid #A8A29E;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.radioCircleSelected {
+  border-color: #111111;
+}
+
+.radioInnerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #111111;
+}
+
+.paymentCardContent {
+  flex: 1;
+}
+
+.paymentCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.paymentCardTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-ink, #111111);
+}
+
+.paymentBadge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  background: #EFECE6;
+  color: #4A4A4A;
+}
+
+.paymentBadgeActive {
+  background: #111111;
+  color: #FFFFFF;
+}
+
+.paymentCardDesc {
+  font-size: 0.78rem;
+  color: #666666;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ==========================================================================
+   PROMO & POINTS SECTION
+   ========================================================================== */
+
+.discountSection {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-hairline, #E8E4DC);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inlineInputGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnSecondary {
+  padding: 0.75rem 1.25rem;
+  background: #FFFFFF;
+  border: 1px solid #111111;
+  color: #111111;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.btnSecondary:hover {
+  background: #111111;
+  color: #FFFFFF;
+}
+
+.btnCancel {
+  padding: 0.75rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid #B91C1C;
+  color: #B91C1C;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.btnCancel:hover {
+  background: #B91C1C;
+  color: #FFFFFF;
+}
+
+.feedbackSuccess {
+  font-size: 0.78rem;
+  color: #15803D;
+  margin: 0.35rem 0 0 0;
+  font-weight: 500;
+}
+
+.feedbackError {
+  font-size: 0.78rem;
+  color: #B91C1C;
+  margin: 0.35rem 0 0 0;
+  font-weight: 500;
+}
+
+.feedbackHint {
+  font-size: 0.75rem;
+  color: #888888;
+  margin: 0.25rem 0 0 0;
+}
+
+/* ==========================================================================
+   SUBMIT BUTTON & ERROR BANNER
+   ========================================================================== */
+
+.errorBanner {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+  padding: 0.9rem 1.15rem;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
 }
 
 .submitBtn {
-  margin-top: 1rem;
-  padding: 1rem;
-  font-size: 1.1rem;
+  margin-top: 2rem;
+  padding: 1.1rem 1.5rem;
+  background: #111111;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
-.error {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  padding: 1rem;
-  border-radius: var(--radius);
-  margin-bottom: 1.5rem;
+.submitBtn:hover:not(:disabled) {
+  background: #2D2D2D;
+}
+
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   ORDER SUMMARY SECTION (Artisan Exhibition Receipt)
+   ========================================================================== */
+
+.summarySection {
+  position: sticky;
+  top: 2rem;
 }
 
 .summaryItems {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .summaryItem {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 1px dashed rgba(0,0,0,0.2);
+  align-items: flex-start;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border-hairline, #E8E4DC);
 }
 
-.summaryItem h4 {
+.summaryItemInfo h4 {
   margin: 0 0 0.25rem 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-ink, #111111);
 }
 
-.summaryItem p {
+.summaryItemInfo p {
   margin: 0;
-  font-size: 0.85rem;
-  opacity: 0.7;
+  font-size: 0.78rem;
+  color: #777777;
+}
+
+.summaryItemPrice {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-ink, #111111);
+  white-space: nowrap;
 }
 
 .summaryTotals {
@@ -156,44 +575,294 @@
 .totalRow {
   display: flex;
   justify-content: space-between;
-  color: var(--text-secondary);
+  font-size: 0.85rem;
+  color: #666666;
 }
 
-.grandTotal {
-  margin-top: 0.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0,0,0,0.2);
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: var(--accent-color);
+.totalRow strong,
+.totalRow span:last-child {
+  color: var(--text-ink, #111111);
+  font-weight: 500;
 }
 
-.intlBanner {
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #166534;
-  padding: 1rem;
-  border-radius: var(--radius-sm);
-  margin-bottom: 1.5rem;
+.discountRow {
+  color: #15803D;
+}
+
+.discountRow span:last-child {
+  color: #15803D;
+  font-weight: 600;
+}
+
+.grandTotalRow {
+  margin-top: 0.75rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid #111111;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.grandTotalLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-ink, #111111);
+}
+
+.grandTotalValue {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-ink, #111111);
+}
+
+.summaryAssurance {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-hairline, #E8E4DC);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.9rem;
+  gap: 0.75rem;
 }
 
-.intlBanner a {
-  display: inline-block;
-  background-color: #22c55e;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  font-weight: 500;
+.assuranceItem {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.78rem;
+  color: #666666;
+}
+
+.assuranceDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-earth, #9E8765);
+}
+
+/* ==========================================================================
+   ORDER CONFIRMATION MODAL / INVOICE (REAL, NO DUMMY SIMULATION)
+   ========================================================================== */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.65);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1.5rem;
+}
+
+.modalCard {
+  background: #FFFFFF;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modalHeader {
   text-align: center;
-  margin-top: 0.5rem;
-  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--border-hairline, #E8E4DC);
+  padding-bottom: 1.5rem;
 }
 
-.intlBanner a:hover {
-  background-color: #16a34a;
+.modalSubheader {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-earth, #9E8765);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.modalTitle {
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-ink, #111111);
+  margin: 0;
+}
+
+.orderReferenceCard {
+  background: #FAF9F7;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-radius: 3px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.orderRefRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.orderRefLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #666666;
+}
+
+.orderRefValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: monospace;
+  color: var(--text-ink, #111111);
+}
+
+.orderTotalValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-ink, #111111);
+}
+
+.copyBtn {
+  background: #FFFFFF;
+  border: 1px solid #DED9D0;
+  border-radius: 2px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.copyBtn:hover {
+  background: #111111;
+  color: #FFFFFF;
+  border-color: #111111;
+}
+
+.bankAccountsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.bankAccountCard {
+  background: #FFFFFF;
+  border: 1px solid #DED9D0;
+  border-radius: 3px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bankInfo h5 {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-ink, #111111);
+}
+
+.bankNumber {
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: monospace;
+  letter-spacing: 0.05em;
+  color: var(--text-ink, #111111);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.bankHolder {
+  font-size: 0.75rem;
+  color: #777777;
+  display: block;
+}
+
+.instructionsSection {
+  background: #FAF8F5;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-radius: 3px;
+  padding: 1rem 1.25rem;
+}
+
+.instructionsTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-ink, #111111);
+  margin: 0 0 0.5rem 0;
+}
+
+.instructionsList {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.78rem;
+  color: #555555;
+  line-height: 1.5;
+}
+
+.instructionsList li {
+  margin-bottom: 0.35rem;
+}
+
+.modalActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btnPrimaryWa {
+  display: block;
+  text-align: center;
+  padding: 1rem 1.25rem;
+  background: #111111;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  transition: background-color 0.15s ease;
+}
+
+.btnPrimaryWa:hover {
+  background: #2D2D2D;
+}
+
+.btnSecondaryOutline {
+  display: block;
+  text-align: center;
+  padding: 0.85rem 1.25rem;
+  background: #FFFFFF;
+  color: #111111;
+  text-decoration: none;
+  border: 1px solid #111111;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.btnSecondaryOutline:hover {
+  background: #F7F6F3;
 }

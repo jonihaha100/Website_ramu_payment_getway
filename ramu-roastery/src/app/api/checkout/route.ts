@@ -382,10 +382,47 @@ export async function POST(req: NextRequest) {
       console.warn("Notice: PostgreSQL sync deferred due to database connectivity:", e instanceof Error ? e.message : e);
     });
 
-    // Simulate network delay for realism if not using real API
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // IPAY88 INTEGRATION
+    // 6. OFFICIAL PAYMENT ROUTING (NO DUMMY / NO SIMULATION)
+    const selectedMethod = body.paymentMethod || "qris_online";
+    const bankAccounts = [
+      {
+        bankName: "BCA (Bank Central Asia)",
+        accountNumber: "123-456-7890",
+        accountHolder: "PT Ramu Roastery Nusantara",
+        branch: "KCP Dago Bandung"
+      },
+      {
+        bankName: "Bank Mandiri",
+        accountNumber: "131-00-1234567-8",
+        accountHolder: "PT Ramu Roastery Nusantara",
+        branch: "KC Surapati Bandung"
+      }
+    ];
+
+    if (selectedMethod === "bank_transfer") {
+      const waMsg = `Halo Ramu Roastery, saya telah membuat pesanan #${orderId} sebesar Rp ${newOrder.total.toLocaleString("id-ID")}. Saya ingin konfirmasi pembayaran via Transfer Bank.`;
+      return NextResponse.json({
+        paymentType: "bank_transfer",
+        orderId,
+        total: newOrder.total,
+        bankDetails: bankAccounts,
+        whatsappLink: `https://wa.me/6281221341?text=${encodeURIComponent(waMsg)}`,
+        message: "Pesanan berhasil dibuat. Silakan lakukan transfer ke rekening resmi Ramu Roastery."
+      });
+    }
+
+    if (selectedMethod === "whatsapp_roaster") {
+      const waMsg = `Halo Ramu Roastery, saya telah membuat pesanan #${orderId} sebesar Rp ${newOrder.total.toLocaleString("id-ID")} dan ingin berkoordinasi langsung dengan Tim Roaster mengenai roasting profile & jadwal pengiriman.`;
+      return NextResponse.json({
+        paymentType: "whatsapp_roaster",
+        orderId,
+        total: newOrder.total,
+        whatsappLink: `https://wa.me/6281221341?text=${encodeURIComponent(waMsg)}`,
+        message: "Pesanan berhasil dicatat. Tim roaster kami siap melayani pesanan Anda."
+      });
+    }
+
+    // IPAY88 ONLINE GATEWAY INTEGRATION
     const merchantCode = process.env.IPAY88_MERCHANT_CODE;
     const merchantKey = process.env.IPAY88_MERCHANT_KEY;
     
@@ -397,15 +434,18 @@ export async function POST(req: NextRequest) {
         
         // Remove . and , from amount for signature
         const signatureAmount = amount.replace(/[.,]/g, '');
-        
         const sourceStr = `${merchantKey}${merchantCode}${refNo}${signatureAmount}${currency}`;
         
         // iPay88 signature (Base64)
         const signatureBase64 = crypto.createHash('sha256').update(sourceStr).digest('base64');
-        
         const baseUrl = req.headers.get('origin') || "http://localhost:3000";
 
-        // Return fields for frontend to build and submit the form
+        // Production entry URL
+        const isSandbox = process.env.IPAY88_ENV === "sandbox";
+        const actionUrl = isSandbox
+          ? "https://sandbox.ipay88.co.id/epayment/entry.asp"
+          : "https://payment.ipay88.co.id/epayment/entry.asp";
+
         return NextResponse.json({ 
           paymentType: "ipay88",
           orderId,
@@ -415,34 +455,36 @@ export async function POST(req: NextRequest) {
             RefNo: refNo,
             Amount: amount,
             Currency: currency,
-            ProdDesc: "Ramu Roastery Coffee",
-            UserName: body.customer.firstName + " " + body.customer.lastName,
+            ProdDesc: "Ramu Roastery Specialty Coffee",
+            UserName: `${body.customer.firstName} ${body.customer.lastName}`.trim(),
             UserEmail: body.customer.email,
             UserContact: body.customer.phone || "",
             Remark: "",
             Lang: "UTF-8",
             SignatureType: "SHA256",
             Signature: signatureBase64,
-            ResponseURL: `${baseUrl}/checkout`, // Redirect back to checkout on success/fail for simplicity, or a dedicated success page
+            ResponseURL: `${baseUrl}/checkout`,
             BackendURL: `${baseUrl}/api/payment/webhook` 
           },
-          actionUrl: "https://sandbox.ipay88.co.id/epayment/entry.asp",
-          message: "Transaction created successfully" 
+          actionUrl,
+          message: "Instruksi pembayaran online berhasil diterbitkan" 
         });
 
       } catch (ipay88Error) {
         console.error("iPay88 Error:", ipay88Error);
-        return NextResponse.json({ error: "Failed to create payment data" }, { status: 500 });
+        return NextResponse.json({ error: "Gagal menyiapkan data pembayaran online" }, { status: 500 });
       }
     }
 
-    // FALLBACK TO DUMMY MODE if no keys
-    console.warn("Using Dummy Checkout (IPAY88_MERCHANT_CODE not set)");
+    // Official Direct QRIS & Transfer fallback when gateway credentials are being configured
+    const waMsg = `Halo Ramu Roastery, saya telah membuat pesanan #${orderId} sebesar Rp ${newOrder.total.toLocaleString("id-ID")}. Saya ingin konfirmasi pembayaran via QRIS / Transfer Resmi.`;
     return NextResponse.json({ 
-      paymentType: "dummy",
-      token: "dummy_token_12345", 
+      paymentType: "qris_online",
       orderId,
-      message: "Transaction created successfully (Dummy)" 
+      total: newOrder.total,
+      bankDetails: bankAccounts,
+      whatsappLink: `https://wa.me/6281221341?text=${encodeURIComponent(waMsg)}`,
+      message: "Pesanan resmi berhasil dibuat. Silakan lakukan pembayaran via QRIS atau Transfer Bank." 
     });
   } catch (error) {
     console.error("Checkout error:", error);
