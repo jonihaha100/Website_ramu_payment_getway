@@ -13,7 +13,7 @@
       ],
       "description": "Biji kopi single origin dengan karakter rasa yang clean dan cerah. Sentuhan manis tebu alami berpadu harmonis dengan kesegaran apel hijau dan aroma herbal yang menyegarkan.",
       "pricePerKg": 528000,
-      "stock": 49250,
+      "stock": 48950,
       "imageUrl": "/images/java_preanger.jpg",
       "sizes": [
         150,
@@ -439,6 +439,32 @@
   ],
   "orders": [
     {
+      "id": "RAMU-202610-97ADF040",
+      "customerName": "babat segar",
+      "customerEmail": "babat@gmail.com",
+      "customerPhone": "08123345",
+      "shippingAddress": "jl.kimochi ikeh , Kel. bangka, Kec. mapang babat, KABUPATEN BANDUNG, JAWA BARAT, 4003",
+      "total": 2134360,
+      "adminFee": 0,
+      "tax": 191760,
+      "shippingCost": 25000,
+      "status": "Pending",
+      "date": "2026-10-31T10:33:06.345Z",
+      "createdAt": "2026-10-31T10:33:06.345Z",
+      "items": [
+        {
+          "id": "fullwash-gn-halu-Biji Utuh-150-sub-1_MONTH",
+          "productId": "fullwash-gn-halu",
+          "name": "Fullwash Gn. Halu (150g • Biji Utuh)",
+          "quantity": 2,
+          "price": 958800
+        }
+      ],
+      "courier": "JNE",
+      "trackingNumber": "",
+      "trackingHistory": []
+    },
+    {
       "id": "RAMU-44205",
       "customerName": "erik gagong",
       "customerEmail": "erik@gmail.com",
@@ -762,6 +788,15 @@
     }
   ],
   "notifications": [
+    {
+      "id": "notif-1793442786348",
+      "userEmail": "admin@ramuroastery.com",
+      "title": "Pesanan Baru",
+      "desc": "Order RAMU-202610-97ADF040 dari babat segar (Rp 2.134.360)",
+      "href": "/admin/orders",
+      "read": false,
+      "createdAt": "2026-10-31T10:33:06.355Z"
+    },
     {
       "id": "NOTIF-1789304778915",
       "userEmail": "siti.rahma@example.com",
