@@ -366,7 +366,7 @@ export default function Home() {
       </section>
 
       {/* ====================================================================
-          GUEST IMPRESSIONS & CUPPING REVIEWS
+          GUEST IMPRESSIONS & CUPPING REVIEWS (SOCIAL PROOF & RATING)
           ==================================================================== */}
       <section className={`section ${styles.reviewsSection}`}>
         <div className="container">
@@ -376,6 +376,44 @@ export default function Home() {
             </span>
             <h2 className={styles.sectionTitle}>{tr.reviews_title}</h2>
             <p className={styles.sectionSubtitle}>{tr.reviews_sub}</p>
+          </div>
+
+          {/* Social Proof & Trust Guarantee Barometer */}
+          <div className={styles.reviewsTrustBar}>
+            <div className={styles.trustScoreRow}>
+              <span className={styles.trustBigScore}>4.9</span>
+              <div className={styles.trustStars}>
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <span className={styles.trustCount}>
+                {lang === 'ja'
+                  ? '（1,250件以上の認証レビュー）'
+                  : lang === 'en'
+                  ? 'Based on 1,250+ verified customer reviews'
+                  : 'Berdasarkan 1.250+ ulasan pembeli terverifikasi'}
+              </span>
+            </div>
+
+            <div className={styles.trustPillRow}>
+              <div className={styles.trustPill}>
+                <span>🛡️</span>
+                <span>
+                  {lang === 'ja' ? '100% 認証購入者のみ' : lang === 'en' ? '100% Verified Purchases' : <><strong>100% Pembeli Terverifikasi</strong></>}
+                </span>
+              </div>
+              <div className={styles.trustPill}>
+                <span>☕</span>
+                <span>
+                  {lang === 'ja' ? '新鮮焙煎保証（最大7日）' : lang === 'en' ? 'Fresh Roast Guarantee' : <><strong>Garansi Fresh Roast &lt; 7 Hari</strong></>}
+                </span>
+              </div>
+              <div className={styles.trustPill}>
+                <span>📦</span>
+                <span>
+                  {lang === 'ja' ? '配送破損無料交換' : lang === 'en' ? 'Safe Shipping Guarantee' : <><strong>Garansi Tukar Baru Jika Rusak</strong></>}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className={styles.reviewsGrid}>
@@ -393,15 +431,100 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* Rating Stars & Score Badge */}
+                <div className={styles.reviewRatingRow}>
+                  <div className={styles.starsRow} aria-label={`Rating ${review.rating} dari 5 bintang`}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span
+                        key={star}
+                        className={star <= review.rating ? styles.starFilled : styles.starEmpty}
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <span className={styles.ratingNumber}>{review.rating}.0 / 5.0</span>
+                  <span className={styles.ratingQualityBadge}>
+                    {review.rating === 5
+                      ? (lang === 'ja' ? '最高評価' : lang === 'en' ? 'Top Rated' : 'Puas Maksimal')
+                      : (lang === 'ja' ? 'おすすめ' : lang === 'en' ? 'Recommended' : 'Sangat Direkomendasikan')}
+                  </span>
+                </div>
+
                 <p className={styles.reviewQuote}>
                   "{review.comment}"
                 </p>
 
+                {review.photos && review.photos.length > 0 && (
+                  <div className={styles.reviewPhotosGrid}>
+                    {review.photos.map((photo, pIdx) => (
+                      <img
+                        key={pIdx}
+                        src={photo}
+                        alt={`Foto ulasan ${review.customerName}`}
+                        className={styles.reviewPhotoImg}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {review.reply && (
+                  <div className={styles.reviewReplyBox}>
+                    <span className={styles.reviewReplyTitle}>
+                      {lang === 'ja' ? '☕ ラム・ロースタリーからの返信' : lang === 'en' ? '☕ Ramu Roastery Concierge' : '☕ Respon Ramu Roastery'}
+                    </span>
+                    "{review.reply}"
+                  </div>
+                )}
+
                 <div className={styles.reviewBeanTag}>
                   ☕ {review.productName}
+                  {review.variant && (
+                    <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
+                      {review.variant}
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Social Proof Actions */}
+          <div className={styles.reviewsFooterAction}>
+            <Link
+              href="/catalog"
+              style={{
+                padding: '0.75rem 1.75rem',
+                backgroundColor: 'var(--text-primary)',
+                color: 'var(--bg-color)',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                textDecoration: 'none',
+                borderRadius: '3px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                letterSpacing: '0.02em'
+              }}
+            >
+              <span>{lang === 'ja' ? '高評価の焙煎豆を購入する' : lang === 'en' ? 'Shop Top-Rated Coffee Beans' : 'Beli Biji Kopi Berperingkat 5★'}</span>
+              <span>→</span>
+            </Link>
+            <Link
+              href="/dashboard/reviews"
+              style={{
+                padding: '0.75rem 1.5rem',
+                backgroundColor: 'transparent',
+                border: '1px solid var(--border-color)',
+                color: 'var(--text-primary)',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                textDecoration: 'none',
+                borderRadius: '3px'
+              }}
+            >
+              {lang === 'ja' ? 'レビューを書く' : lang === 'en' ? 'Write a Review' : 'Tulis Ulasan Anda'}
+            </Link>
           </div>
         </div>
       </section>

@@ -18,6 +18,20 @@ export interface Review {
 
 export const mockReviews: Review[] = [
   {
+    id: "REV-1788358034014",
+    orderId: "RAMU-38726",
+    productId: "house-blend-espresso",
+    productName: "House Blend Espresso",
+    customerName: "siti.rahma",
+    rating: 5,
+    comment: "bagus dan saya suka coffe nya ",
+    date: "2026-09-02T14:07:14.014Z",
+    status: "Published",
+    variant: "Membeli: 200g - Biji Utuh",
+    photos: ["https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400"],
+    reply: "Terima kasih atas dukungannya sudah memilih produk Ramu Roastery! Selamat menikmati fresh roast-nya :)"
+  },
+  {
     id: "REV-001",
     orderId: "ORD-2026-004",
     productId: "gayo-natural",
