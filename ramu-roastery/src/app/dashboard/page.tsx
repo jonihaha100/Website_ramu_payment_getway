@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { useLang } from "../../context/LanguageContext";
@@ -157,7 +158,8 @@ export default function DashboardPage() {
     method: "V60 Dripper",
     dose: "15g : 225ml (1:15)",
     grind: "Medium-Fine",
-    tempTime: "92°C • 2m 30s",
+    temperature: "92",
+    brewTime: "02:30",
     notes: "Sweet cane, clean green apple, floral aftertaste",
     date: new Date().toLocaleDateString(lang === 'ja' ? 'ja-JP' : (lang === 'en' ? 'en-US' : 'id-ID'), { day: 'numeric', month: 'short', year: 'numeric' })
   });
@@ -166,7 +168,21 @@ export default function DashboardPage() {
     if (user?.email) {
       try {
         const savedLogs = localStorage.getItem(`ramu_brewing_logs_${user.email}`);
-        if (savedLogs) setBrewingLogs(JSON.parse(savedLogs));
+        if (savedLogs) {
+          const parsed = JSON.parse(savedLogs);
+          const normalized = parsed.map((item: any) => {
+            if (!item.temperature && item.tempTime) {
+              const parts = item.tempTime.split('•');
+              return {
+                ...item,
+                temperature: parts[0]?.replace('°C', '').trim() || '92',
+                brewTime: parts[1]?.trim() || '02:30'
+              };
+            }
+            return item;
+          });
+          setBrewingLogs(normalized);
+        }
       } catch (e) {}
     }
   }, [user?.email]);
@@ -174,7 +190,17 @@ export default function DashboardPage() {
   const handleSaveBrewingLog = (e: React.FormEvent) => {
     e.preventDefault();
     const updated = [
-      { id: Date.now().toString(), ...newLog, date: new Date().toLocaleDateString(lang === 'ja' ? 'ja-JP' : (lang === 'en' ? 'en-US' : 'id-ID'), { day: 'numeric', month: 'short', year: 'numeric' }) },
+      {
+        id: Date.now().toString(),
+        coffee: newLog.coffee,
+        method: newLog.method,
+        dose: newLog.dose,
+        grind: newLog.grind,
+        temperature: newLog.temperature,
+        brewTime: newLog.brewTime,
+        notes: newLog.notes,
+        date: new Date().toLocaleDateString(lang === 'ja' ? 'ja-JP' : (lang === 'en' ? 'en-US' : 'id-ID'), { day: 'numeric', month: 'short', year: 'numeric' })
+      },
       ...brewingLogs
     ];
     setBrewingLogs(updated);
@@ -286,6 +312,97 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Brewing Log Quick Access Hub */}
+      <div style={{
+        marginBottom: '2rem',
+        padding: '1.25rem 1.5rem',
+        borderRadius: '8px',
+        background: '#FAF8F5',
+        border: '1px solid #E8E4DC',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '1rem',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{
+            width: '46px',
+            height: '46px',
+            borderRadius: '4px',
+            background: '#111111',
+            color: '#FFFFFF',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.3rem',
+            flexShrink: 0
+          }}>
+            📝
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
+              <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: '#111111' }}>
+                {lang === 'ja' ? 'デイリー抽出ログ（Brewing Log）' : (lang === 'en' ? 'Daily Brewing Log' : 'Catatan Seduh Kopi Harian')}
+              </h3>
+              <span style={{ fontSize: '0.72rem', padding: '2px 8px', borderRadius: '4px', background: '#FEF3C7', color: '#92400E', fontWeight: 700 }}>
+                {brewingLogs.length} {lang === 'ja' ? '件記録' : (lang === 'en' ? 'Recipes' : 'Resep')}
+              </span>
+            </div>
+            <p style={{ margin: 0, fontSize: '0.82rem', color: '#666666' }}>
+              {brewingLogs.length > 0
+                ? (lang === 'ja'
+                  ? `最新: ${brewingLogs[0].coffee} (${brewingLogs[0].method || 'Filter'}) • 湯温 ${brewingLogs[0].temperature || '92'}°C • 時間 ${brewingLogs[0].brewTime || '02:30'}`
+                  : (lang === 'en'
+                    ? `Latest: ${brewingLogs[0].coffee} • ${brewingLogs[0].temperature || '92'}°C • ${brewingLogs[0].brewTime || '02:30'}`
+                    : `Seduhan terakhir: ${brewingLogs[0].coffee} • ${brewingLogs[0].temperature || '92'}°C • ${brewingLogs[0].brewTime || '02:30'}`))
+                : (lang === 'ja'
+                  ? '湯温と時間を個別に記録して、お気に入りの一杯をいつでも再現。'
+                  : (lang === 'en'
+                    ? 'Track separated water temp & brew time to replicate your best cups.'
+                    : 'Kalibrasi suhu air dan waktu seduh terpisah untuk hasil seduhan konsisten.'))}
+            </p>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '0.6rem' }}>
+          <a
+            href="#brewing-log-section"
+            style={{
+              padding: '0.55rem 1rem',
+              background: '#FFFFFF',
+              border: '1px solid #D1D5DB',
+              borderRadius: '3px',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              color: '#374151',
+              textDecoration: 'none'
+            }}
+          >
+            + {lang === 'ja' ? '手早く記録' : (lang === 'en' ? 'Quick Add' : 'Catat Cepat')}
+          </a>
+          <Link
+            href="/dashboard/brewing-log"
+            style={{
+              padding: '0.55rem 1.15rem',
+              background: '#111111',
+              color: '#FFFFFF',
+              borderRadius: '3px',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem'
+            }}
+          >
+            <span>{lang === 'ja' ? '全ログを開く' : (lang === 'en' ? 'Open Brewing Log' : 'Buka Halaman Catatan Seduh')}</span>
+            <span>→</span>
+          </Link>
+        </div>
+      </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
@@ -543,52 +660,77 @@ export default function DashboardPage() {
       </div>
 
       {/* Daily Brewing Log Section */}
-      <div style={{
+      <div id="brewing-log-section" style={{
         marginTop: '3rem',
         padding: '1.75rem',
-        borderRadius: '16px',
+        borderRadius: '8px',
         background: '#ffffff',
-        border: '1px solid #e5e7eb',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.04)'
+        border: '1px solid #E8E4DC',
+        boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid #f3f4f6', paddingBottom: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid #E8E4DC', paddingBottom: '1rem' }}>
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: '#111827', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800, color: '#111111', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span>☕</span> {lang === 'ja' ? 'デイリー抽出ログ（Brewing Log）' : (lang === 'en' ? 'Daily Brewing Log' : 'Catatan Seduh Harian (Brewing Log)')}
             </h3>
-            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#6b7280' }}>
+            <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.85rem', color: '#666666' }}>
               {lang === 'ja'
-                ? 'お気に入りのラムコーヒー豆の抽出比率、器具、フレーバープロファイルを記録できます。'
+                ? '湯温、抽出時間、比率、器具を個別に記録し、お気に入りの一杯をいつでも再現できます。'
                 : (lang === 'en'
-                  ? 'Record brewing ratio, gear calibration, and tasting notes from your favorite Ramu beans.'
-                  : 'Catat kalibrasi rasio seduh, alat, dan profil rasa dari biji kopi Ramu favorit Anda.')}
+                  ? 'Record water temperature, brew time, ratio, and gear calibration separately.'
+                  : 'Catat kalibrasi suhu air, waktu ekstraksi, alat, dan profil rasa secara terpisah.')}
             </p>
           </div>
+          <Link
+            href="/dashboard/brewing-log"
+            style={{
+              padding: '0.5rem 1rem',
+              background: '#FAF8F5',
+              border: '1px solid #E8E4DC',
+              borderRadius: '3px',
+              fontSize: '0.82rem',
+              fontWeight: 600,
+              color: '#111111',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.35rem'
+            }}
+          >
+            <span>{lang === 'ja' ? '専用ページで管理' : (lang === 'en' ? 'Dedicated Log Page' : 'Buka Halaman Penuh')}</span>
+            <span>→</span>
+          </Link>
         </div>
 
-        {/* Log Input Form */}
-        <form onSubmit={handleSaveBrewingLog} style={{ background: '#f9fafb', padding: '1.25rem', borderRadius: '12px', border: '1px solid #e5e7eb', marginBottom: '1.5rem' }}>
+        {/* Log Input Form with Separated Temperature and Time */}
+        <form onSubmit={handleSaveBrewingLog} style={{ background: '#FAF8F5', padding: '1.25rem', borderRadius: '6px', border: '1px solid #E8E4DC', marginBottom: '1.5rem' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#374151', marginBottom: '0.25rem' }}>{lang === 'ja' ? 'コーヒー豆' : (lang === 'en' ? 'Coffee Beans' : 'Biji Kopi')}</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+                {lang === 'ja' ? 'コーヒー豆' : (lang === 'en' ? 'Coffee Beans' : 'Biji Kopi')}
+              </label>
               <input 
                 type="text" 
                 value={newLog.coffee} 
                 onChange={(e) => setNewLog({ ...newLog, coffee: e.target.value })} 
                 required 
                 placeholder={lang === 'ja' ? '例: フルウォッシュ グヌン・ハル' : (lang === 'en' ? 'e.g. Fullwash Mt. Halu' : 'Contoh: Fullwash Gn. Halu')}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }} 
+                style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', background: '#FFFFFF' }} 
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#374151', marginBottom: '0.25rem' }}>{lang === 'ja' ? '抽出器具' : (lang === 'en' ? 'Brew Method' : 'Metode Seduh')}</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+                {lang === 'ja' ? '抽出器具' : (lang === 'en' ? 'Brew Method' : 'Metode Seduh')}
+              </label>
               <select 
                 value={newLog.method} 
                 onChange={(e) => setNewLog({ ...newLog, method: e.target.value })}
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }}
+                style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', background: '#FFFFFF' }}
               >
                 <option value="V60 Dripper">V60 Dripper</option>
                 <option value="Aeropress">Aeropress</option>
+                <option value="Kalita Wave">Kalita Wave</option>
+                <option value="Origami Dripper">Origami Dripper</option>
                 <option value="Espresso Machine">Espresso Machine</option>
                 <option value="French Press">French Press</option>
                 <option value="Tubruk">Tubruk Tradisional</option>
@@ -596,64 +738,107 @@ export default function DashboardPage() {
               </select>
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#374151', marginBottom: '0.25rem' }}>{lang === 'ja' ? '比率・粉量' : (lang === 'en' ? 'Ratio & Dose' : 'Rasio & Dosis')}</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+                {lang === 'ja' ? '比率・粉量' : (lang === 'en' ? 'Ratio & Dose' : 'Rasio & Dosis')}
+              </label>
               <input 
                 type="text" 
                 value={newLog.dose} 
                 onChange={(e) => setNewLog({ ...newLog, dose: e.target.value })} 
-                placeholder="15g : 225ml"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }} 
+                placeholder="15g : 225ml (1:15)"
+                style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', background: '#FFFFFF' }} 
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#374151', marginBottom: '0.25rem' }}>{lang === 'ja' ? '挽き目' : (lang === 'en' ? 'Grind Size' : 'Gilingan')}</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+                {lang === 'ja' ? '挽き目' : (lang === 'en' ? 'Grind Size' : 'Gilingan')}
+              </label>
               <input 
                 type="text" 
                 value={newLog.grind} 
                 onChange={(e) => setNewLog({ ...newLog, grind: e.target.value })} 
                 placeholder="Medium-Fine"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }} 
+                style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', background: '#FFFFFF' }} 
               />
             </div>
+
+            {/* SEPARATED FIELD: SUHU AIR (°C) */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#374151', marginBottom: '0.25rem' }}>{lang === 'ja' ? '湯温・時間' : (lang === 'en' ? 'Temp & Time' : 'Suhu & Waktu')}</label>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+                🌡️ {lang === 'ja' ? '湯温 (°C)' : (lang === 'en' ? 'Water Temp (°C)' : 'Suhu Air (°C)')}
+              </label>
+              <div style={{ position: 'relative' }}>
+                <input 
+                  type="number"
+                  min="70"
+                  max="100"
+                  step="1"
+                  value={newLog.temperature} 
+                  onChange={(e) => setNewLog({ ...newLog, temperature: e.target.value })} 
+                  placeholder="92"
+                  style={{ width: '100%', padding: '0.55rem 2rem 0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', fontWeight: 600, background: '#FFFFFF' }} 
+                />
+                <span style={{ position: 'absolute', right: '0.65rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.78rem', color: '#666666', fontWeight: 700 }}>
+                  °C
+                </span>
+              </div>
+            </div>
+
+            {/* SEPARATED FIELD: WAKTU SEDUH */}
+            <div>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+                ⏱️ {lang === 'ja' ? '抽出時間' : (lang === 'en' ? 'Brew Time' : 'Waktu Seduh')}
+              </label>
               <input 
                 type="text" 
-                value={newLog.tempTime} 
-                onChange={(e) => setNewLog({ ...newLog, tempTime: e.target.value })} 
-                placeholder="92°C • 2m 30s"
-                style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }} 
+                value={newLog.brewTime} 
+                onChange={(e) => setNewLog({ ...newLog, brewTime: e.target.value })} 
+                placeholder="02:30 (atau 2m 30s)"
+                style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', fontWeight: 600, background: '#FFFFFF' }} 
               />
             </div>
           </div>
+
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#374151', marginBottom: '0.25rem' }}>{lang === 'ja' ? 'フレーバーノート・余韻' : (lang === 'en' ? 'Tasting Notes & Aftertaste' : 'Catatan Rasa & Aftertaste')}</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#111111', marginBottom: '0.25rem', textTransform: 'uppercase' }}>
+              {lang === 'ja' ? 'フレーバーノート・余韻' : (lang === 'en' ? 'Tasting Notes & Aftertaste' : 'Catatan Rasa & Aftertaste')}
+            </label>
             <input 
               type="text" 
               value={newLog.notes} 
               onChange={(e) => setNewLog({ ...newLog, notes: e.target.value })} 
               placeholder={lang === 'ja' ? '例: 甘いサトウキビ感、華やかなジャスミンのアロマ、すっきりとした酸味...' : 'Contoh: Sweet cane, aroma floral melati kuat, acidity menyegarkan...'}
-              style={{ width: '100%', padding: '0.5rem', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '0.85rem' }} 
+              style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '3px', border: '1px solid #D1D5DB', fontSize: '0.85rem', background: '#FFFFFF' }} 
             />
           </div>
-          <button 
-            type="submit" 
-            style={{
-              padding: '0.55rem 1.25rem',
-              backgroundColor: '#111827',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '6px',
-              fontWeight: 600,
-              fontSize: '0.85rem',
-              cursor: 'pointer'
-            }}
-          >
-            {lang === 'ja' ? '💾 抽出ログを保存' : (lang === 'en' ? '💾 Save Brew Log' : '💾 Simpan Catatan Seduh')}
-          </button>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <span style={{ fontSize: '0.75rem', color: '#9E8765', fontWeight: 600 }}>
+              💡 {lang === 'ja' ? '湯温と時間を個別に保存します' : (lang === 'en' ? 'Saves temperature and brew time separately' : 'Suhu air & waktu seduh kini terpisah dan mudah diisi!')}
+            </span>
+            <button 
+              type="submit" 
+              style={{
+                padding: '0.6rem 1.5rem',
+                backgroundColor: '#111111',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '3px',
+                fontWeight: 600,
+                fontSize: '0.85rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem'
+              }}
+            >
+              <span>💾</span>
+              <span>{lang === 'ja' ? '抽出ログを保存' : (lang === 'en' ? 'Save Brew Log' : 'Simpan Catatan Seduh')}</span>
+            </button>
+          </div>
         </form>
 
-        {/* History list */}
+        {/* History list with Distinct Badges */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {brewingLogs.length === 0 ? (
             <p style={{ textAlign: 'center', color: '#9ca3af', fontSize: '0.85rem', margin: '1rem 0' }}>
@@ -664,33 +849,39 @@ export default function DashboardPage() {
                   : 'Belum ada catatan seduh. Masukkan resep seduh favorit Anda di atas!')}
             </p>
           ) : (
-            brewingLogs.map(log => (
-              <div key={log.id} style={{ padding: '1rem', borderRadius: '8px', border: '1px solid #e5e7eb', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                    <strong style={{ fontSize: '0.95rem', color: '#111827' }}>{log.coffee}</strong>
-                    <span style={{ padding: '2px 8px', borderRadius: '4px', background: '#f3f4f6', fontSize: '0.72rem', color: '#4b5563', fontWeight: 600 }}>{log.method}</span>
-                    <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>{log.date}</span>
+            brewingLogs.map(log => {
+              const tempVal = log.temperature ? `${log.temperature}°C` : (log.tempTime?.split('•')[0]?.trim() || '-');
+              const timeVal = log.brewTime ? log.brewTime : (log.tempTime?.split('•')[1]?.trim() || '-');
+
+              return (
+                <div key={log.id} style={{ padding: '1rem', borderRadius: '4px', border: '1px solid #E8E4DC', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem', flexWrap: 'wrap' }}>
+                      <strong style={{ fontSize: '0.95rem', color: '#111111' }}>{log.coffee}</strong>
+                      <span style={{ padding: '2px 8px', borderRadius: '2px', background: '#F3EFEA', border: '1px solid #E8E4DC', fontSize: '0.72rem', color: '#111111', fontWeight: 600 }}>{log.method}</span>
+                      <span style={{ fontSize: '0.75rem', color: '#9E8765' }}>{log.date}</span>
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: '#4b5563', display: 'flex', flexWrap: 'wrap', gap: '0.6rem', marginBottom: '0.35rem' }}>
+                      <span style={{ background: '#FAF8F5', border: '1px solid #E8E4DC', padding: '2px 6px', borderRadius: '2px' }}>⚖️ {log.dose}</span>
+                      <span style={{ background: '#FAF8F5', border: '1px solid #E8E4DC', padding: '2px 6px', borderRadius: '2px' }}>⚙️ {log.grind}</span>
+                      <span style={{ background: '#FEF3C7', color: '#78350F', border: '1px solid #FDE68A', padding: '2px 6px', borderRadius: '2px', fontWeight: 700 }}>🌡️ {tempVal}</span>
+                      <span style={{ background: '#EFF6FF', color: '#1E3A8A', border: '1px solid #DBEAFE', padding: '2px 6px', borderRadius: '2px', fontWeight: 700 }}>⏱️ {timeVal}</span>
+                    </div>
+                    {log.notes && (
+                      <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: '#059669', fontStyle: 'italic' }}>
+                        "{log.notes}"
+                      </p>
+                    )}
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#4b5563', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.25rem' }}>
-                    <span>⚖️ {log.dose}</span>
-                    <span>⚙️ {log.grind}</span>
-                    <span>⏱️ {log.tempTime}</span>
-                  </div>
-                  {log.notes && (
-                    <p style={{ margin: '0.25rem 0 0 0', fontSize: '0.8rem', color: '#059669', fontStyle: 'italic' }}>
-                      "{log.notes}"
-                    </p>
-                  )}
+                  <button
+                    onClick={() => handleDeleteLog(log.id)}
+                    style={{ background: 'none', border: '1px solid #FEE2E2', borderRadius: '3px', color: '#ef4444', fontSize: '0.78rem', cursor: 'pointer', padding: '0.35rem 0.65rem' }}
+                  >
+                    {lang === 'ja' ? '削除' : (lang === 'en' ? 'Delete' : 'Hapus')}
+                  </button>
                 </div>
-                <button
-                  onClick={() => handleDeleteLog(log.id)}
-                  style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '0.8rem', cursor: 'pointer', padding: '0.25rem' }}
-                >
-                  {lang === 'ja' ? '削除' : (lang === 'en' ? 'Delete' : 'Hapus')}
-                </button>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '../../../context/AuthContext';
 import { useLang } from '../../../context/LanguageContext';
 import { useToast } from '../../../context/ToastContext';
@@ -247,6 +248,47 @@ export default function CoffeeProfilePage() {
                 </span>
               </div>
             </div>
+          </div>
+
+          {/* Cross-Link to Dedicated Brewing Log */}
+          <div style={{
+            marginTop: '1.5rem',
+            padding: '1.15rem 1.25rem',
+            background: '#FAF8F5',
+            border: '1px solid #E8E4DC',
+            borderRadius: '4px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '0.75rem'
+          }}>
+            <div>
+              <strong style={{ fontSize: '0.9rem', color: '#111111', display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.2rem' }}>
+                <span>📝</span> {lang === 'ja' ? '日々の抽出ログ（Brewing Log）' : (lang === 'en' ? 'Daily Brewing Log & Calibration' : 'Catatan Seduh Harian (Brewing Log)')}
+              </strong>
+              <span style={{ fontSize: '0.8rem', color: '#666666' }}>
+                {lang === 'ja'
+                  ? '湯温と時間を個別に記録して、お気に入りの一杯を確実に再現しましょう。'
+                  : (lang === 'en'
+                    ? 'Log water temperature and brew time separately to replicate your ideal brew.'
+                    : 'Catat kalibrasi suhu air dan waktu seduh secara terpisah untuk secangkir kopi sempurna.')}
+              </span>
+            </div>
+            <Link
+              href="/dashboard/brewing-log"
+              style={{
+                padding: '0.5rem 1rem',
+                background: '#111111',
+                color: '#FFFFFF',
+                borderRadius: '3px',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                textDecoration: 'none'
+              }}
+            >
+              {lang === 'ja' ? '抽出ログを開く →' : (lang === 'en' ? 'Open Brewing Log →' : 'Buka Catatan Seduh →')}
+            </Link>
           </div>
         </div>
       </div>

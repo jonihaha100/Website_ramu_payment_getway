@@ -23,6 +23,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: translations.dash_menu_reviews, path: '/dashboard/reviews', icon: '⭐' },
     { name: translations.dash_menu_security, path: '/dashboard/security', icon: '🔒' },
     { name: translations.dash_menu_coffee, path: '/dashboard/coffee-profile', icon: '☕' },
+    { name: (translations as any).dash_menu_brewing_log || 'Catatan Seduh', path: '/dashboard/brewing-log', icon: '📝' },
   ];
 
   return (
