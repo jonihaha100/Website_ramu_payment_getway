@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useLang } from "../../context/LanguageContext";
 import { useToast } from "../../context/ToastContext";
+import { useAuth } from "../../context/AuthContext";
 import styles from "./PromoModal.module.css";
 
 export default function PromoModal() {
@@ -11,6 +12,7 @@ export default function PromoModal() {
   const router = useRouter();
   const { lang } = useLang();
   const { addToast } = useToast();
+  const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [promoCode, setPromoCode] = useState("RAMUBARU");
@@ -29,17 +31,31 @@ export default function PromoModal() {
     }
     if (lang === "en") {
       return promoDiscount.type === "percentage"
-        ? `${promoDiscount.value}% OFF on all coffee beans`
-        : `Rp ${Number(promoDiscount.value).toLocaleString("id-ID")} Instant Discount`;
+        ? `${promoDiscount.value}% discount on all coffee beans`
+        : `Rp ${Number(promoDiscount.value).toLocaleString("id-ID")} direct discount`;
     }
     return promoDiscount.type === "percentage"
       ? `Diskon ${promoDiscount.value}% untuk Semua Varian Kopi`
       : `Potongan Langsung Rp ${Number(promoDiscount.value).toLocaleString("id-ID")}`;
   };
 
+  const handleClose = useCallback(() => {
+    if (dontShowToday) {
+      const tomorrow = Date.now() + 24 * 60 * 60 * 1000;
+      localStorage.setItem("ramu_promo_dismiss_until", tomorrow.toString());
+    }
+    sessionStorage.setItem("ramu_promo_session_dismissed", "true");
+    setIsOpen(false);
+  }, [dontShowToday]);
+
   useEffect(() => {
-    // Avoid showing on admin or during checkout flow
+    // Avoid showing on admin pages or during active checkout flow
     if (pathname?.startsWith("/admin") || pathname?.startsWith("/checkout")) {
+      return;
+    }
+
+    // Do not show to admins
+    if (user?.role === "admin") {
       return;
     }
 
@@ -55,7 +71,7 @@ export default function PromoModal() {
       return;
     }
 
-    // Check session dismissal (don't pester within same browsing session if closed)
+    // Check session dismissal (do not re-open within same browsing session if closed)
     const sessionDismissed = sessionStorage.getItem("ramu_promo_session_dismissed");
     if (sessionDismissed === "true") {
       return;
@@ -90,27 +106,29 @@ export default function PromoModal() {
     }, 4000);
 
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, user]);
 
-  const handleClose = () => {
-    if (dontShowToday) {
-      // 24 hours expiry
-      const tomorrow = Date.now() + 24 * 60 * 60 * 1000;
-      localStorage.setItem("ramu_promo_dismiss_until", tomorrow.toString());
-    }
-    sessionStorage.setItem("ramu_promo_session_dismissed", "true");
-    setIsOpen(false);
-  };
+  // Keyboard accessibility: Close dialog on Escape key (R-32)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, handleClose]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(promoCode);
     setCopied(true);
     addToast(
       lang === "ja"
-        ? `プロモコード「${promoCode}」をコピーしました！`
+        ? `プロモコード「${promoCode}」をクリップボードにコピーしました`
         : lang === "en"
-        ? `Promo code "${promoCode}" copied to clipboard!`
-        : `Kode promo "${promoCode}" berhasil disalin!`,
+        ? `Promo code "${promoCode}" copied to clipboard`
+        : `Kode promo "${promoCode}" berhasil disalin`,
       "success"
     );
     setTimeout(() => setCopied(false), 2500);
@@ -125,61 +143,91 @@ export default function PromoModal() {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={handleClose}>
-      <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={handleClose} aria-label="Tutup">
-          ✕
+    <div 
+      className={styles.overlay} 
+      onClick={handleClose} 
+      role="presentation"
+    >
+      <div 
+        className={styles.modalCard} 
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="promo-modal-title"
+        aria-describedby="promo-modal-description"
+      >
+        <button 
+          className={styles.closeButton} 
+          onClick={handleClose} 
+          aria-label={lang === "ja" ? "閉じる" : lang === "en" ? "Close" : "Tutup"}
+          type="button"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+            <line x1="1" y1="1" x2="13" y2="13" />
+            <line x1="13" y1="1" x2="1" y2="13" />
+          </svg>
         </button>
 
-        <div className={styles.badge}>
-          <span>✨</span>
-          <span>
-            {lang === "ja" ? "ウェルカムクーポン" : lang === "en" ? "WELCOME VOUCHER" : "VOUCHER SELAMAT DATANG"}
-          </span>
+        <div className={styles.eyebrow}>
+          {lang === "ja" ? "初回注文のご案内" : lang === "en" ? "FIRST ORDER PRIVILEGE" : "PENAWARAN SELAMAT DATANG"}
         </div>
 
-        <h2 className={styles.title}>
+        <h2 id="promo-modal-title" className={styles.title}>
           {lang === "ja" ? (
-            <>極上の<span className={styles.highlight}>フレッシュ焙煎珈琲</span>を体験</>
+            <>極上の焙煎珈琲を、<br />特別な一杯から。</>
           ) : lang === "en" ? (
-            <>Experience <span className={styles.highlight}>Freshly Roasted Coffee</span></>
+            <>Freshly Roasted Specialty Coffee,<br />Curated for You.</>
           ) : (
-            <>Nikmati Kopi Sangrai <span className={styles.highlight}>Segar Berkualitas</span></>
+            <>Nikmati Kopi Sangrai Segar,<br />Kurasi Langsung dari Bandung.</>
           )}
         </h2>
 
-        <p className={styles.subtitle}>
+        <p id="promo-modal-description" className={styles.subtitle}>
           {lang === "ja"
-            ? `ご注文に使える特別クーポン: ${getFormattedDiscount()}。バンドンより毎週月曜＆木曜に焙煎したてを直送いたします。`
+            ? `ご注文に使える特別コード: ${getFormattedDiscount()}。毎週月曜と木曜に焙煎し、新鮮な状態でお届けします。`
             : lang === "en"
-            ? `Special offer for your order: ${getFormattedDiscount()}. Roasted fresh every Monday & Thursday directly from Bandung.`
-            : `Penawaran spesial untuk pesanan Anda: ${getFormattedDiscount()}. Disangrai segar setiap Senin & Kamis langsung dari Bandung.`}
+            ? `Privilege code for your first purchase: ${getFormattedDiscount()}. Freshly roasted every Monday and Thursday.`
+            : `Gunakan kode sambutan ini untuk pesanan Anda: ${getFormattedDiscount()}. Disangrai segar setiap Senin dan Kamis.`}
         </p>
 
-        <div className={styles.couponBox}>
-          <span className={styles.couponLabel}>
-            {lang === "ja"
-              ? "チェックアウト時にクーポンコードを入力"
-              : lang === "en"
-              ? "Enter Promo Code at Checkout"
-              : "Gunakan Kode Kupon Saat Checkout"}
-          </span>
+        <div className={styles.couponContainer}>
+          <div className={styles.couponHeader}>
+            <span className={styles.couponLabel}>
+              {lang === "ja"
+                ? "クーポンコード"
+                : lang === "en"
+                ? "PROMO CODE"
+                : "KODE KUPON"}
+            </span>
+            <span className={styles.couponHint}>
+              {lang === "ja" ? "チェックアウト時に適用" : lang === "en" ? "Apply at checkout" : "Pakai saat checkout"}
+            </span>
+          </div>
           <div className={styles.couponRow}>
             <span className={styles.couponCode}>{promoCode}</span>
-            <button className={styles.copyButton} onClick={handleCopy} type="button">
+            <button 
+              className={copied ? styles.copyButtonActive : styles.copyButton} 
+              onClick={handleCopy} 
+              type="button"
+              aria-label={lang === "ja" ? "コードをコピー" : lang === "en" ? "Copy promo code" : "Salin kode kupon"}
+            >
               {copied 
-                ? (lang === "ja" ? "✓ コピー済" : lang === "en" ? "✓ Copied" : "✓ Tersalin") 
-                : (lang === "ja" ? "📋 コピー" : lang === "en" ? "📋 Copy" : "📋 Salin")}
+                ? (lang === "ja" ? "Tersalin" : lang === "en" ? "Copied" : "Tersalin") 
+                : (lang === "ja" ? "コピー" : lang === "en" ? "Copy" : "Salin")}
             </button>
           </div>
         </div>
 
-        <button className={styles.mainAction} onClick={handleShopNow} type="button">
+        <button 
+          className={styles.mainAction} 
+          onClick={handleShopNow} 
+          type="button"
+        >
           {lang === "ja"
-            ? "コードをコピーして買い物を始める →"
+            ? "コードを適用してカタログを見る"
             : lang === "en"
-            ? "Copy Code & Shop Now →"
-            : "Salin Kode & Mulai Belanja →"}
+            ? "Apply Code & Explore Catalog"
+            : "Salin Kode & Lihat Katalog"}
         </button>
 
         <label className={styles.dismissControl}>
@@ -192,7 +240,7 @@ export default function PromoModal() {
             {lang === "ja"
               ? "本日中は再度表示しない"
               : lang === "en"
-              ? "Don't show this again today"
+              ? "Do not show again today"
               : "Jangan tampilkan lagi hari ini"}
           </span>
         </label>
