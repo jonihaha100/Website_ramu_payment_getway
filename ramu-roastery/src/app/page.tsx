@@ -12,6 +12,33 @@ import { useToast } from "../context/ToastContext";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
+function HomeFaqItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className={styles.homeFaqItem}>
+      <button 
+        type="button" 
+        className={styles.homeFaqBtn} 
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+      >
+        <span>{question}</span>
+        <svg 
+          className={`${styles.homeFaqIcon} ${isOpen ? styles.homeFaqIconOpen : ''}`} 
+          width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      {isOpen && (
+        <div className={styles.homeFaqAnswer}>
+          <p>{answer}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AddToCartButton({ coffee }: { coffee: Coffee }) {
   const { addToCart } = useCart();
   const { addToast } = useToast();
@@ -380,6 +407,105 @@ export default function Home() {
       </section>
 
       {/* ====================================================================
+          FAQ PREVIEW (Curated Roastery Knowledge & Help)
+          ==================================================================== */}
+      <section className={styles.homeFaqSection}>
+        <div className="container">
+          <header className={styles.homeFaqHeader}>
+            <span className={styles.homeFaqSuper}>
+              {lang === 'ja' ? 'よくあるご質問' : lang === 'en' ? 'Knowledge & Support' : 'Pusat Bantuan & Edukasi'}
+            </span>
+            <h2 className={styles.homeFaqTitle}>
+              {lang === 'ja' ? 'よくあるご質問（FAQ）' : lang === 'en' ? 'Frequently Asked Questions' : 'Pertanyaan Umum Seputar Roastery'}
+            </h2>
+            <p className={styles.homeFaqSubtitle}>
+              {lang === 'ja'
+                ? '焙煎スケジュール、挽き目の選び方、配送、および決済に関するご案内です。'
+                : lang === 'en'
+                ? 'Key information regarding roast schedules, grind selection, shipping, and official payment methods.'
+                : 'Informasi esensial mengenai jadwal sangrai batch, kalibrasi gilingan, pengiriman se-Indonesia, dan sistem transaksi resmi.'}
+            </p>
+          </header>
+
+          <div className={styles.homeFaqGrid}>
+            <HomeFaqItem 
+              question={
+                lang === 'ja' 
+                  ? '焙煎（ロースト）の定期スケジュールはいつですか？' 
+                  : lang === 'en' 
+                  ? 'When is Ramu Roastery regular roasting schedule?' 
+                  : 'Kapan jadwal sangrai (roasting batch) reguler Ramu Roastery?'
+              }
+              answer={
+                lang === 'ja'
+                  ? '新鮮な焙煎豆をお届けするため、毎週月曜日と木曜日にバッチ sangrai を行っています。15:00 WIB までのご注文は直近の焙煎バッチにて即時出荷いたします。'
+                  : lang === 'en'
+                  ? 'We roast fresh batches every Monday and Thursday in our Bandung hub. Orders placed before 15:00 WIB are scheduled for the nearest fresh roast batch.'
+                  : 'Kami menyangrai biji kopi segar setiap hari SENIN dan KAMIS langsung di roastery Bandung. Pesanan sebelum 15:00 WIB diproses pada batch sangrai terdekat sehingga kopi tiba pada masa resting optimal.'
+              }
+            />
+
+            <HomeFaqItem 
+              question={
+                lang === 'ja' 
+                  ? '抽出器具に合わせた挽き目の選び方を教えてください' 
+                  : lang === 'en' 
+                  ? 'How do I choose the correct grind size for my brewer?' 
+                  : 'Bagaimana cara menentukan profil gilingan kopi yang tepat?'
+              }
+              answer={
+                lang === 'ja'
+                  ? '全豆（Whole Beans）のほか、粗挽き（Cold Brew / フレンチプレス）、中挽き（V60 / ハンドドリップ）、細挽き（エスプレッソ / モカポット）をご用意しています。チェックアウト画面にて器具の詳細なご指定も可能です。'
+                  : lang === 'en'
+                  ? 'We offer Whole Beans, Coarse (Cold Brew & French Press), Medium (V60, Kalita, Aeropress), and Fine (Espresso & Moka Pot). Custom grinder calibration notes can also be entered during checkout.'
+                  : 'Kami menyediakan Biji Utuh (Whole Beans), Giling Kasar (Cold Brew & French Press), Giling Sedang (V60, Kalita, Aeropress), dan Giling Halus (Espresso & Mokapot). Anda juga dapat menuliskan catatan alat seduh spesifik saat checkout.'
+              }
+            />
+
+            <HomeFaqItem 
+              question={
+                lang === 'ja' 
+                  ? 'インドネシア国内および海外発送に対応していますか？' 
+                  : lang === 'en' 
+                  ? 'Do you ship across Indonesia and internationally?' 
+                  : 'Apakah melayani pengiriman ke seluruh Indonesia dan ekspor luar negeri?'
+              }
+              answer={
+                lang === 'ja'
+                  ? 'はい、JNE、SiCepat、GoSend（バンドン市内即日）、大口便（J&T CARGO 5kg以上）に対応しています。日本をはじめ海外発送のご相談はWhatsApp窓口にて承っております。'
+                  : lang === 'en'
+                  ? 'Yes, we ship nationwide using JNE, SiCepat, GoSend (same-day in Bandung), and economical J&T Cargo for bulk orders (5kg+). Worldwide international export is available via WhatsApp concierge.'
+                  : 'Ya, kami melayani pengiriman ke seluruh Indonesia via JNE, SiCepat, GoSend (sesama Bandung), dan J&T CARGO ekonomis untuk paket partai besar (minimal 5kg). Untuk pengiriman ekspor internasional, hubungi roaster kami via WhatsApp.'
+              }
+            />
+
+            <HomeFaqItem 
+              question={
+                lang === 'ja' 
+                  ? '利用可能な公式決済方法は何ですか？' 
+                  : lang === 'en' 
+                  ? 'What payment methods are supported?' 
+                  : 'Metode pembayaran resmi apa saja yang didukung?'
+              }
+              answer={
+                lang === 'ja'
+                  ? 'QRIS（GoPay、OVO、ShopeePay、BCA Mobile、Livin Mandiri）およびPT Ramu Roastery Nusantaraの公式銀行口座（BCA・Mandiri）への銀行振込に対応しています。'
+                  : lang === 'en'
+                  ? 'We support instant QRIS (GoPay, OVO, ShopeePay, BCA Mobile, Livin Mandiri) and direct bank transfers to official PT Ramu Roastery Nusantara corporate accounts (BCA & Mandiri).'
+                  : 'Kami mendukung QRIS instan (GoPay, OVO, ShopeePay, BCA Mobile, Livin Mandiri) serta Transfer Bank resmi langsung ke rekening korporat PT Ramu Roastery Nusantara (Bank BCA & Bank Mandiri).'
+              }
+            />
+          </div>
+
+          <div className={styles.homeFaqFooterAction}>
+            <Link href="/faq" className={styles.homeFaqSeeAllLink}>
+              {lang === 'ja' ? 'すべてのFAQ・ヘルプを見る →' : lang === 'en' ? 'View Full Help Center & FAQ →' : 'Buka Halaman Lengkap Pusat Bantuan & FAQ →'}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================================
           B2B & SOURCING INVITATION (Minimalist Contrast Card)
           ==================================================================== */}
       <section id="partner" className={styles.ctaSection}>
@@ -403,19 +529,75 @@ export default function Home() {
       </section>
 
       {/* ====================================================================
-          FOOTER (Wix 1968 Minimalist Studio Editorial Footer)
+          FOOTER (Gallery Studio Editorial Footer)
           ==================================================================== */}
       <footer className={styles.footer}>
         <div className="container">
+          <div className={styles.footerGrid}>
+            <div className={styles.footerBrandCol}>
+              <h3>Ramu Roastery Co.</h3>
+              <p>
+                {lang === 'ja'
+                  ? 'バンドン発の職人焙煎所。インドネシア各地の厳選されたスペシャルティコーヒー豆を世界へお届けします。'
+                  : lang === 'en'
+                  ? 'Specialty coffee roastery based in Bandung, West Java. Curating exceptional Indonesian terroirs with uncompromising craft.'
+                  : 'Roastery kopi artisanal terkurasi berbasis di Bandung, Jawa Barat. Menghubungkan potensi terbaik terroir Nusantara dengan standar specialty coffee dunia.'}
+              </p>
+            </div>
+
+            <div>
+              <h4 className={styles.footerColTitle}>
+                {lang === 'ja' ? 'ナビゲーション' : lang === 'en' ? 'Navigation' : 'Navigasi'}
+              </h4>
+              <ul className={styles.footerLinkList}>
+                <li><Link href="/catalog">{tr.nav_catalog}</Link></li>
+                <li><Link href="/about">{tr.nav_about}</Link></li>
+                <li><Link href="/faq">{lang === 'ja' ? 'よくあるご質問 (FAQ)' : lang === 'en' ? 'Help Center & FAQ' : 'Pusat Bantuan & FAQ'}</Link></li>
+                <li><Link href="/track">{lang === 'ja' ? '注文追跡' : lang === 'en' ? 'Track Order' : 'Lacak Pengiriman'}</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className={styles.footerColTitle}>
+                {lang === 'ja' ? 'サービス' : lang === 'en' ? 'Services' : 'Layanan'}
+              </h4>
+              <ul className={styles.footerLinkList}>
+                <li><Link href="/custom-sourcing">{lang === 'ja' ? '業務用卸売 (B2B)' : lang === 'en' ? 'Wholesale Partner' : 'Kemitraan Kedai (B2B)'}</Link></li>
+                <li><Link href="/catalog">{lang === 'ja' ? '定期便サブスクリプション' : lang === 'en' ? 'Coffee Subscription' : 'Langganan Sangrai Rutin'}</Link></li>
+                <li><Link href="/faq">{lang === 'ja' ? '海外発送・通関' : lang === 'en' ? 'International Export' : 'Pengiriman Ekspor Luar Negeri'}</Link></li>
+                <li><Link href="/dashboard/orders">{lang === 'ja' ? '注文履歴' : lang === 'en' ? 'My Orders' : 'Riwayat Pesanan'}</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className={styles.footerColTitle}>
+                {lang === 'ja' ? '焙煎拠点' : lang === 'en' ? 'Roasting Hub' : 'Roastery Hub'}
+              </h4>
+              <p className={styles.footerContactText}>
+                Kota Bandung, Jawa Barat<br />
+                {lang === 'ja' ? '月〜土: 09:00〜17:00 WIB' : lang === 'en' ? 'Mon – Sat: 09:00 – 17:00 WIB' : 'Senin – Sabtu: 09:00 – 17:00 WIB'}<br />
+                {lang === 'ja' ? '焙煎日: 月曜 & 木曜' : lang === 'en' ? 'Roast Batches: Mon & Thu' : 'Batch Sangrai: Senin & Kamis'}
+              </p>
+              <ul className={styles.footerLinkList}>
+                <li>
+                  <a href="https://wa.me/6281221341" target="_blank" rel="noopener noreferrer">
+                    WhatsApp: +62 812-2134-1
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
           <div className={styles.footerBottom}>
             <div className={styles.footerCopyText}>
               {tr.footer_copy}
             </div>
             <div className={styles.footerPaymentSec}>
-              <span>SSL 256-Bit Encrypted Checkout</span>
+              <span>SSL 256-Bit Encrypted</span>
               <span className={styles.footerSep}>·</span>
               <span>iPay88 Official Gateway</span>
+              <span className={styles.footerSep}>·</span>
+              <span>BCA & Mandiri Verified</span>
             </div>
           </div>
         </div>

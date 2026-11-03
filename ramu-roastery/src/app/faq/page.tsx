@@ -424,32 +424,36 @@ export default function FAQPage() {
 
   return (
     <main className={styles.faqPage}>
-      <div className="container" style={{ maxWidth: '800px' }}>
-        <h1 className={styles.title}>{pageTitle}</h1>
-        <p className={styles.subtitle}>{pageSubtitle}</p>
+      <div className="container">
+        <header className={styles.headerContainer}>
+          <span className={styles.brandLabel}>Ramu Roastery Knowledge Hub</span>
+          <h1 className={styles.title}>{pageTitle}</h1>
+          <p className={styles.subtitle}>{pageSubtitle}</p>
+        </header>
 
-        {faqData.map((category, index) => (
-          <div key={index} className={styles.categoryGroup}>
-            <h2 className={styles.categoryTitle}>{category.title}</h2>
-            {category.items.map((item, idx) => (
-              <AccordionItem key={idx} item={item} />
-            ))}
+        <div className={styles.faqContainer}>
+          {faqData.map((category, index) => (
+            <div key={index} className={styles.categoryGroup}>
+              <h2 className={styles.categoryTitle}>{category.title}</h2>
+              {category.items.map((item, idx) => (
+                <AccordionItem key={idx} item={item} />
+              ))}
+            </div>
+          ))}
+
+          <div className={styles.supportCard}>
+            <span className={styles.supportSuper}>Customer Concierge</span>
+            <h3 className={styles.supportTitle}>{supportTitle}</h3>
+            <p className={styles.supportText}>{supportText}</p>
+            <a 
+              href="https://wa.me/6281221341?text=Halo%20Ramu%20Roastery%2C%20saya%20memiliki%20pertanyaan%20seputar%20produk%20dan%20pemesanan." 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className={styles.supportBtn}
+            >
+              {waText}
+            </a>
           </div>
-        ))}
-
-        <div style={{ 
-          textAlign: 'center', 
-          marginTop: '4rem', 
-          padding: '3rem 2rem', 
-          background: 'linear-gradient(135deg, var(--accent-color) 0%, var(--accent-hover) 100%)', 
-          borderRadius: 'var(--radius-lg)', 
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-        }}>
-          <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#ffffff', fontWeight: 'bold' }}>{supportTitle}</h3>
-          <p style={{ color: '#f3f4f6', marginBottom: '2rem', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto 2rem auto', lineHeight: '1.6' }}>{supportText}</p>
-          <a href="https://wa.me/6280000000000" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', backgroundColor: '#ffffff', color: 'var(--accent-color)', fontWeight: 'bold', padding: '0.75rem 2rem', borderRadius: '9999px', textDecoration: 'none', transition: 'all 0.2s ease', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
-            {waText}
-          </a>
         </div>
       </div>
     </main>

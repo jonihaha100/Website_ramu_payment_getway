@@ -142,6 +142,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
+              <Link href="/faq" onClick={() => setIsMobileMenuOpen(false)}>
+                {lang === 'ja' ? 'FAQ' : lang === 'en' ? 'FAQ' : 'FAQ'}
+              </Link>
+            </li>
+            <li>
               <Link href="/track" onClick={() => setIsMobileMenuOpen(false)}>
                 {lang === 'ja' ? '注文追跡' : lang === 'en' ? 'Track Order' : 'Lacak Pesanan'}
               </Link>
@@ -151,11 +156,6 @@ export default function Navbar() {
             {isMobileMenuOpen && (
               <>
                 <li className={styles.mobileDivider} />
-                <li>
-                  <Link href="/faq" onClick={() => setIsMobileMenuOpen(false)}>
-                    {lang === 'ja' ? 'ヘルプ＆FAQ' : lang === 'en' ? 'Help & FAQ' : 'Pusat Bantuan & FAQ'}
-                  </Link>
-                </li>
                 <li className={styles.mobileLangItem}>
                   <span className={styles.mobileLangLabel}>Language / 言語</span>
                   <div className={styles.mobileLangGroup}>
