@@ -96,14 +96,15 @@ export default function OnboardingGuide() {
   const { lang } = useLang();
   const pathname = usePathname();
   const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [showHelpBtn, setShowHelpBtn] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Hide onboarding & help button completely for admins
-    if ((user && user.role === "admin") || pathname.startsWith("/admin")) {
+    // Hide onboarding & help button completely for admins and login page
+    if ((user && user.role === "admin") || pathname.startsWith("/admin") || pathname.startsWith("/login")) {
       setIsOpen(false);
       setShowHelpBtn(false);
       return;
@@ -190,6 +191,11 @@ export default function OnboardingGuide() {
     setIsOpen(false);
     window.dispatchEvent(new Event('start-tour'));
   };
+
+  // Safe early return after all React hooks have unconditionally executed
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/login")) {
+    return null;
+  }
 
   return (
     <>

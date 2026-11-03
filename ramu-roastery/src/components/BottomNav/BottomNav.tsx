@@ -15,8 +15,8 @@ export default function BottomNav() {
   const { wishlistCount } = useWishlist();
   const { user } = useAuth();
 
-  // Hide on admin panel routes
-  if (pathname.startsWith("/admin")) {
+  // Hide on admin panel and login routes
+  if (pathname.startsWith("/admin") || pathname.startsWith("/login")) {
     return null;
   }
 

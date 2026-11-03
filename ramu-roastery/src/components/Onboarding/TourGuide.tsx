@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { useAuth } from "../../context/AuthContext";
 import { useLang } from "../../context/LanguageContext";
 import styles from "./TourGuide.module.css";
@@ -120,6 +121,7 @@ interface TargetRect {
 }
 
 export default function TourGuide() {
+  const pathname = usePathname();
   const { user } = useAuth();
   const { lang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
@@ -231,7 +233,7 @@ export default function TourGuide() {
     };
   }, [isOpen, currentStep, steps]);
 
-  if (!isOpen || (user && user.role === "admin")) return null;
+  if (!isOpen || (user && user.role === "admin") || pathname?.startsWith("/login")) return null;
 
   const currentStepData = steps[currentStep] || steps[0];
 

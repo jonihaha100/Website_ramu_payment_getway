@@ -372,159 +372,163 @@ export default function Home() {
         <div className="container">
           <div className={styles.sectionHeaderCenter}>
             <span className={styles.sectionEyebrow}>
-              {lang === 'ja' ? 'お客様の声' : lang === 'en' ? 'Cupping Notes & Reviews' : 'Ulasan Pecinta Kopi'}
+              {lang === 'ja' ? '認証レビュー' : lang === 'en' ? 'Verified Cupping Reviews' : 'Ulasan Pecinta Kopi'}
             </span>
             <h2 className={styles.sectionTitle}>{tr.reviews_title}</h2>
             <p className={styles.sectionSubtitle}>{tr.reviews_sub}</p>
-          </div>
 
-          {/* Social Proof & Trust Guarantee Barometer */}
-          <div className={styles.reviewsTrustBar}>
-            <div className={styles.trustScoreRow}>
-              <span className={styles.trustBigScore}>4.9</span>
-              <div className={styles.trustStars}>
-                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-              </div>
-              <span className={styles.trustCount}>
-                {lang === 'ja'
-                  ? '（1,250件以上の認証レビュー）'
-                  : lang === 'en'
-                  ? 'Based on 1,250+ verified customer reviews'
-                  : 'Berdasarkan 1.250+ ulasan pembeli terverifikasi'}
-              </span>
-            </div>
-
-            <div className={styles.trustPillRow}>
-              <div className={styles.trustPill}>
-                <span>🛡️</span>
-                <span>
-                  {lang === 'ja' ? '100% 認証購入者のみ' : lang === 'en' ? '100% Verified Purchases' : <><strong>100% Pembeli Terverifikasi</strong></>}
+            {/* Curated Social Proof & Trust Barometer */}
+            <div className={styles.trustScoreBar}>
+              <div className={styles.trustScoreRating}>
+                <div className={styles.trustStars} aria-label="Rating 4.9 dari 5 bintang">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className={styles.starSvg} viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className={styles.trustNumber}>4.9</span>
+                <span className={styles.trustTotal}>
+                  {lang === 'ja'
+                    ? '（1,250件以上の認証レビュー）'
+                    : lang === 'en'
+                    ? 'from 1,250+ verified customer reviews'
+                    : 'dari 1.250+ ulasan pembeli terverifikasi'}
                 </span>
               </div>
-              <div className={styles.trustPill}>
-                <span>☕</span>
-                <span>
-                  {lang === 'ja' ? '新鮮焙煎保証（最大7日）' : lang === 'en' ? 'Fresh Roast Guarantee' : <><strong>Garansi Fresh Roast &lt; 7 Hari</strong></>}
+
+              <div className={styles.trustHighlights}>
+                <span className={styles.trustHighlightItem}>
+                  <svg className={styles.checkSvg} viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                  </svg>
+                  {lang === 'ja' ? '100% 認証購入者のみ' : lang === 'en' ? '100% Verified Buyers' : '100% Pembeli Terverifikasi'}
                 </span>
-              </div>
-              <div className={styles.trustPill}>
-                <span>📦</span>
-                <span>
-                  {lang === 'ja' ? '配送破損無料交換' : lang === 'en' ? 'Safe Shipping Guarantee' : <><strong>Garansi Tukar Baru Jika Rusak</strong></>}
+                <span className={styles.trustDivider} aria-hidden="true">•</span>
+                <span className={styles.trustHighlightItem}>
+                  {lang === 'ja' ? '新鮮焙煎保証 < 7日' : lang === 'en' ? 'Fresh Roast Guarantee < 7 Days' : 'Garansi Fresh Roast < 7 Hari'}
+                </span>
+                <span className={styles.trustDivider} aria-hidden="true">•</span>
+                <span className={styles.trustHighlightItem}>
+                  {lang === 'ja' ? '配送破損無料交換' : lang === 'en' ? 'Safe Arrival Guarantee' : 'Garansi Tukar Baru Jika Rusak'}
                 </span>
               </div>
             </div>
           </div>
 
           <div className={styles.reviewsGrid}>
-            {reviews.filter(r => r.rating >= 4).slice(0, 3).map(review => (
-              <div key={review.id} className={styles.reviewCard}>
-                <div className={styles.reviewHeader}>
-                  <div>
-                    <div className={styles.reviewerName}>{review.customerName}</div>
-                    <span className={styles.buyerBadge}>
-                      {lang === 'ja' ? '認証購入者' : lang === 'en' ? 'Verified Buyer' : 'Pembeli Terverifikasi'}
+            {[...reviews]
+              .filter(r => r.rating >= 4)
+              .sort((a, b) => new Date((b as any).createdAt || b.date || 0).getTime() - new Date((a as any).createdAt || a.date || 0).getTime())
+              .slice(0, 3)
+              .map((review) => {
+              const initials = (review.customerName || "U")
+                .split(" ")
+                .map((n) => n[0])
+                .slice(0, 2)
+                .join("")
+                .toUpperCase();
+
+              return (
+                <article key={review.id} className={styles.reviewCard}>
+                  {/* Card Header: Reviewer Info & Date */}
+                  <div className={styles.reviewHeader}>
+                    <div className={styles.reviewerMeta}>
+                      <div className={styles.reviewerAvatar} aria-hidden="true">
+                        {initials}
+                      </div>
+                      <div className={styles.reviewerNameCol}>
+                        <div className={styles.reviewerName}>{review.customerName}</div>
+                        <span className={styles.verifiedBadge}>
+                          <svg className={styles.verifiedCheck} viewBox="0 0 16 16" fill="currentColor">
+                            <path fillRule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clipRule="evenodd" />
+                          </svg>
+                          {lang === 'ja' ? '認証購入者' : lang === 'en' ? 'Verified Buyer' : 'Pembeli Terverifikasi'}
+                        </span>
+                      </div>
+                    </div>
+                    <time className={styles.reviewDate}>
+                      {new Date((review as any).createdAt || review.date).toLocaleDateString(
+                        lang === 'ja' ? 'ja-JP' : lang === 'en' ? 'en-US' : 'id-ID',
+                        { day: 'numeric', month: 'short', year: 'numeric' }
+                      )}
+                    </time>
+                  </div>
+
+                  {/* Rating Score & Quality Tag */}
+                  <div className={styles.reviewRatingRow}>
+                    <div className={styles.starsRow} aria-label={`Rating ${review.rating} dari 5 bintang`}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={`${styles.starCardSvg} ${star <= review.rating ? styles.starFilled : styles.starEmpty}`}
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className={styles.ratingNumber}>{review.rating}.0</span>
+                    <span className={styles.ratingQualityBadge}>
+                      {review.rating === 5
+                        ? (lang === 'ja' ? '最高評価' : lang === 'en' ? 'Top Rated' : 'Puas Maksimal')
+                        : (lang === 'ja' ? 'おすすめ' : lang === 'en' ? 'Recommended' : 'Direkomendasikan')}
                     </span>
                   </div>
-                  <div className={styles.reviewDate}>
-                    {new Date((review as any).createdAt || review.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : lang === 'en' ? 'en-US' : 'id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </div>
-                </div>
 
-                {/* Rating Stars & Score Badge */}
-                <div className={styles.reviewRatingRow}>
-                  <div className={styles.starsRow} aria-label={`Rating ${review.rating} dari 5 bintang`}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <span
-                        key={star}
-                        className={star <= review.rating ? styles.starFilled : styles.starEmpty}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                  <span className={styles.ratingNumber}>{review.rating}.0 / 5.0</span>
-                  <span className={styles.ratingQualityBadge}>
-                    {review.rating === 5
-                      ? (lang === 'ja' ? '最高評価' : lang === 'en' ? 'Top Rated' : 'Puas Maksimal')
-                      : (lang === 'ja' ? 'おすすめ' : lang === 'en' ? 'Recommended' : 'Sangat Direkomendasikan')}
-                  </span>
-                </div>
+                  {/* Review Text */}
+                  <blockquote className={styles.reviewQuote}>
+                    &ldquo;{review.comment}&rdquo;
+                  </blockquote>
 
-                <p className={styles.reviewQuote}>
-                  "{review.comment}"
-                </p>
-
-                {review.photos && review.photos.length > 0 && (
-                  <div className={styles.reviewPhotosGrid}>
-                    {review.photos.map((photo, pIdx) => (
-                      <img
-                        key={pIdx}
-                        src={photo}
-                        alt={`Foto ulasan ${review.customerName}`}
-                        className={styles.reviewPhotoImg}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {review.reply && (
-                  <div className={styles.reviewReplyBox}>
-                    <span className={styles.reviewReplyTitle}>
-                      {lang === 'ja' ? '☕ ラム・ロースタリーからの返信' : lang === 'en' ? '☕ Ramu Roastery Concierge' : '☕ Respon Ramu Roastery'}
-                    </span>
-                    "{review.reply}"
-                  </div>
-                )}
-
-                <div className={styles.reviewBeanTag}>
-                  ☕ {review.productName}
-                  {review.variant && (
-                    <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                      {review.variant}
-                    </span>
+                  {/* User Photo Attachments */}
+                  {review.photos && review.photos.length > 0 && (
+                    <div className={styles.reviewPhotosGrid}>
+                      {review.photos.map((photo, pIdx) => (
+                        <img
+                          key={pIdx}
+                          src={photo}
+                          alt={`Foto ulasan oleh ${review.customerName}`}
+                          className={styles.reviewPhotoImg}
+                          loading="lazy"
+                        />
+                      ))}
+                    </div>
                   )}
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Social Proof Actions */}
-          <div className={styles.reviewsFooterAction}>
-            <Link
-              href="/catalog"
-              style={{
-                padding: '0.75rem 1.75rem',
-                backgroundColor: 'var(--text-primary)',
-                color: 'var(--bg-color)',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                textDecoration: 'none',
-                borderRadius: '3px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                letterSpacing: '0.02em'
-              }}
-            >
-              <span>{lang === 'ja' ? '高評価の焙煎豆を購入する' : lang === 'en' ? 'Shop Top-Rated Coffee Beans' : 'Beli Biji Kopi Berperingkat 5★'}</span>
-              <span>→</span>
-            </Link>
-            <Link
-              href="/dashboard/reviews"
-              style={{
-                padding: '0.75rem 1.5rem',
-                backgroundColor: 'transparent',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-primary)',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                textDecoration: 'none',
-                borderRadius: '3px'
-              }}
-            >
-              {lang === 'ja' ? 'レビューを書く' : lang === 'en' ? 'Write a Review' : 'Tulis Ulasan Anda'}
-            </Link>
+                  {/* Official Roastery Concierge Reply */}
+                  {review.reply && (
+                    <div className={styles.reviewReplyBox}>
+                      <div className={styles.replyHeader}>
+                        <span className={styles.roasterBadge}>RAMU ROASTERY</span>
+                        <span className={styles.replyLabel}>
+                          {lang === 'ja' ? 'ロースター返信' : lang === 'en' ? 'Roaster Note' : 'Respon Roaster'}
+                        </span>
+                      </div>
+                      <p className={styles.replyContent}>
+                        &ldquo;{review.reply}&rdquo;
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Pinned Card Footer: Product & Grind Profile */}
+                  <div className={styles.reviewCardFooter}>
+                    <div className={styles.beanMetaRow}>
+                      <span className={styles.beanSymbol} aria-hidden="true">☕</span>
+                      <div className={styles.beanInfoCol}>
+                        <span className={styles.beanName}>{review.productName}</span>
+                        {review.variant && (
+                          <span className={styles.beanVariantDetail}>
+                            {review.variant.replace(/^Membeli:\s*/i, '')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -49,8 +49,8 @@ export default function PromoModal() {
   }, [dontShowToday]);
 
   useEffect(() => {
-    // Avoid showing on admin pages or during active checkout flow
-    if (pathname?.startsWith("/admin") || pathname?.startsWith("/checkout")) {
+    // Avoid showing on admin pages, active checkout flow, or login page
+    if (pathname?.startsWith("/admin") || pathname?.startsWith("/checkout") || pathname?.startsWith("/login")) {
       return;
     }
 

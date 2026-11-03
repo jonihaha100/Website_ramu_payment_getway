@@ -29,7 +29,7 @@ export default function WhatsAppChat() {
     return () => clearInterval(interval);
   }, []);
 
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/login')) {
     return null;
   }
 
