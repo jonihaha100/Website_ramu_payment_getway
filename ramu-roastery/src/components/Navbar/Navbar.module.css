@@ -263,7 +263,7 @@
   position: absolute;
   top: 100%;
   right: 0;
-  width: 240px;
+  width: 295px;
   background: #FFFFFF;
   border: 1px solid var(--border-hairline, #E8E4DC);
   border-radius: 4px;
@@ -277,7 +277,7 @@
 .userDropdownHeader {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border-hairline, #E8E4DC);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .userDropdownName {
@@ -295,6 +295,110 @@
   margin: 0;
   margin-top: 0.15rem;
   word-break: break-all;
+}
+
+/* Subscription Highlight inside Dropdown */
+.subscriptionBadge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  background: #FAF5EA;
+  color: var(--accent-earth, #9E8765);
+  border: 1px solid #EAE0D0;
+  margin-left: auto;
+}
+
+/* Referral Widget inside Dropdown */
+.referralDropdownCard {
+  margin: 0.5rem 0.75rem;
+  padding: 0.75rem 0.85rem;
+  background: #FAF8F5;
+  border: 1px solid var(--border-hairline, #E8E4DC);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.referralHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.referralTitle {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-earth, #9E8765);
+}
+
+.referralBenefit {
+  font-size: 0.72rem;
+  color: #555555;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.referralCodeBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border: 1px solid #DED9D0;
+  border-radius: 2px;
+  padding: 0.35rem 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.referralCodeText {
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-ink, #111111);
+}
+
+.referralActions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.referralBtn {
+  background: none;
+  border: 1px solid #DED9D0;
+  border-radius: 2px;
+  padding: 0.25rem 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-ink, #111111);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.referralBtn:hover {
+  background: #111111;
+  color: #FFFFFF;
+  border-color: #111111;
+}
+
+.referralBtnWa {
+  background: #FFFFFF;
+  border: 1px solid #16A34A;
+  color: #16A34A;
+}
+
+.referralBtnWa:hover {
+  background: #16A34A;
+  color: #FFFFFF;
 }
 
 .userDropdownLinks {

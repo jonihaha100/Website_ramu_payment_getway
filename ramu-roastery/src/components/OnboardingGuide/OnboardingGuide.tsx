@@ -10,84 +10,84 @@ import { useLang } from "../../context/LanguageContext";
 const stepsId = [
   {
     emoji: "👋",
-    title: "Selamat Datang di Ramu Roastery!",
-    desc: "Kami adalah roastery kopi spesialis asal Bandung. Disangrai segar setiap Senin & Kamis. Mari kami bantu memahami cara belanja kopi yang tepat dan menyenangkan!",
+    title: "Selamat Datang di Ramu Roastery Company",
+    desc: "Kami adalah roastery specialty coffee asal Bandung. Biji kopi disangrai segar setiap Senin & Kamis. Mari kenali fitur-fitur dan pembaruan sistem terbaru kami!",
   },
   {
     emoji: "☕",
-    title: "Jelajahi Katalog & Varian Rasa",
-    desc: "Buka menu \"Katalog Kopi\" untuk melihat koleksi biji kopi. Anda bisa memfilter berdasarkan profil seduh (Espresso / Filter) dan proses pasca-panen (Natural, Wash, Honey, Anaerobic).",
+    title: "Katalog Biji Kopi & Paket Langganan (Baru!)",
+    desc: "Buka menu \"Katalog Kopi\" untuk menjelajahi single origin dan espresso blend. Kini Anda juga dapat berlangganan paket sangrai rutin (4x & 12x kirim) dengan diskon hingga 15%!",
   },
   {
     emoji: "🛒",
-    title: "Pilih Ukuran & Profil Gilingan",
-    desc: "Pilih kemasan (Filter: 150g/250g, Espresso: 250g/500g/1kg). Pilihan otomatis terarah ke \"Biji Utuh\" demi menjaga kesegaran rasa, atau pilih gilingan Halus/Sedang/Kasar sesuai alat seduh Anda.",
+    title: "Ukuran Kemasan & Kalibrasi Gilingan",
+    desc: "Pilih kemasan (150g, 250g, 500g, 1kg) dan profil gilingan. Standar otomatis terarah ke \"Biji Utuh\" untuk menjaga kesegaran, atau tuliskan alat seduh Anda (V60, Espresso, Cold Brew) agar dikalibrasi oleh roaster.",
   },
   {
     emoji: "💳",
-    title: "Checkout, Jam Kirim & Tebeng Pengiriman",
-    desc: "Di halaman Checkout, nikmati jam kerja operasional 09:00–17:00 WIB (cut-off 15:00 WIB). Anda juga bisa memilih opsi \"Tebeng Kirim\" ke batch sangrai terdekat atau menggunakan promo & Ramu Points!",
+    title: "Checkout & Pembayaran Resmi (Tanpa Simulasi)",
+    desc: "Sistem transaksi telah siap launching dengan QRIS instan dan Transfer Bank resmi PT Ramu Roastery Nusantara (BCA & Mandiri). Tersedia juga opsi Tebeng Kirim hemat dan J&T CARGO partai besar.",
   },
   {
     emoji: "📦",
-    title: "Lacak Pesanan & Fitur VIP",
-    desc: "Pantau nomor resi di \"Dashboard → Pesanan Saya\". Dapatkan status VIP Subscriber (Bebas Biaya Layanan Rp 0) dan bagikan kode referral Anda untuk mendapatkan bonus poin!",
+    title: "Menu Akun, Referral & Privilese VIP",
+    desc: "Pantau pesanan di \"Pesanan Saya\", kelola langganan kopi, dan bagikan kode referral Anda langsung dari menu profil akun untuk diskon belanja teman Rp 15.000 & bonus 50 Ramu Points!",
   },
 ];
 
 const stepsEn = [
   {
     emoji: "👋",
-    title: "Welcome to Ramu Roastery!",
-    desc: "We are a specialty coffee roastery from Bandung, roasting fresh every Monday & Thursday. Let us guide you through our shopping experience!",
+    title: "Welcome to Ramu Roastery Company",
+    desc: "We are an artisanal specialty coffee roastery from Bandung, roasting fresh every Monday & Thursday. Explore our newly updated platform and features!",
   },
   {
     emoji: "☕",
-    title: "Explore the Coffee Catalog",
-    desc: "Browse our catalog and filter by brewing category (Espresso / Filter) and processing methods (Natural, Wash, Honey, Anaerobic) to find your ideal cup.",
+    title: "Curated Beans & Coffee Subscriptions (New!)",
+    desc: "Browse our coffee catalog for single origins and espresso blends. Discover prepaid Coffee Subscriptions (4x & 12x deliveries) with up to 15% savings and automatic dispatch!",
   },
   {
     emoji: "🛒",
-    title: "Select Size & Grind Profile",
-    desc: "Choose your package size (Filter: 150g/250g, Espresso: 250g/500g/1kg). We default to \"Whole Bean\" for optimal freshness, or select your preferred grind size.",
+    title: "Package Sizes & Custom Grind Calibration",
+    desc: "Choose from 150g to 1kg bags. We default to \"Whole Bean\" for optimal freshness, or add custom brewer notes (V60, Espresso, Cold Brew) for precise mesh calibration.",
   },
   {
     emoji: "💳",
-    title: "Checkout, Hours & Consolidated Dispatch",
-    desc: "During checkout, note our 09:00–17:00 WIB hours (15:00 WIB dispatch cut-off). You can also choose 'Tebeng Kirim' to consolidate with the next roast batch!",
+    title: "Production Checkout & Official Payments",
+    desc: "Commercial-ready checkout featuring instant QRIS and direct bank transfers to official PT Ramu Roastery Nusantara accounts (BCA & Mandiri) with instant invoices.",
   },
   {
     emoji: "📦",
-    title: "Track Orders & VIP Privileges",
-    desc: "Track delivery status in \"Dashboard → My Orders\". Enjoy VIP perks (Rp 0 Admin Fee) and share your referral code to earn reward points!",
+    title: "Account Menu, Referral Code & VIP Perks",
+    desc: "Track orders, manage active subscriptions, and copy your personal Referral Code directly from your account dropdown to give friends Rp 15,000 off and earn 50 Ramu Points!",
   },
 ];
 
 const stepsJa = [
   {
     emoji: "👋",
-    title: "Ramu Roastery へようこそ！",
-    desc: "私たちはインドネシア・バンドン発のスペシャルティコーヒーロースタリーです。毎週月曜＆木曜に新鮮焙煎。お買い物の流れをご案内いたします！",
+    title: "Ramu Roastery Company へようこそ",
+    desc: "バンドン発の職人焙煎所です。毎週月曜＆木曜に新鮮焙煎。新機能と最新アップデートの流れをご案内いたします！",
   },
   {
     emoji: "☕",
-    title: "カタログと風味プロファイルを探索",
-    desc: "「コーヒーカタログ」から、抽出方法（エスプレッソ / フィルター）や収穫後の精製プロセス（ナチュラル、ウォッシュト、ハニー、アナエロビック）で豆を絞り込めます。",
+    title: "厳選コーヒー豆と定期便サブスク（新登場！）",
+    desc: "シングルオリジンやブレンドを探索。最大15%お得な定期便サブスクリプション（4回・12回便）で、新鮮な焙煎豆が定期的に届きます。",
   },
   {
     emoji: "🛒",
-    title: "パッケージサイズと挽き目を選択",
-    desc: "お好みのサイズを選択（フィルター: 150g/250g、エスプレッソ: 250g/500g/1kg）。最高の鮮度を保つため「豆のまま」を推奨していますが、器具に合わせた粉への粉砕も承ります。",
+    title: "パッケージサイズと器具別グラインド調整",
+    desc: "鮮度を保つ「豆のまま」のほか、V60、エスプレッソ、フレンチプレスなど抽出器具に合わせた最適な挽き目をロースターが調整してお届けします。",
   },
   {
     emoji: "💳",
-    title: "チェックアウト＆発送スケジュール",
-    desc: "チェックアウトページでは、営業時間09:00〜17:00 WIB（当日締切15:00 WIB）をご確認いただけます。定期便やプロモコード、Ramuポイントもご利用可能です！",
+    title: "公式決済システム（本番対応）",
+    desc: "QRIS即時決済およびPT Ramu Roastery Nusantara公式銀行口座（BCA・Mandiri）への直接振込に対応。まとめ便やおトクな大口カーゴ便もご利用いただけます。",
   },
   {
     emoji: "📦",
-    title: "配送追跡とVIP特典",
-    desc: "送り状番号は「マイページ → 注文履歴」でご確認いただけます。定期便会員様は手数料無料のVIP特典もお楽しみいただけます！",
+    title: "マイページ・紹介プログラム・VIP特典",
+    desc: "注文追跡や定期便管理に加え、アカウントメニューから紹介コードをコピーしてお友達にRp 15.000割引をプレゼント。ご自身にも50ポイントが付与されます。",
   },
 ];
 
@@ -206,7 +206,7 @@ export default function OnboardingGuide() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
-                <span>{lang === 'ja' ? 'インタラクティブツアーを開始' : lang === 'en' ? 'Start Interactive Tour' : 'Mulai Tur Panduan Website'}</span>
+                <span>{lang === 'ja' ? 'サイトの使い方＆新機能ツアー' : lang === 'en' ? 'Start Interactive Tour & Updates' : 'Mulai Tur Panduan Website & Fitur Baru'}</span>
               </button>
               
               <button 
@@ -218,7 +218,7 @@ export default function OnboardingGuide() {
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
-                <span>{lang === 'ja' ? 'お買い物ガイド (5ステップ)' : lang === 'en' ? '5-Step Shopping Guide' : 'Panduan Belanja Kopi'}</span>
+                <span>{lang === 'ja' ? 'お買い物ガイド＆最新情報' : lang === 'en' ? 'Shopping Guide & New Updates' : 'Panduan Belanja & Pembaruan Sistem'}</span>
               </button>
 
               <button 
@@ -235,7 +235,7 @@ export default function OnboardingGuide() {
               </button>
 
               <a 
-                href="https://wa.me/6281931736090" 
+                href="https://wa.me/6281221341" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className={styles.speedDialItem}

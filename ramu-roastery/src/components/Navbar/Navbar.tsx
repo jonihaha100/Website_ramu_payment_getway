@@ -270,10 +270,55 @@ export default function Navbar() {
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                         {tr.nav_my_orders}
                       </Link>
-                      <Link href="/faq" className={styles.userDropdownItem} onClick={() => setIsUserMenuOpen(false)}>
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                        {lang === 'ja' ? 'ヘルプ＆FAQ' : lang === 'en' ? 'Help & FAQ' : 'Bantuan & FAQ'}
+                      <Link href="/dashboard/subscriptions" className={styles.userDropdownItem} onClick={() => setIsUserMenuOpen(false)}>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                        <span>{lang === 'ja' ? '定期便サブスク' : lang === 'en' ? 'Coffee Subscription' : 'Langganan Biji Kopi'}</span>
+                        <span className={styles.subscriptionBadge}>Hemat 15%</span>
                       </Link>
+
+                      {/* PROGRAM REFERRAL RAMU WIDGET */}
+                      {(() => {
+                        const refCode = `RAMU-${(user.name.split(' ')[0] || 'KOPI').toUpperCase()}-${((user.email || '888').split('@')[0].slice(0, 3) || '888').toUpperCase()}`;
+                        const waMsg = `Halo! Nikmati diskon Rp 15.000 saat belanja kopi segar di Ramu Roastery dengan kode referralku: *${refCode}*. Kunjungi: https://ramuroastery.com`;
+                        return (
+                          <div className={styles.referralDropdownCard}>
+                            <div className={styles.referralHeader}>
+                              <span className={styles.referralTitle}>Program Referral Ramu</span>
+                            </div>
+                            <p className={styles.referralBenefit}>
+                              Teman hemat Rp 15.000, Anda dapat 50 Ramu Points per transaksi!
+                            </p>
+                            <div className={styles.referralCodeBox}>
+                              <span className={styles.referralCodeText}>{refCode}</span>
+                              <div className={styles.referralActions}>
+                                <button
+                                  type="button"
+                                  className={styles.referralBtn}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigator.clipboard.writeText(refCode);
+                                    addToast('Kode referral berhasil disalin!', 'success');
+                                  }}
+                                  title="Salin Kode"
+                                >
+                                  Salin
+                                </button>
+                                <a
+                                  href={`https://wa.me/?text=${encodeURIComponent(waMsg)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={`${styles.referralBtn} ${styles.referralBtnWa}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  title="Bagikan ke WhatsApp"
+                                >
+                                  WA
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })()}
+
                       <button 
                         className={styles.userDropdownItem} 
                         onClick={() => {
