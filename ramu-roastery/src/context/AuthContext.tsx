@@ -75,6 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     setUser(result.data);
+    return result.data;
   };
 
   const register = async (data: Partial<User> & { password?: string }) => {

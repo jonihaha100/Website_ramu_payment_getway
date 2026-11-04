@@ -233,9 +233,13 @@ function LoginContent() {
       } else {
         localStorage.removeItem("ramu_remembered_login");
       }
-      await login(emailOrPhone, password);
+      const loggedUser = await login(emailOrPhone, password);
       addToast(t[lang].login_success, "success");
-      router.push(callbackUrl);
+      if ((loggedUser as any)?.role?.toLowerCase() === 'admin') {
+        window.location.href = "/admin";
+      } else {
+        router.push(callbackUrl);
+      }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Login failed";
       setError(errorMessage);
@@ -789,6 +793,24 @@ function LoginContent() {
                   </button>
                 </span>
               )}
+            </div>
+
+            {/* Admin Portal Shortcut */}
+            <div style={{ marginTop: '1.25rem', textAlign: 'center', paddingTop: '1rem', borderTop: '1px solid #ECE8DF' }}>
+              <Link 
+                href="/admin/login" 
+                style={{ 
+                  fontSize: '0.78rem', 
+                  color: '#8A8275', 
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.35rem',
+                  fontWeight: 500
+                }}
+              >
+                <span>Portal Masuk Admin Roastery &rarr;</span>
+              </Link>
             </div>
 
           </div>

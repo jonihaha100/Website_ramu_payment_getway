@@ -13,6 +13,19 @@ function getSecretKeyString(): string {
   if (process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD.length >= 8) {
     return process.env.ADMIN_PASSWORD;
   }
+
+  // Multi-instance & Serverless synchronization (Vercel, AWS Lambda, Edge):
+  // When running in serverless environments where ADMIN_JWT_SECRET is not yet configured
+  // in the hosting dashboard, use a deployment-scoped identifier so tokens signed by API
+  // routes can be verified by middleware across isolated serverless instances.
+  const deployScope = process.env.VERCEL_GIT_COMMIT_SHA || 
+                      process.env.VERCEL_DEPLOYMENT_ID ||
+                      process.env.VERCEL_URL;
+
+  if (deployScope) {
+    return `ramu_sec_${deployScope}_auth_2026`;
+  }
+
   if (!globalForAuth.__ephemeralSecret) {
     // Generate a cryptographically secure 256-bit random string in memory
     const randomBytes = new Uint8Array(32);
