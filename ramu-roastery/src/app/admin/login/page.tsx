@@ -125,6 +125,10 @@ export default function AdminLogin() {
           >
             {isProcessing ? "Authenticating..." : "Sign In to Dashboard"}
           </button>
+
+          <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem', color: '#6b7280', textAlign: 'center' }}>
+            Akses Pengelola: Username <strong>admin</strong> • Password <strong>password123</strong>
+          </p>
         </form>
       </div>
     </div>
